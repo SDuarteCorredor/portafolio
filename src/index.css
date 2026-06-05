@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #1B3CFF;
+    color: #fff;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #06070D; }
+  ::-webkit-scrollbar-thumb { background: #1d2342; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #1B3CFF; }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-16;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-mist;
+  }
+
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute left-0 -bottom-0.5 h-px w-0 bg-santi transition-all duration-300;
+  }
+  .link-underline:hover::after { @apply w-full; }
+
+  /* Botón primario azul firma */
+  .btn-blue {
+    @apply relative inline-flex items-center gap-2 rounded-full bg-santi px-7 py-3.5
+           font-grotesk text-sm font-medium text-white transition-all duration-300;
+    box-shadow: 0 0 0 0 rgba(27,60,255,0.5);
+  }
+  .btn-blue:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 14px 40px -8px rgba(27,60,255,0.7);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5
+           font-grotesk text-sm font-medium text-paper transition-all duration-300
+           hover:border-santi hover:text-santi-soft;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* Texto con relleno azul/glow */
+  .text-glow {
+    color: #6B82FF;
+    text-shadow: 0 0 28px rgba(27,60,255,0.55);
+  }
+
+  /* Contorno tipográfico (estilo editorial) */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.4px rgba(244,243,238,0.55);
+  }
+  .text-outline-blue {
+    color: transparent;
+    -webkit-text-stroke: 1.6px #1B3CFF;
+  }
+
+  /* Grano sutil sobre todo */
+  .grain::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
