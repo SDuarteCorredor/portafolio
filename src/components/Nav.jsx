@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import { motion, useScroll } from 'framer-motion'
 import { profile } from '../data'
+import { Magnetic } from './Magnetic'
 
 const links = [
   { href: '#trabajo', label: 'Trabajo' },
@@ -11,6 +13,7 @@ const links = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const { scrollYProgress } = useScroll()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -24,6 +27,11 @@ export function Nav() {
         scrolled ? 'backdrop-blur-xl bg-ink/70 border-b border-white/5' : ''
       }`}
     >
+      {/* Barra de progreso de scroll — firma azul */}
+      <motion.div
+        style={{ scaleX: scrollYProgress }}
+        className="absolute inset-x-0 top-0 h-0.5 origin-left bg-gradient-to-r from-santi via-santi-glow to-santi-soft"
+      />
       <nav className="container-x flex items-center justify-between py-5">
         <a href="#top" className="group flex items-center gap-2.5 font-grotesk text-lg font-bold tracking-tight">
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-santi text-white transition-transform group-hover:rotate-12">S</span>
@@ -40,9 +48,11 @@ export function Nav() {
           ))}
         </ul>
 
-        <a href={profile.whatsappLink} target="_blank" rel="noreferrer" className="btn-blue hidden md:inline-flex !py-2.5 !px-5">
-          Hablemos
-        </a>
+        <Magnetic strength={0.4} className="hidden md:block">
+          <a href={profile.whatsappLink} target="_blank" rel="noreferrer" className="btn-blue !py-2.5 !px-5">
+            Hablemos
+          </a>
+        </Magnetic>
 
         <button
           className="md:hidden text-paper"
