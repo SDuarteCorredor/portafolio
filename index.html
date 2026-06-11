@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Tema: aplica la preferencia guardada antes del primer pintado (sin parpadeo).
+         Modo claro es el principal; solo se activa oscuro si el usuario lo eligió. -->
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <title>Iván Santiago Duarte — Marketing, diseño y producto con IA</title>
     <meta name="description" content="Especialista en marketing digital con +6 años ayudando a marcas a crecer. Google & Meta Ads, SEO, e-commerce, branding y productos digitales con IA. Bogotá, Colombia." />
 

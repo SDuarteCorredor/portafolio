@@ -3,8 +3,44 @@
 @tailwind utilities;
 
 @layer base {
+  /* ── Modo claro (principal) ───────────────────────────────── */
   :root {
+    color-scheme: light;
+    --c-bg: 247 246 242;       /* #F7F6F2 blanco cálido editorial */
+    --c-surface: 255 255 255;  /* #FFFFFF paneles */
+    --c-fg: 6 7 13;            /* #06070D tinta */
+    --c-muted: 90 92 105;      /* gris secundario */
+    --c-line: rgba(6, 7, 13, 0.12);
+    --c-faint: rgba(6, 7, 13, 0.035);
+    --c-grid: rgba(6, 7, 13, 0.06);   /* rejilla del hero */
+    --c-stroke: rgba(6, 7, 13, 0.45); /* contorno tipográfico */
+    --c-glow: #1B3CFF;                /* relleno azul de texto */
+    --c-glow-shadow: rgba(27, 60, 255, 0.28);
+    --c-grain: 0.04;
+    --c-aurora-1: rgba(27, 60, 255, 0.14);
+    --c-aurora-2: rgba(27, 60, 255, 0.10);
+    --c-aurora-3: rgba(61, 91, 255, 0.07);
+    --cursor-blend: normal;
+  }
+
+  /* ── Modo oscuro ──────────────────────────────────────────── */
+  .dark {
     color-scheme: dark;
+    --c-bg: 6 7 13;            /* #06070D negro azulado */
+    --c-surface: 11 13 23;     /* #0B0D17 paneles */
+    --c-fg: 244 243 238;       /* #F4F3EE crema */
+    --c-muted: 167 170 184;    /* #A7AAB8 */
+    --c-line: rgba(255, 255, 255, 0.10);
+    --c-faint: rgba(255, 255, 255, 0.04);
+    --c-grid: rgba(255, 255, 255, 0.06);
+    --c-stroke: rgba(244, 243, 238, 0.55);
+    --c-glow: #6B82FF;
+    --c-glow-shadow: rgba(27, 60, 255, 0.55);
+    --c-grain: 0.05;
+    --c-aurora-1: rgba(27, 60, 255, 0.22);
+    --c-aurora-2: rgba(10, 26, 138, 0.30);
+    --c-aurora-3: rgba(61, 91, 255, 0.10);
+    --cursor-blend: screen;
   }
 
   * {
@@ -17,8 +53,10 @@
   }
 
   body {
-    @apply bg-ink text-paper font-sans antialiased;
+    @apply bg-bg text-fg font-sans antialiased;
     overflow-x: hidden;
+    /* transición suave al cambiar de tema */
+    transition: background-color .5s ease, color .5s ease;
   }
 
   ::selection {
@@ -28,8 +66,8 @@
 
   /* Scrollbar */
   ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: #06070D; }
-  ::-webkit-scrollbar-thumb { background: #1d2342; border-radius: 999px; }
+  ::-webkit-scrollbar-track { background: rgb(var(--c-bg)); }
+  ::-webkit-scrollbar-thumb { background: var(--c-line); border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: #1B3CFF; }
 }
 
@@ -39,7 +77,7 @@
   }
 
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-[0.25em] text-mist;
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-muted;
   }
 
   .link-underline {
@@ -51,7 +89,7 @@
   }
   .link-underline:hover::after { @apply w-full; }
 
-  /* Botón primario azul firma */
+  /* Botón primario azul firma — igual en ambos modos */
   .btn-blue {
     @apply relative inline-flex items-center gap-2 rounded-full bg-santi px-7 py-3.5
            font-grotesk text-sm font-medium text-white transition-all duration-300;
@@ -63,9 +101,9 @@
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5
-           font-grotesk text-sm font-medium text-paper transition-all duration-300
-           hover:border-santi hover:text-santi-soft;
+    @apply inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5
+           font-grotesk text-sm font-medium text-fg transition-all duration-300
+           hover:border-santi hover:text-santi;
   }
 }
 
@@ -74,14 +112,14 @@
 
   /* Texto con relleno azul/glow */
   .text-glow {
-    color: #6B82FF;
-    text-shadow: 0 0 28px rgba(27,60,255,0.55);
+    color: var(--c-glow);
+    text-shadow: 0 0 28px var(--c-glow-shadow);
   }
 
   /* Contorno tipográfico (estilo editorial) */
   .text-outline {
     color: transparent;
-    -webkit-text-stroke: 1.4px rgba(244,243,238,0.55);
+    -webkit-text-stroke: 1.4px var(--c-stroke);
   }
   .text-outline-blue {
     color: transparent;
@@ -90,7 +128,7 @@
   /* El contorno se "rellena" en hover — efecto kinetic editorial */
   .text-outline-fill {
     color: transparent;
-    -webkit-text-stroke: 1.6px rgba(244,243,238,0.6);
+    -webkit-text-stroke: 1.6px var(--c-stroke);
     transition: color .5s ease, -webkit-text-stroke-color .5s ease, text-shadow .5s ease;
   }
   .group:hover .text-outline-fill {
@@ -111,12 +149,12 @@
       conic-gradient(from 0deg, transparent 0%, rgba(27,60,255,0.9) 18%, transparent 36%, transparent 64%, rgba(107,130,255,0.7) 82%, transparent 100%);
   }
 
-  /* Malla de gradiente azul de fondo (aurora) */
+  /* Malla de gradiente azul de fondo (aurora) — se atenúa en claro */
   .aurora-mesh {
     background-image:
-      radial-gradient(40% 50% at 78% 18%, rgba(27,60,255,0.22), transparent 60%),
-      radial-gradient(35% 45% at 12% 82%, rgba(10,26,138,0.30), transparent 60%),
-      radial-gradient(30% 30% at 50% 50%, rgba(61,91,255,0.10), transparent 70%);
+      radial-gradient(40% 50% at 78% 18%, var(--c-aurora-1), transparent 60%),
+      radial-gradient(35% 45% at 12% 82%, var(--c-aurora-2), transparent 60%),
+      radial-gradient(30% 30% at 50% 50%, var(--c-aurora-3), transparent 70%);
   }
 
   /* Línea azul que se "dibuja" */
@@ -143,7 +181,7 @@
     inset: 0;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.05;
+    opacity: var(--c-grain);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }

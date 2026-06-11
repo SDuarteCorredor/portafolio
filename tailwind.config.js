@@ -1,20 +1,32 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Santiago Blue — la firma
+        // Santiago Blue — la firma (idéntico en ambos modos)
         santi: {
           DEFAULT: '#1B3CFF',
           glow: '#3D5BFF',
           soft: '#6B82FF',
           deep: '#0A1A8A',
         },
-        ink: '#06070D',     // negro azulado de fondo
-        ink2: '#0B0D17',    // paneles
-        paper: '#F4F3EE',   // crema claro
-        mist: '#A7AAB8',    // texto secundario
+
+        // Tokens semánticos — se voltean entre modo claro/oscuro vía variables CSS.
+        // Soportan opacidad (bg-fg/80, border-fg/10, etc.).
+        bg: 'rgb(var(--c-bg) / <alpha-value>)',        // fondo de página
+        surface: 'rgb(var(--c-surface) / <alpha-value>)', // paneles / cards
+        fg: 'rgb(var(--c-fg) / <alpha-value>)',        // texto principal
+        muted: 'rgb(var(--c-muted) / <alpha-value>)',  // texto secundario
+        line: 'var(--c-line)',                         // bordes
+        faint: 'var(--c-faint)',                       // relleno sutil
+
+        // Hexes crudos de marca (por si se necesitan fijos, sin voltear)
+        ink: '#06070D',
+        ink2: '#0B0D17',
+        paper: '#F4F3EE',
+        mist: '#A7AAB8',
       },
       fontFamily: {
         // Display editorial con carácter (reemplaza Space Grotesk)

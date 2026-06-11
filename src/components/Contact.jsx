@@ -18,7 +18,7 @@ export function Contact() {
       <div className="container-x text-center">
         <Reveal>
           <div className="mb-10 flex items-center justify-center gap-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist">(06)</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(06)</span>
             <p className="eyebrow">¿Tienes una marca que hacer crecer?</p>
           </div>
         </Reveal>
@@ -48,18 +48,18 @@ export function Contact() {
 
         <Reveal delay={0.2}>
           <div className="mx-auto mt-14 flex max-w-2xl flex-wrap items-center justify-center gap-x-8 gap-y-4 font-grotesk text-lg">
-            <a href={`mailto:${profile.email}`} className="link-underline text-mist hover:text-paper">{profile.email}</a>
-            <span className="text-white/20">·</span>
-            <a href={profile.whatsappLink} className="link-underline text-mist hover:text-paper">{profile.whatsapp}</a>
-            <span className="text-white/20">·</span>
-            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="link-underline text-mist hover:text-paper">LinkedIn</a>
-            <span className="text-white/20">·</span>
-            <a href={profile.behance} target="_blank" rel="noreferrer" className="link-underline text-mist hover:text-paper">Behance</a>
+            <a href={`mailto:${profile.email}`} className="link-underline text-muted hover:text-fg">{profile.email}</a>
+            <span className="text-fg/20">·</span>
+            <a href={profile.whatsappLink} className="link-underline text-muted hover:text-fg">{profile.whatsapp}</a>
+            <span className="text-fg/20">·</span>
+            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="link-underline text-muted hover:text-fg">LinkedIn</a>
+            <span className="text-fg/20">·</span>
+            <a href={profile.behance} target="_blank" rel="noreferrer" className="link-underline text-muted hover:text-fg">Behance</a>
           </div>
         </Reveal>
       </div>
 
-      <footer className="container-x mt-28 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-mist md:flex-row">
+      <footer className="container-x mt-28 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 text-sm text-muted md:flex-row">
         <span>© {new Date().getFullYear()} {profile.name}</span>
         <span className="font-mono text-xs">Hecho en Bogotá · con Claude Code</span>
         <a href="#top" className="link-underline">Volver arriba ↑</a>

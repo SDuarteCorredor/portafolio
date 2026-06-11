@@ -9,7 +9,7 @@ export function Stats() {
       <Reveal>
         <div className="mb-14 flex items-end justify-between">
           <p className="eyebrow">Resultados, no promesas</p>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist">(02)</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(02)</span>
         </div>
       </Reveal>
 
@@ -18,7 +18,7 @@ export function Stats() {
           <Reveal key={i} delay={i * 0.08}>
             <div className="group relative">
               {/* Línea azul que crece al entrar */}
-              <div className="relative h-px w-full overflow-hidden bg-white/15">
+              <div className="relative h-px w-full overflow-hidden bg-fg/15">
                 <motion.div
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
@@ -36,7 +36,7 @@ export function Stats() {
                 value={s.value}
                 className="block font-grotesk text-huge font-bold leading-none tracking-tightest transition-colors duration-300 group-hover:text-santi-soft"
               />
-              <p className="mt-4 text-sm leading-snug text-mist">{s.label}</p>
+              <p className="mt-4 text-sm leading-snug text-muted">{s.label}</p>
             </div>
           </Reveal>
         ))}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, useScroll } from 'framer-motion'
 import { profile } from '../data'
 import { Magnetic } from './Magnetic'
+import { ThemeToggle } from './ThemeToggle'
 
 const links = [
   { href: '#trabajo', label: 'Trabajo' },
@@ -24,7 +25,7 @@ export function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? 'backdrop-blur-xl bg-ink/70 border-b border-white/5' : ''
+        scrolled ? 'backdrop-blur-xl bg-bg/70 border-b border-line' : ''
       }`}
     >
       {/* Barra de progreso de scroll — firma azul */}
@@ -41,30 +42,36 @@ export function Nav() {
         <ul className="hidden items-center gap-9 md:flex">
           {links.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="link-underline font-grotesk text-sm text-mist hover:text-paper">
+              <a href={l.href} className="link-underline font-grotesk text-sm text-muted hover:text-fg">
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
 
-        <Magnetic strength={0.4} className="hidden md:block">
-          <a href={profile.whatsappLink} target="_blank" rel="noreferrer" className="btn-blue !py-2.5 !px-5">
-            Hablemos
-          </a>
-        </Magnetic>
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
+          <Magnetic strength={0.4}>
+            <a href={profile.whatsappLink} target="_blank" rel="noreferrer" className="btn-blue !py-2.5 !px-5">
+              Hablemos
+            </a>
+          </Magnetic>
+        </div>
 
-        <button
-          className="md:hidden text-paper"
-          onClick={() => setOpen((o) => !o)}
-          aria-label="Menú"
-        >
-          <div className="space-y-1.5">
-            <span className={`block h-0.5 w-6 bg-paper transition ${open ? 'translate-y-2 rotate-45' : ''}`} />
-            <span className={`block h-0.5 w-6 bg-paper transition ${open ? 'opacity-0' : ''}`} />
-            <span className={`block h-0.5 w-6 bg-paper transition ${open ? '-translate-y-2 -rotate-45' : ''}`} />
-          </div>
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            className="text-fg"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Menú"
+          >
+            <div className="space-y-1.5">
+              <span className={`block h-0.5 w-6 bg-fg transition ${open ? 'translate-y-2 rotate-45' : ''}`} />
+              <span className={`block h-0.5 w-6 bg-fg transition ${open ? 'opacity-0' : ''}`} />
+              <span className={`block h-0.5 w-6 bg-fg transition ${open ? '-translate-y-2 -rotate-45' : ''}`} />
+            </div>
+          </button>
+        </div>
       </nav>
 
       {/* Menú móvil */}

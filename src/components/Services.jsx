@@ -8,7 +8,7 @@ export function Services() {
         <div className="mb-16 max-w-3xl">
           <div className="mb-6 flex items-center gap-3">
             <p className="eyebrow">Qué hago por tu marca</p>
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist">(04)</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(04)</span>
           </div>
           <h2 className="font-grotesk text-huge font-bold leading-[0.95] tracking-tightest">
             Servicios que <span className="font-serif italic text-glow">mueven</span> números.
@@ -16,12 +16,12 @@ export function Services() {
         </div>
       </Reveal>
 
-      <div className="divide-y divide-white/10 border-y border-white/10">
+      <div className="divide-y divide-line border-y border-line">
         {services.map((s, i) => (
           <Reveal key={s.n} delay={i * 0.04}>
             <article
               data-hot
-              className="group relative grid grid-cols-1 gap-4 overflow-hidden py-8 transition-colors hover:bg-white/[0.02] md:grid-cols-12 md:items-center md:px-4"
+              className="group relative grid grid-cols-1 gap-4 overflow-hidden py-8 transition-colors hover:bg-fg/[0.03] md:grid-cols-12 md:items-center md:px-4"
             >
               {/* Número fantasma gigante que entra al hover */}
               <span
@@ -36,10 +36,10 @@ export function Services() {
                 {s.title}
                 <span className="text-santi opacity-0 transition-opacity duration-300 group-hover:opacity-100">→</span>
               </h3>
-              <p className="text-mist md:col-span-5">{s.desc}</p>
+              <p className="text-muted md:col-span-5">{s.desc}</p>
               <div className="relative z-10 flex flex-wrap gap-2 md:col-span-2 md:justify-end">
                 {s.tags.map((t) => (
-                  <span key={t} className="rounded-full border border-white/10 px-3 py-1 text-xs text-mist transition-colors group-hover:border-santi/30">
+                  <span key={t} className="rounded-full border border-line px-3 py-1 text-xs text-muted transition-colors group-hover:border-santi/30">
                     {t}
                   </span>
                 ))}

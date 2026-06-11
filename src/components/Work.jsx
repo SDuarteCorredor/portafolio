@@ -30,8 +30,8 @@ function WorkCard({ w, i }) {
       data-hot
       onMouseMove={onMove}
       onMouseLeave={reset}
-      className={`group relative block h-full overflow-hidden rounded-3xl border border-white/10 p-8 transition-colors duration-500 hover:border-santi/50 md:p-10 ${
-        w.featured ? 'bg-gradient-to-br from-santi/15 via-ink2 to-ink2' : 'bg-ink2'
+      className={`group relative block h-full overflow-hidden rounded-3xl border border-line p-8 transition-colors duration-500 hover:border-santi/50 md:p-10 ${
+        w.featured ? 'bg-gradient-to-br from-santi/15 via-surface to-surface' : 'bg-surface'
       }`}
     >
       {/* glow que sigue el cursor */}
@@ -48,7 +48,7 @@ function WorkCard({ w, i }) {
       <motion.div style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000 }} className="relative">
         <div className="flex items-center justify-between">
           <span className="font-mono text-xs uppercase tracking-widest text-santi-soft">{w.kind}</span>
-          <span className="font-mono text-xs text-mist">{w.year}</span>
+          <span className="font-mono text-xs text-muted">{w.year}</span>
         </div>
 
         {w.featured && (
@@ -61,12 +61,12 @@ function WorkCard({ w, i }) {
           {w.title}
         </h3>
 
-        <p className="mt-4 max-w-xl text-mist">{w.desc}</p>
+        <p className="mt-4 max-w-xl text-muted">{w.desc}</p>
 
         <div className="mt-8 flex items-center justify-between">
-          <span className="font-grotesk text-lg text-paper">{w.metric}</span>
+          <span className="font-grotesk text-lg text-fg">{w.metric}</span>
           {w.link && (
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-white/15 transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
+            <span className="grid h-11 w-11 place-items-center rounded-full border border-line transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
               ↗
             </span>
           )}
@@ -84,13 +84,13 @@ export function Work() {
           <div>
             <div className="mb-6 flex items-center gap-3">
               <p className="eyebrow">Trabajo seleccionado</p>
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist">(03)</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(03)</span>
             </div>
             <h2 className="font-grotesk text-huge font-bold leading-[0.95] tracking-tightest">
               Casos <span className="text-outline-blue">reales</span>.
             </h2>
           </div>
-          <p className="max-w-sm text-mist">
+          <p className="max-w-sm text-muted">
             De campañas que multiplicaron ventas a un producto digital construido con IA.
           </p>
         </div>

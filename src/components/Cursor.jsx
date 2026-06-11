@@ -40,7 +40,7 @@ export function Cursor() {
             ? 'radial-gradient(circle, rgba(27,60,255,.25), transparent 70%)'
             : 'rgba(27,60,255,.9)',
           boxShadow: '0 0 24px rgba(27,60,255,.8)',
-          mixBlendMode: 'screen',
+          mixBlendMode: 'var(--cursor-blend)',
         }}
       />
     </div>

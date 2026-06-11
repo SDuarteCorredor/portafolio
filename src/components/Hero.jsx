@@ -46,18 +46,19 @@ export function Hero() {
       {/* Capa 3 — blobs azul firma */}
       <motion.div
         style={{ y }}
-        className="pointer-events-none absolute -right-32 top-10 -z-20 h-[60vh] w-[60vh] rounded-full bg-santi/40 blur-[120px] animate-blob"
+        className="pointer-events-none absolute -right-32 top-10 -z-20 h-[60vh] w-[60vh] rounded-full bg-santi/30 blur-[120px] animate-blob"
       />
-      <div className="pointer-events-none absolute -left-40 bottom-0 -z-20 h-[40vh] w-[40vh] rounded-full bg-santi-deep/40 blur-[120px] animate-blob" style={{ animationDelay: '-6s' }} />
+      <div className="pointer-events-none absolute -left-40 bottom-0 -z-20 h-[40vh] w-[40vh] rounded-full bg-santi/20 blur-[120px] animate-blob" style={{ animationDelay: '-6s' }} />
 
       {/* Capa 4 — grid de fondo */}
       <div
-        className="pointer-events-none absolute inset-0 -z-20 opacity-[0.06]"
+        className="pointer-events-none absolute inset-0 -z-20"
         style={{
           backgroundImage:
-            'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+            'linear-gradient(var(--c-grid) 1px, transparent 1px), linear-gradient(90deg, var(--c-grid) 1px, transparent 1px)',
           backgroundSize: '64px 64px',
           maskImage: 'radial-gradient(circle at 50% 40%, #000 30%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(circle at 50% 40%, #000 30%, transparent 80%)',
         }}
       />
 
@@ -72,12 +73,12 @@ export function Hero() {
 
       {/* Rieles verticales editoriales */}
       <div className="pointer-events-none absolute left-4 top-1/2 hidden -translate-y-1/2 lg:block">
-        <span className="vertical-rl font-mono text-[10px] uppercase tracking-[0.4em] text-mist">
+        <span className="vertical-rl font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
           Bogotá — Colombia · 4°N 74°W
         </span>
       </div>
       <div className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 lg:block">
-        <span className="vertical-rl font-mono text-[10px] uppercase tracking-[0.4em] text-mist">
+        <span className="vertical-rl font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
           Portafolio · Edición 2026
         </span>
       </div>
@@ -94,7 +95,7 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-santi opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-santi" />
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-paper/80">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-fg/80">
             Disponible para proyectos · {profile.location}
           </span>
         </motion.div>
@@ -131,9 +132,9 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75 }}
-            className="max-w-xl text-balance text-lg text-mist md:text-xl"
+            className="max-w-xl text-balance text-lg text-muted md:text-xl"
           >
-            Especialista en marketing digital con <span className="text-paper">+6 años</span> ayudando a marcas a crecer.
+            Especialista en marketing digital con <span className="text-fg">+6 años</span> ayudando a marcas a crecer.
             Google &amp; Meta Ads, SEO, e-commerce y ahora <span className="text-santi-soft">productos con IA</span>.
           </motion.p>
 
@@ -166,7 +167,7 @@ export function Hero() {
           <span className="inline-block h-8 w-px animate-pulse bg-gradient-to-b from-santi to-transparent" />
           scroll
         </span>
-        <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-mist md:inline">
+        <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted md:inline">
           (01) — Intro
         </span>
       </motion.div>
