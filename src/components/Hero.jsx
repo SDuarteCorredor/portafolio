@@ -69,7 +69,7 @@ export function Hero() {
           Marketing · Diseño · Producto con IA
         </motion.p>
 
-        <h1 className="font-grotesk text-[clamp(2.5rem,6.5vw,5.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-fg">
+        <h1 className="text-balance font-grotesk text-[clamp(1.75rem,6.5vw,5.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-fg">
           <span className="block overflow-hidden pb-[0.08em]">
             <motion.span variants={line} initial="hidden" animate="show" custom={0} className="block">
               Estrategia, diseño
