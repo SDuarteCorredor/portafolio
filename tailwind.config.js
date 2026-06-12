@@ -13,10 +13,11 @@ export default {
           deep: '#0A1A8A',
         },
 
-        // Naranja de Lumi — solo para el card de Lumi (placeholder, ajustar hex)
+        // Naranja de Lumi — solo para el card de Lumi. Theme-aware:
+        // #FF6B35 (oscuro, oficial) / #E85525 (claro).
         lumi: {
-          DEFAULT: '#FF6B2C',
-          soft: '#FF8A4C',
+          DEFAULT: 'rgb(var(--c-lumi) / <alpha-value>)',
+          soft: '#FF8C42',
         },
 
         // Tokens semánticos — se voltean entre modo claro/oscuro vía variables CSS.

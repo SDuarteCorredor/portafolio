@@ -75,7 +75,7 @@ export const work = [
     metric: 'De la idea al deploy',
     featured: true,
     accent: 'lumi',
-    link: '#', // TODO: reemplazar por el Vercel de Lumi
+    link: 'https://lumi-mvp-one.vercel.app',
     cta: 'Ver Lumi en vivo',
   },
   {
