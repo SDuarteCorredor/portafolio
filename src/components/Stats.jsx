@@ -7,37 +7,56 @@ export function Stats() {
   return (
     <section className="container-x py-24 md:py-36">
       <Reveal>
-        <div className="mb-14 flex items-end justify-between">
-          <p className="eyebrow">Resultados, no promesas</p>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(02)</span>
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+          <div>
+            <div className="mb-6 flex items-center gap-3">
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(02)</span>
+              <p className="eyebrow">Resultados, no promesas</p>
+            </div>
+            <h2 className="max-w-2xl font-grotesk text-big font-bold leading-[1.02] tracking-[-0.02em]">
+              Estrategia que se traduce en{' '}
+              <span className="font-serif font-normal italic text-santi">ventas</span>.
+            </h2>
+          </div>
+          <p className="max-w-xs text-balance text-muted">
+            Números reales de marcas con las que trabajé — no proyecciones.
+          </p>
         </div>
       </Reveal>
 
-      <div className="grid grid-cols-2 gap-x-6 gap-y-14 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         {stats.map((s, i) => (
-          <Reveal key={i} delay={i * 0.08}>
-            <div className="group relative">
-              {/* Línea azul que crece al entrar */}
-              <div className="relative h-px w-full overflow-hidden bg-fg/15">
+          <Reveal key={i} delay={i * 0.06} className="h-full">
+            <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line p-8 transition-all duration-300 hover:border-santi/40 hover:bg-fg/[0.02] md:p-10">
+              {/* Línea azul superior que se dibuja al entrar */}
+              <div className="absolute inset-x-0 top-0 h-px overflow-hidden bg-line">
                 <motion.div
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0 origin-left bg-santi"
+                  className="h-full origin-left bg-santi"
                 />
               </div>
 
-              <div className="mt-5 flex items-baseline gap-2">
-                <span className="font-mono text-[10px] text-santi-soft">0{i + 1}</span>
-              </div>
+              <span className="font-mono text-[10px] text-santi">0{i + 1}</span>
 
               <Counter
                 value={s.value}
-                className="block font-grotesk text-huge font-bold leading-none tracking-tightest transition-colors duration-300 group-hover:text-santi-soft"
+                className="mt-6 font-grotesk text-[clamp(3rem,7vw,5rem)] font-extrabold leading-none tracking-[-0.03em] transition-colors duration-300 group-hover:text-santi"
               />
-              <p className="mt-4 text-sm leading-snug text-muted">{s.label}</p>
-            </div>
+
+              <p className="mt-4 font-grotesk text-lg font-medium text-fg">
+                {s.metric}
+                {s.client && <span className="text-muted"> — {s.client}</span>}
+              </p>
+
+              {s.note && (
+                <p className="mt-6 border-t border-line pt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                  {s.note}
+                </p>
+              )}
+            </article>
           </Reveal>
         ))}
       </div>

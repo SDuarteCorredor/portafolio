@@ -14,10 +14,10 @@ export const profile = {
 }
 
 export const stats = [
-  { value: '+278%', label: 'en ventas — Bio Laboratorios' },
-  { value: '+120%', label: 'en ventas — Nona Gastrobar' },
-  { value: '24+', label: 'marcas posicionadas' },
-  { value: '+6', label: 'años de experiencia' },
+  { value: '+278%', metric: 'en ventas', client: 'Bio Laboratorios', note: 'Rediseño de marca · e-commerce · SEO/SEM' },
+  { value: '+120%', metric: 'en ventas', client: 'Nona Gastrobar', note: 'Apertura · +30 piezas · contenido' },
+  { value: '24+', metric: 'marcas posicionadas', client: null, note: 'Nacionales e internacionales' },
+  { value: '+6', metric: 'años en el oficio', client: null, note: 'De diseñador a producto con IA' },
 ]
 
 // Palabras para el marquee
