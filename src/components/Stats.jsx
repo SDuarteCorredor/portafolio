@@ -18,7 +18,7 @@ export function Stats() {
               <span className="font-serif font-normal italic text-santi">ventas</span>.
             </h2>
           </div>
-          <p className="max-w-xs text-balance text-muted">
+          <p className="max-w-xs text-pretty text-muted">
             Números reales de marcas con las que trabajé — no proyecciones.
           </p>
         </div>

@@ -54,7 +54,7 @@ export function Hero() {
           className={`pointer-events-none absolute z-10 hidden lg:block ${b.pos}`}
         >
           <div
-            className="flex items-center gap-2.5 rounded-full border border-line bg-fg/[0.06] px-4 py-2.5 backdrop-blur-md animate-floaty"
+            className="flex items-center gap-2.5 whitespace-nowrap rounded-full border border-line bg-fg/[0.06] px-4 py-2.5 backdrop-blur-md animate-floaty"
             style={{ animationDelay: b.d }}
           >
             <span className="text-sm">{b.icon}</span>
@@ -110,7 +110,7 @@ export function Hero() {
           {badges.map((b, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 rounded-full border border-line bg-fg/[0.06] px-3.5 py-2 backdrop-blur-md animate-floaty"
+              className="flex items-center gap-2 whitespace-nowrap rounded-full border border-line bg-fg/[0.06] px-3.5 py-2 backdrop-blur-md animate-floaty"
               style={{ animationDelay: b.d }}
             >
               <span className="text-sm">{b.icon}</span>

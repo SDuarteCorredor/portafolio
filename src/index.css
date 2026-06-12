@@ -93,7 +93,7 @@
 
   /* Botón primario azul firma — igual en ambos modos */
   .btn-blue {
-    @apply relative inline-flex items-center gap-2 rounded-full bg-santi px-7 py-3.5
+    @apply relative inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-santi px-7 py-3.5
            font-grotesk text-sm font-medium text-white transition-all duration-300;
     box-shadow: 0 0 0 0 rgba(27,60,255,0.5);
   }
@@ -103,7 +103,7 @@
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5
+    @apply inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-7 py-3.5
            font-grotesk text-sm font-medium text-fg transition-all duration-300
            hover:border-santi hover:text-santi;
   }

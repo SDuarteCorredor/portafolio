@@ -29,15 +29,15 @@ function Featured({ w, i }) {
             <span>{w.year}</span>
           </div>
 
-          <h3 className="mt-4 font-grotesk text-[clamp(2.6rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em]">
+          <h3 className="mt-4 text-left font-grotesk text-[clamp(2.6rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em]">
             {w.title}
           </h3>
-          <p className="mt-5 max-w-xl text-balance text-muted md:text-lg">{w.desc}</p>
+          <p className="mt-5 max-w-xl text-pretty text-muted md:text-lg">{w.desc}</p>
         </div>
 
-        <div className="flex items-center justify-between md:col-span-4 md:flex-col md:items-end md:gap-8 md:text-right">
+        <div className="flex items-center justify-between gap-4 md:col-span-4 md:flex-col md:items-end md:gap-8 md:text-right">
           <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:border-lumi group-hover:bg-lumi group-hover:text-white">
+          <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:border-lumi group-hover:bg-lumi group-hover:text-white">
             {w.cta}
             <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
           </span>
@@ -71,20 +71,20 @@ function Card({ w, i }) {
         <span className="text-muted">{w.year}</span>
       </div>
 
-      <h3 className="mt-6 font-grotesk text-2xl font-bold tracking-[-0.02em] md:text-3xl">
+      <h3 className="mt-6 text-left font-grotesk text-2xl font-bold tracking-[-0.02em] md:text-3xl">
         {w.title}
       </h3>
-      <p className="mt-4 flex-1 text-balance text-muted">{w.desc}</p>
+      <p className="mt-4 flex-1 text-pretty text-muted">{w.desc}</p>
 
-      <div className="mt-8 flex items-center justify-between border-t border-line pt-5">
+      <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-5">
         <span className="font-grotesk font-medium text-fg">{w.metric}</span>
         {w.link ? (
-          <span className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 group-hover:border-santi group-hover:text-santi">
+          <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 group-hover:border-santi group-hover:text-santi">
             {w.cta}
             <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
           </span>
         ) : (
-          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted/60">{w.cta}</span>
+          <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.15em] text-muted/60">{w.cta}</span>
         )}
       </div>
     </Tag>
@@ -108,7 +108,7 @@ export function Work() {
               Casos <span className="font-serif font-normal italic text-santi">reales</span>.
             </h2>
           </div>
-          <p className="max-w-sm text-balance text-muted">
+          <p className="max-w-sm text-pretty text-muted">
             De campañas que multiplicaron ventas a un producto digital construido con IA.
           </p>
         </div>
