@@ -77,7 +77,7 @@ export function Hero() {
           </span>
           <span className="block overflow-hidden pb-[0.08em]">
             <motion.span variants={line} initial="hidden" animate="show" custom={1} className="block">
-              y <span className="font-serif font-normal italic text-santi">producto</span> con IA
+              y <span className="font-serif font-normal italic text-santi">producto</span> con&nbsp;IA
             </motion.span>
           </span>
         </h1>
