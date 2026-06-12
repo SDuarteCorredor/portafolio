@@ -1,107 +1,124 @@
-import { motion, useMotionValue, useMotionTemplate, useSpring } from 'framer-motion'
 import { work } from '../data'
 import { Reveal } from './Reveal'
 
-function WorkCard({ w, i }) {
-  // Glow + tilt que reaccionan al cursor dentro de la card.
-  const mx = useMotionValue(50)
-  const my = useMotionValue(50)
-  const rx = useSpring(useMotionValue(0), { stiffness: 150, damping: 18 })
-  const ry = useSpring(useMotionValue(0), { stiffness: 150, damping: 18 })
-  const glow = useMotionTemplate`radial-gradient(420px circle at ${mx}% ${my}%, rgba(27,60,255,0.18), transparent 60%)`
-
-  const onMove = (e) => {
-    const r = e.currentTarget.getBoundingClientRect()
-    const px = (e.clientX - r.left) / r.width
-    const py = (e.clientY - r.top) / r.height
-    mx.set(px * 100)
-    my.set(py * 100)
-    ry.set((px - 0.5) * 8)
-    rx.set((0.5 - py) * 8)
-  }
-  const reset = () => {
-    rx.set(0)
-    ry.set(0)
-  }
-
+// Card destacada (Lumi) — protagonismo a ancho completo.
+function Featured({ w, i }) {
   return (
     <a
       href={w.link || undefined}
       data-hot
-      onMouseMove={onMove}
-      onMouseLeave={reset}
-      className={`group relative block h-full overflow-hidden rounded-3xl border border-line p-8 transition-colors duration-500 hover:border-santi/50 md:p-10 ${
-        w.featured ? 'bg-gradient-to-br from-santi/15 via-surface to-surface' : 'bg-surface'
-      }`}
+      className="group relative block overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-santi/[0.08] via-surface to-surface p-8 transition-all duration-300 hover:border-santi/40 md:p-12"
     >
-      {/* glow que sigue el cursor */}
-      <motion.div style={{ background: glow }} className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-      {/* número índice fantasma */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-2 -top-6 select-none font-grotesk text-[7rem] font-bold leading-none text-outline opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.12]"
+        className="pointer-events-none absolute -right-3 -top-8 select-none font-grotesk text-[8rem] font-extrabold leading-none tracking-tight text-outline opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.12]"
       >
         0{i + 1}
       </span>
 
-      <motion.div style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000 }} className="relative">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-xs uppercase tracking-widest text-santi-soft">{w.kind}</span>
-          <span className="font-mono text-xs text-muted">{w.year}</span>
-        </div>
-
-        {w.featured && (
-          <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-santi/40 bg-santi/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-santi-soft">
+      <div className="grid gap-8 md:grid-cols-12 md:items-end">
+        <div className="md:col-span-8">
+          <span className="inline-flex items-center gap-2 rounded-full border border-santi/40 bg-santi/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-santi">
             <span className="h-1.5 w-1.5 rounded-full bg-santi animate-pulse" /> Producto destacado
           </span>
-        )}
 
-        <h3 className={`mt-6 font-grotesk font-bold tracking-tightest ${w.featured ? 'text-5xl md:text-7xl' : 'text-3xl md:text-4xl'}`}>
-          {w.title}
-        </h3>
+          <div className="mt-6 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-muted">
+            <span className="text-santi">{w.kind}</span>
+            <span className="h-px w-8 bg-line" />
+            <span>{w.year}</span>
+          </div>
 
-        <p className="mt-4 max-w-xl text-muted">{w.desc}</p>
-
-        <div className="mt-8 flex items-center justify-between">
-          <span className="font-grotesk text-lg text-fg">{w.metric}</span>
-          {w.link && (
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-line transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
-              ↗
-            </span>
-          )}
+          <h3 className="mt-4 font-grotesk text-[clamp(2.6rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em]">
+            {w.title}
+          </h3>
+          <p className="mt-5 max-w-xl text-balance text-muted md:text-lg">{w.desc}</p>
         </div>
-      </motion.div>
+
+        <div className="flex items-center justify-between md:col-span-4 md:flex-col md:items-end md:gap-8 md:text-right">
+          <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
+          <span className="grid h-12 w-12 place-items-center rounded-full border border-line text-fg transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
+            ↗
+          </span>
+        </div>
+      </div>
+    </a>
+  )
+}
+
+// Card estándar editorial.
+function Card({ w, i }) {
+  return (
+    <a
+      href={w.link || undefined}
+      data-hot
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-santi/40 md:p-10"
+    >
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-2 -top-6 select-none font-grotesk text-[6rem] font-extrabold leading-none tracking-tight text-outline opacity-[0.05] transition-opacity duration-500 group-hover:opacity-[0.1]"
+      >
+        0{i + 1}
+      </span>
+
+      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest">
+        <span className="text-santi">{w.kind}</span>
+        <span className="text-muted">{w.year}</span>
+      </div>
+
+      <h3 className="mt-6 font-grotesk text-2xl font-bold tracking-[-0.02em] md:text-3xl">
+        {w.title}
+      </h3>
+      <p className="mt-4 flex-1 text-balance text-muted">{w.desc}</p>
+
+      <div className="mt-8 flex items-center justify-between border-t border-line pt-5">
+        <span className="font-grotesk font-medium text-fg">{w.metric}</span>
+        {w.link && (
+          <span className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
+            ↗
+          </span>
+        )}
+      </div>
     </a>
   )
 }
 
 export function Work() {
+  const featured = work.filter((w) => w.featured)
+  const rest = work.filter((w) => !w.featured)
+
   return (
     <section id="trabajo" className="container-x py-24 md:py-36">
       <Reveal>
-        <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div>
             <div className="mb-6 flex items-center gap-3">
-              <p className="eyebrow">Trabajo seleccionado</p>
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(03)</span>
+              <p className="eyebrow">Trabajo seleccionado</p>
             </div>
-            <h2 className="font-grotesk text-huge font-bold leading-[0.95] tracking-tightest">
-              Casos <span className="text-outline-blue">reales</span>.
+            <h2 className="font-grotesk text-huge font-bold leading-[0.95] tracking-[-0.03em]">
+              Casos <span className="font-serif font-normal italic text-santi">reales</span>.
             </h2>
           </div>
-          <p className="max-w-sm text-muted">
+          <p className="max-w-sm text-balance text-muted">
             De campañas que multiplicaron ventas a un producto digital construido con IA.
           </p>
         </div>
       </Reveal>
 
-      <div className="grid gap-5 md:grid-cols-2">
-        {work.map((w, i) => (
-          <Reveal key={w.title} delay={i * 0.06} className={w.featured ? 'md:col-span-2' : ''}>
-            <WorkCard w={w} i={i} />
+      <div className="space-y-4">
+        {featured.map((w) => (
+          <Reveal key={w.title}>
+            <Featured w={w} i={work.indexOf(w)} />
           </Reveal>
         ))}
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {rest.map((w) => (
+            <Reveal key={w.title} delay={(work.indexOf(w) % 2) * 0.06} className="h-full">
+              <Card w={w} i={work.indexOf(w)} />
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )
