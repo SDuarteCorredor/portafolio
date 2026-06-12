@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 // Toggle claro/oscuro. Modo claro es el principal; la preferencia se guarda
 // en localStorage y se aplica antes del primer pintado (ver script en index.html).
-export function ThemeToggle({ className = '' }) {
+export function ThemeToggle({ className = '', onDark = false }) {
   const [dark, setDark] = useState(false)
 
   // Sincroniza el estado con la clase ya aplicada por el script anti-parpadeo.
@@ -27,7 +27,9 @@ export function ThemeToggle({ className = '' }) {
       aria-label={dark ? 'Activar modo claro' : 'Activar modo oscuro'}
       aria-pressed={dark}
       title={dark ? 'Modo claro' : 'Modo oscuro'}
-      className={`group relative grid h-10 w-10 place-items-center overflow-hidden rounded-full border border-line text-fg transition-colors duration-300 hover:border-santi hover:text-santi ${className}`}
+      className={`group relative grid h-10 w-10 place-items-center overflow-hidden rounded-full border transition-colors duration-300 hover:border-santi hover:text-santi ${
+        onDark ? 'border-white/20 text-paper' : 'border-line text-fg'
+      } ${className}`}
     >
       {/* halo azul al hover */}
       <span className="pointer-events-none absolute inset-0 rounded-full bg-santi/0 transition-colors duration-300 group-hover:bg-santi/10" />

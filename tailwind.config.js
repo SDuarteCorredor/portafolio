@@ -29,11 +29,13 @@ export default {
         mist: '#A7AAB8',
       },
       fontFamily: {
-        // Display editorial con carácter (reemplaza Space Grotesk)
-        grotesk: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
-        display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+        // Geist como principal (limpia, tipo SF/Apple). Fallback a -apple-system
+        // = San Francisco real en Mac/iOS si Geist no cargó.
+        grotesk: ['Geist', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        display: ['Geist', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        // La "especial" — acento itálico, uso raro
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
-        sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
         mono: ['"Space Mono"', 'monospace'],
       },
       fontSize: {
