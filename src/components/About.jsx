@@ -1,4 +1,4 @@
-import { about, profile } from '../data'
+import { about, profile, education, certifications } from '../data'
 import { Reveal } from './Reveal'
 
 // Lead con palabras destacadas (serif itálica azul) — render simple y confiable.
@@ -76,7 +76,7 @@ export function About() {
 
       {/* Datos clave — banda a ancho completo */}
       <Reveal>
-        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {about.facts.map((f) => (
             <div key={f.k} className="group bg-bg p-6 transition-colors duration-300 hover:bg-fg/[0.02]">
               <span className="font-mono text-xs uppercase tracking-widest text-santi">{f.k}</span>
@@ -85,6 +85,48 @@ export function About() {
               </span>
             </div>
           ))}
+        </div>
+      </Reveal>
+
+      {/* Educación + Certificaciones */}
+      <Reveal>
+        <div className="mt-14 grid gap-12 md:grid-cols-12 md:gap-14">
+          {/* Educación */}
+          <div className="md:col-span-5">
+            <div className="mb-7 flex items-center gap-3">
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-santi">Educación</span>
+              <span className="h-px flex-1 bg-line" />
+            </div>
+            <div className="space-y-7">
+              {education.map((e) => (
+                <div key={e.title} className="relative border-l border-line pl-5">
+                  <span className="absolute -left-[3.5px] top-1.5 h-2 w-2 rounded-full bg-santi" />
+                  <p className="font-grotesk font-semibold text-fg">{e.title}</p>
+                  <p className="text-sm text-muted">{e.school}</p>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">{e.period}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Certificaciones */}
+          <div className="md:col-span-7">
+            <div className="mb-7 flex items-center gap-3">
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-santi">Certificaciones</span>
+              <span className="font-mono text-[10px] text-muted">({certifications.length})</span>
+              <span className="h-px flex-1 bg-line" />
+            </div>
+            <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+              {certifications.map((c) => (
+                <div key={c.name} className="flex flex-col border-t border-line pt-3">
+                  <span className="text-pretty font-medium leading-snug text-fg">{c.name}</span>
+                  <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+                    {c.issuer} · {c.year}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </Reveal>
     </section>

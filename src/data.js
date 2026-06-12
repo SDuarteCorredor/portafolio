@@ -143,8 +143,28 @@ export const about = {
   ],
   facts: [
     { k: 'Idiomas', v: 'Español nativo · Inglés C1 · Italiano básico' },
-    { k: 'Educación', v: 'Maestría en Marketing (USTA) · Tec. Diseño Gráfico' },
     { k: 'Stack', v: 'Google Ads · Meta · GA4 · Looker · WooCommerce · React · IA' },
     { k: 'Base', v: 'Bogotá, Colombia · Remote-ready' },
   ],
 }
+
+export const education = [
+  { title: 'Diplomatura en Marketing Digital', school: 'Coderhouse', period: '2024 — 2026' },
+  { title: 'Maestría en Marketing', school: 'Universidad Santo Tomás', period: '2019 — 2024' },
+  { title: 'Tec. en Diseño Gráfico', school: 'Universidad Central', period: '2017 — 2019' },
+]
+
+export const certifications = [
+  { name: 'SEO y Content Marketing', issuer: 'Santander', year: '2026' },
+  { name: 'Display de Google Ads', issuer: 'Google Skillshop', year: '2026' },
+  { name: 'Búsqueda de Google Ads', issuer: 'Google Skillshop', year: '2026' },
+  { name: 'Search Ads 360', issuer: 'Google Skillshop', year: '2025' },
+  { name: 'Google Analytics (GA4)', issuer: 'Google Skillshop', year: '2025' },
+  { name: 'Google Ads — Medición', issuer: 'Google Skillshop', year: '2025' },
+  { name: 'Git & GitHub', issuer: 'Daxus Latam', year: '2026' },
+  { name: 'Community Manager y Publicidad', issuer: 'Coderhouse', year: '2021' },
+  { name: 'E-commerce', issuer: 'Coderhouse', year: '2021' },
+  { name: 'Fundamentos de Power BI', issuer: 'Daxus Latam', year: '2025' },
+  { name: 'Primeros pasos en IA', issuer: 'Daxus Latam', year: '2026' },
+  { name: 'Aplicaciones con IA', issuer: 'Daxus Latam', year: '2026' },
+]
