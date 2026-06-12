@@ -128,6 +128,17 @@ export function About() {
             </div>
           </div>
         </div>
+
+        <div className="mt-10">
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-ghost"
+          >
+            Ver perfil completo en LinkedIn ↗
+          </a>
+        </div>
       </Reveal>
     </section>
   )
