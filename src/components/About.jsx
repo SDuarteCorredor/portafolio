@@ -1,9 +1,19 @@
 import { about, profile } from '../data'
-import { Reveal, RevealWords } from './Reveal'
+import { Reveal } from './Reveal'
 
-// Oculta la imagen si el archivo aún no existe (deja ver el fallback).
-const hideOnError = (e) => {
-  e.currentTarget.style.display = 'none'
+// Lead con palabras destacadas (serif itálica azul) — render simple y confiable.
+function Lead({ text, highlight = [] }) {
+  const words = text.split(' ')
+  return (
+    <>
+      {words.map((w, i) => (
+        <span key={i} className={highlight.includes(i) ? 'font-serif font-normal italic text-santi' : ''}>
+          {w}
+          {i < words.length - 1 ? ' ' : ''}
+        </span>
+      ))}
+    </>
+  )
 }
 
 export function About() {
@@ -17,8 +27,8 @@ export function About() {
       </Reveal>
 
       <Reveal>
-        <h2 className="max-w-4xl font-grotesk text-big font-bold leading-[1.05] tracking-[-0.02em]">
-          <RevealWords text={about.lead} highlight={[2, 8]} />
+        <h2 className="max-w-4xl text-pretty font-grotesk text-big font-bold leading-[1.05] tracking-[-0.02em]">
+          <Lead text={about.lead} highlight={[2, 8]} />
         </h2>
       </Reveal>
 
@@ -27,26 +37,16 @@ export function About() {
         <div className="md:order-2 md:col-span-5">
           <Reveal>
             <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-surface md:sticky md:top-28">
-              {/* Fallback: monograma (se ve si la foto no cargó) */}
+              {/* Fallback: monograma (si la foto no cargó) */}
               <div className="absolute inset-0 grid place-items-center">
                 <span className="font-grotesk text-7xl font-extrabold text-fg/10">SD.</span>
               </div>
 
-              {/* Fotos — crossfade al hover */}
               <img
-                src="/santiago-1.jpg"
+                src="/santiago.png"
                 alt={profile.name}
                 loading="lazy"
-                onError={hideOnError}
-                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-              />
-              <img
-                src="/santiago-2.jpg"
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-                onError={hideOnError}
-                className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
 
               {/* Badge de disponibilidad */}
