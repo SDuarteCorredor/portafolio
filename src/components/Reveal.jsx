@@ -23,7 +23,7 @@ export function RevealWords({ text, className = '', highlight = [] }) {
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-bottom">
           <motion.span
-            className={`inline-block ${highlight.includes(i) ? 'text-glow font-serif italic' : ''}`}
+            className={`inline-block ${highlight.includes(i) ? 'text-santi font-serif italic' : ''}`}
             initial={{ y: '110%' }}
             whileInView={{ y: 0 }}
             viewport={{ once: true }}

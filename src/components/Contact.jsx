@@ -37,7 +37,7 @@ export function Contact() {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block transition-all duration-300 hover:-translate-y-3 group-hover:text-glow"
+                className="inline-block transition-all duration-300 hover:-translate-y-3 group-hover:text-santi"
               >
                 {ch}
               </motion.span>

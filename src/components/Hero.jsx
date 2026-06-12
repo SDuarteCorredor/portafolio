@@ -88,7 +88,7 @@ export function Hero() {
         >
           Especialista en marketing digital con <span className="text-fg">+6 años</span> ayudando a
           marcas a crecer. Google &amp; Meta Ads, SEO, e-commerce — y ahora{' '}
-          <span className="text-santi-soft">productos con IA</span>.
+          <span className="text-santi">productos con IA</span>.
         </motion.p>
 
         <motion.div {...fade(0.95)} className="mt-10 flex flex-wrap items-center justify-center gap-4">

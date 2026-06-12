@@ -36,7 +36,7 @@ export function Nav() {
       {/* Barra de progreso de scroll — firma azul */}
       <motion.div
         style={{ scaleX: scrollYProgress }}
-        className="absolute inset-x-0 top-0 h-0.5 origin-left bg-gradient-to-r from-santi via-santi-glow to-santi-soft"
+        className="absolute inset-x-0 top-0 h-0.5 origin-left bg-santi"
       />
       <nav className="container-x flex items-center justify-between py-5">
         <a

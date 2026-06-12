@@ -48,7 +48,7 @@ export function About() {
             {about.facts.map((f, i) => (
               <Reveal key={f.k} delay={i * 0.06}>
                 <div className="group flex flex-col gap-1 bg-surface p-6 transition-colors hover:bg-fg/[0.03]">
-                  <span className="font-mono text-xs uppercase tracking-widest text-santi-soft">{f.k}</span>
+                  <span className="font-mono text-xs uppercase tracking-widest text-santi">{f.k}</span>
                   <span className="text-fg transition-transform duration-300 group-hover:translate-x-1">{f.v}</span>
                 </div>
               </Reveal>

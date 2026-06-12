@@ -112,12 +112,6 @@
 @layer utilities {
   .text-balance { text-wrap: balance; }
 
-  /* Texto con relleno azul/glow */
-  .text-glow {
-    color: var(--c-glow);
-    text-shadow: 0 0 28px var(--c-glow-shadow);
-  }
-
   /* Contorno tipográfico (estilo editorial) */
   .text-outline {
     color: transparent;
@@ -131,12 +125,11 @@
   .text-outline-fill {
     color: transparent;
     -webkit-text-stroke: 1.6px var(--c-stroke);
-    transition: color .5s ease, -webkit-text-stroke-color .5s ease, text-shadow .5s ease;
+    transition: color .5s ease, -webkit-text-stroke-color .5s ease;
   }
   .group:hover .text-outline-fill {
     color: #1B3CFF;
     -webkit-text-stroke-color: #1B3CFF;
-    text-shadow: 0 0 40px rgba(27,60,255,0.5);
   }
 
   /* Texto vertical para rieles editoriales */
