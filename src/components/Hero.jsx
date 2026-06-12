@@ -66,7 +66,7 @@ export function Hero() {
 
       <motion.div style={{ opacity }} className="relative z-0 flex max-w-6xl flex-col items-center">
         <motion.p {...fade(0.1)} className="eyebrow mb-7">
-          Marketing · Diseño · Producto con IA
+          Marketing Digital · Diseño UI/UX
         </motion.p>
 
         <h1 className="text-balance font-grotesk text-[clamp(1.75rem,6.5vw,5.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-fg">
