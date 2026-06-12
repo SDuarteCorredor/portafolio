@@ -12,7 +12,7 @@ export function Contact() {
       <motion.div
         animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.08, 1] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[50vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-santi/20 blur-[140px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[50vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-santi/20 blur-[100px]"
       />
 
       <div className="container-x text-center">

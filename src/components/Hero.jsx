@@ -46,9 +46,9 @@ export function Hero() {
       {/* Capa 3 — blobs azul firma */}
       <motion.div
         style={{ y }}
-        className="pointer-events-none absolute -right-32 top-10 -z-20 h-[60vh] w-[60vh] rounded-full bg-santi/30 blur-[120px] animate-blob"
+        className="pointer-events-none absolute -right-32 top-10 -z-20 h-[60vh] w-[60vh] rounded-full bg-santi/30 blur-[90px] animate-blob"
       />
-      <div className="pointer-events-none absolute -left-40 bottom-0 -z-20 h-[40vh] w-[40vh] rounded-full bg-santi/20 blur-[120px] animate-blob" style={{ animationDelay: '-6s' }} />
+      <div className="pointer-events-none absolute -left-40 bottom-0 -z-20 h-[40vh] w-[40vh] rounded-full bg-santi/20 blur-[90px] animate-blob" style={{ animationDelay: '-6s' }} />
 
       {/* Capa 4 — grid de fondo */}
       <div

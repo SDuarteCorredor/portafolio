@@ -25,7 +25,7 @@ export function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? 'backdrop-blur-xl bg-bg/70 border-b border-line' : ''
+        scrolled ? 'backdrop-blur-md bg-bg/80 border-b border-line' : ''
       }`}
     >
       {/* Barra de progreso de scroll — firma azul */}
