@@ -77,7 +77,7 @@ export function Hero() {
           </span>
           <span className="block overflow-hidden pb-[0.08em]">
             <motion.span variants={line} initial="hidden" animate="show" custom={1} className="block">
-              y <span className="font-serif font-normal italic text-santi-soft">producto</span> con IA
+              y <span className="font-serif font-normal italic text-santi">producto</span> con IA
             </motion.span>
           </span>
         </h1>
@@ -100,6 +100,24 @@ export function Hero() {
           <Magnetic strength={0.3}>
             <a href="#trabajo" className="btn-ghost">Ver trabajo</a>
           </Magnetic>
+        </motion.div>
+
+        {/* Badges en móvil/tablet — fila bajo los CTAs (en desktop flotan arriba) */}
+        <motion.div
+          {...fade(1.1)}
+          className="mt-9 flex flex-wrap items-center justify-center gap-2.5 lg:hidden"
+        >
+          {badges.map((b, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 rounded-full border border-line bg-fg/[0.06] px-3.5 py-2 backdrop-blur-md animate-floaty"
+              style={{ animationDelay: b.d }}
+            >
+              <span className="text-sm">{b.icon}</span>
+              <span className="font-grotesk text-sm font-semibold text-fg">{b.v}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">{b.k}</span>
+            </div>
+          ))}
         </motion.div>
       </motion.div>
     </section>
