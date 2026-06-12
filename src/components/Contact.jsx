@@ -7,7 +7,7 @@ const WORD = 'Hablemos'
 
 export function Contact() {
   return (
-    <section id="contacto" className="relative overflow-hidden py-28 md:py-40">
+    <section id="contacto" className="relative overflow-hidden py-20 md:py-28">
       {/* glow firma que respira */}
       <motion.div
         animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.08, 1] }}

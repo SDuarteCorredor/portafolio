@@ -3,7 +3,7 @@ import { Reveal } from './Reveal'
 
 export function Services() {
   return (
-    <section id="servicios" className="container-x py-24 md:py-36">
+    <section id="servicios" className="container-x py-16 md:py-24">
       <Reveal>
         <div className="mb-16 max-w-3xl">
           <div className="mb-6 flex items-center gap-3">

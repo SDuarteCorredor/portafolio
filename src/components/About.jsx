@@ -3,7 +3,7 @@ import { Reveal, RevealWords } from './Reveal'
 
 export function About() {
   return (
-    <section id="sobre" className="container-x py-24 md:py-36">
+    <section id="sobre" className="container-x py-16 md:py-24">
       <div className="grid gap-14 md:grid-cols-12">
         <div className="md:col-span-7">
           <Reveal>

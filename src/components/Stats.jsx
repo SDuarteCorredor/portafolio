@@ -5,7 +5,7 @@ import { Counter } from './Counter'
 
 export function Stats() {
   return (
-    <section className="container-x py-24 md:py-36">
+    <section className="container-x py-16 md:py-24">
       <Reveal>
         <div className="mb-14 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div>
