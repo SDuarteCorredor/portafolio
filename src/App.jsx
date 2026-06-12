@@ -7,6 +7,7 @@ import { Services } from './components/Services'
 import { Work } from './components/Work'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
+import { BackToTop } from './components/BackToTop'
 
 export default function App() {
   useLenis()
@@ -23,6 +24,7 @@ export default function App() {
         <About />
         <Contact />
       </main>
+      <BackToTop />
     </div>
   )
 }
