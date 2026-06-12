@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { profile } from '../data'
 import { Magnetic } from './Magnetic'
+import { HoverButton } from './HoverButton'
 
 // Badges flotantes con prueba real (idea estilo SLOT).
 const badges = [
@@ -91,11 +92,9 @@ export function Hero() {
         </motion.p>
 
         <motion.div {...fade(0.95)} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Magnetic strength={0.4}>
-            <a href={profile.whatsappLink} target="_blank" rel="noreferrer" className="btn-blue">
-              Hablemos →
-            </a>
-          </Magnetic>
+          <HoverButton href={profile.whatsappLink} target="_blank" rel="noreferrer">
+            Hablemos →
+          </HoverButton>
           <Magnetic strength={0.3}>
             <a href="#trabajo" className="btn-ghost">Ver trabajo</a>
           </Magnetic>
