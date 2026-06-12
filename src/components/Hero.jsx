@@ -31,11 +31,10 @@ export function Hero() {
   })
 
   return (
-    // `dark` fuerza tokens oscuros dentro del hero sin importar el tema de la página.
     <section
       id="top"
       ref={ref}
-      className="dark relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-bg px-6 pt-24 text-center"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-bg px-6 pt-24 text-center"
     >
       {/* Atmósfera: glow azul suave, sin grilla */}
       <div className="pointer-events-none absolute inset-0 -z-30 aurora-mesh" />

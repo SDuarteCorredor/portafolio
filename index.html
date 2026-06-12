@@ -6,14 +6,16 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Tema: aplica la preferencia guardada antes del primer pintado (sin parpadeo).
-         Modo claro es el principal; solo se activa oscuro si el usuario lo eligió. -->
+         Modo oscuro es el predeterminado; solo queda claro si el usuario lo eligió. -->
     <script>
       (function () {
         try {
-          if (localStorage.getItem('theme') === 'dark') {
+          if (localStorage.getItem('theme') !== 'light') {
             document.documentElement.classList.add('dark');
           }
-        } catch (e) {}
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
       })();
     </script>
 

@@ -22,10 +22,8 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // En el tope, el nav flota sobre el hero oscuro → texto claro.
-  // Al hacer scroll (o abrir el menú) aparece la barra y sigue el tema.
+  // Al hacer scroll (o abrir el menú) aparece la barra con fondo del tema.
   const bar = scrolled || open
-  const atTop = !bar
 
   return (
     <header
@@ -41,9 +39,7 @@ export function Nav() {
       <nav className="container-x flex items-center justify-between py-5">
         <a
           href="#top"
-          className={`group flex items-center gap-2.5 font-grotesk text-lg font-bold tracking-tight transition-colors ${
-            atTop ? 'text-paper' : 'text-fg'
-          }`}
+          className="group flex items-center gap-2.5 font-grotesk text-lg font-bold tracking-tight text-fg transition-colors"
         >
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-santi text-white transition-transform group-hover:rotate-12">S</span>
           <span className="hidden sm:inline">santiago<span className="text-santi">.</span></span>
@@ -54,9 +50,7 @@ export function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className={`link-underline font-grotesk text-sm transition-colors ${
-                  atTop ? 'text-paper/70 hover:text-paper' : 'text-muted hover:text-fg'
-                }`}
+                className="link-underline font-grotesk text-sm text-muted transition-colors hover:text-fg"
               >
                 {l.label}
               </a>
@@ -65,7 +59,7 @@ export function Nav() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
-          <ThemeToggle onDark={atTop} />
+          <ThemeToggle />
           <Magnetic strength={0.4}>
             <a href={profile.whatsappLink} target="_blank" rel="noreferrer" className="btn-blue !py-2.5 !px-5">
               Hablemos
@@ -74,9 +68,9 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle onDark={atTop} />
+          <ThemeToggle />
           <button
-            className={atTop ? 'text-paper' : 'text-fg'}
+            className="text-fg"
             onClick={() => setOpen((o) => !o)}
             aria-label="Menú"
           >

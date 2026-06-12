@@ -65,12 +65,24 @@ export function About() {
         </div>
 
         {/* Texto — izquierda en desktop */}
-        <div className="space-y-6 text-lg text-muted md:order-1 md:col-span-7">
-          {about.body.map((p, i) => (
-            <Reveal key={i} delay={i * 0.05}>
-              <p className="text-pretty">{p}</p>
-            </Reveal>
-          ))}
+        <div className="md:order-1 md:col-span-7">
+          <div className="space-y-6 text-lg text-muted">
+            {about.body.map((p, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <p className="text-pretty">{p}</p>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.1} className="mt-8">
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-ghost"
+            >
+              Ver perfil completo en LinkedIn ↗
+            </a>
+          </Reveal>
         </div>
       </div>
 
@@ -127,17 +139,6 @@ export function About() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="mt-10">
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-ghost"
-          >
-            Ver perfil completo en LinkedIn ↗
-          </a>
         </div>
       </Reveal>
     </section>
