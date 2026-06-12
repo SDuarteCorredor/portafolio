@@ -6,7 +6,7 @@ export const profile = {
   short: 'Santiago Duarte',
   role: 'Especialista en Marketing Digital',
   location: 'Bogotá, Colombia',
-  email: 'igivansd@gmail.com',
+  email: 'ivansantiagoduarte@outlook.com',
   whatsapp: '+57 316 537 1483',
   whatsappLink: 'https://wa.me/573165371483',
   linkedin: 'https://www.linkedin.com/in/santiagoduartec',
