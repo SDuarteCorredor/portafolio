@@ -1,5 +1,4 @@
 import { useLenis } from './hooks/useLenis'
-import { Cursor } from './components/Cursor'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { Marquee } from './components/Marquee'
@@ -14,7 +13,6 @@ export default function App() {
 
   return (
     <div className="grain relative">
-      <Cursor />
       <Nav />
       <main>
         <Hero />

@@ -13,6 +13,12 @@ export default {
           deep: '#0A1A8A',
         },
 
+        // Naranja de Lumi — solo para el card de Lumi (placeholder, ajustar hex)
+        lumi: {
+          DEFAULT: '#FF6B2C',
+          soft: '#FF8A4C',
+        },
+
         // Tokens semánticos — se voltean entre modo claro/oscuro vía variables CSS.
         // Soportan opacidad (bg-fg/80, border-fg/10, etc.).
         bg: 'rgb(var(--c-bg) / <alpha-value>)',        // fondo de página

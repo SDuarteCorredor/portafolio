@@ -1,13 +1,14 @@
 import { work } from '../data'
 import { Reveal } from './Reveal'
 
-// Card destacada (Lumi) — protagonismo a ancho completo.
+// Card destacada (Lumi) — naranja Lumi, a ancho completo, link a su sitio en vivo.
 function Featured({ w, i }) {
   return (
     <a
       href={w.link || undefined}
-      data-hot
-      className="group relative block overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-santi/[0.08] via-surface to-surface p-8 transition-all duration-300 hover:border-santi/40 md:p-12"
+      target="_blank"
+      rel="noreferrer"
+      className="group relative block overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-lumi/[0.1] via-surface to-surface p-8 transition-all duration-300 hover:border-lumi/40 md:p-12"
     >
       <span
         aria-hidden
@@ -18,12 +19,12 @@ function Featured({ w, i }) {
 
       <div className="grid gap-8 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-santi/40 bg-santi/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-santi">
-            <span className="h-1.5 w-1.5 rounded-full bg-santi animate-pulse" /> Producto destacado
+          <span className="inline-flex items-center gap-2 rounded-full border border-lumi/40 bg-lumi/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-lumi">
+            <span className="h-1.5 w-1.5 rounded-full bg-lumi animate-pulse" /> Producto destacado
           </span>
 
           <div className="mt-6 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-muted">
-            <span className="text-santi">{w.kind}</span>
+            <span className="text-lumi">{w.kind}</span>
             <span className="h-px w-8 bg-line" />
             <span>{w.year}</span>
           </div>
@@ -36,8 +37,9 @@ function Featured({ w, i }) {
 
         <div className="flex items-center justify-between md:col-span-4 md:flex-col md:items-end md:gap-8 md:text-right">
           <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
-          <span className="grid h-12 w-12 place-items-center rounded-full border border-line text-fg transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
-            ↗
+          <span className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:border-lumi group-hover:bg-lumi group-hover:text-white">
+            {w.cta}
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
           </span>
         </div>
       </div>
@@ -45,13 +47,17 @@ function Featured({ w, i }) {
   )
 }
 
-// Card estándar editorial.
+// Card estándar editorial — azul firma, link a Behance / sitio (o "Próximamente").
 function Card({ w, i }) {
+  const Tag = w.link ? 'a' : 'div'
+  const linkProps = w.link ? { href: w.link, target: '_blank', rel: 'noreferrer' } : {}
+
   return (
-    <a
-      href={w.link || undefined}
-      data-hot
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-santi/40 md:p-10"
+    <Tag
+      {...linkProps}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-8 transition-all duration-300 md:p-10 ${
+        w.link ? 'hover:-translate-y-1 hover:border-santi/40' : ''
+      }`}
     >
       <span
         aria-hidden
@@ -72,13 +78,16 @@ function Card({ w, i }) {
 
       <div className="mt-8 flex items-center justify-between border-t border-line pt-5">
         <span className="font-grotesk font-medium text-fg">{w.metric}</span>
-        {w.link && (
-          <span className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg transition-all duration-300 group-hover:rotate-45 group-hover:border-santi group-hover:bg-santi group-hover:text-white">
-            ↗
+        {w.link ? (
+          <span className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 group-hover:border-santi group-hover:text-santi">
+            {w.cta}
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
           </span>
+        ) : (
+          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted/60">{w.cta}</span>
         )}
       </div>
-    </a>
+    </Tag>
   )
 }
 
