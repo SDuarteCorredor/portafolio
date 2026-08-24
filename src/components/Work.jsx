@@ -1,13 +1,20 @@
+import { Link } from 'react-router-dom'
 import { work } from '../data'
 import { Reveal } from './Reveal'
+import { trackCta } from '../seo/analytics'
+
+// Punto 17 — las tarjetas ahora llevan al caso de estudio interno en vez de
+// salir del sitio. El enlace externo (Behance, sitio en vivo) vive dentro del
+// caso, así el enlace interno acumula el valor y el visitante no se va antes
+// de leer el trabajo.
+const caseUrl = (w) => (w.slug ? `/trabajo/${w.slug}/` : '/trabajo/')
 
 // Card destacada (Lumi) — naranja Lumi, a ancho completo, link a su sitio en vivo.
 function Featured({ w, i }) {
   return (
-    <a
-      href={w.link || undefined}
-      target="_blank"
-      rel="noreferrer"
+    <Link
+      to={caseUrl(w)}
+      onClick={() => trackCta(w.title, 'work_featured')}
       className="group relative block overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-lumi/[0.1] via-surface to-surface p-8 transition-all duration-300 hover:border-lumi/40 md:p-12"
     >
       <span
@@ -38,26 +45,22 @@ function Featured({ w, i }) {
         <div className="flex items-center justify-between gap-4 md:col-span-4 md:flex-col md:items-end md:gap-8 md:text-right">
           <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
           <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:border-lumi group-hover:bg-lumi group-hover:text-white">
-            {w.cta}
-            <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+            Ver el caso
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 
 // Card estándar editorial — azul firma, link a Behance / sitio (o "Próximamente").
 function Card({ w, i }) {
-  const Tag = w.link ? 'a' : 'div'
-  const linkProps = w.link ? { href: w.link, target: '_blank', rel: 'noreferrer' } : {}
-
   return (
-    <Tag
-      {...linkProps}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-8 transition-all duration-300 md:p-10 ${
-        w.link ? 'hover:-translate-y-1 hover:border-santi/40' : ''
-      }`}
+    <Link
+      to={caseUrl(w)}
+      onClick={() => trackCta(w.title, 'work_card')}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-santi/40 md:p-10"
     >
       <span
         aria-hidden
@@ -78,16 +81,12 @@ function Card({ w, i }) {
 
       <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-5">
         <span className="font-grotesk font-medium text-fg">{w.metric}</span>
-        {w.link ? (
-          <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 group-hover:border-santi group-hover:text-santi">
-            {w.cta}
-            <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
-          </span>
-        ) : (
-          <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.15em] text-muted/60">{w.cta}</span>
-        )}
+        <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 group-hover:border-santi group-hover:text-santi">
+          Ver el caso
+          <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+        </span>
       </div>
-    </Tag>
+    </Link>
   )
 }
 
@@ -108,9 +107,18 @@ export function Work() {
               Casos <span className="font-serif font-normal italic text-santi">reales</span>.
             </h2>
           </div>
-          <p className="max-w-sm text-pretty text-muted">
-            De campañas que multiplicaron ventas a un producto digital construido con IA.
-          </p>
+          <div className="max-w-sm">
+            <p className="text-pretty text-muted">
+              De campañas que multiplicaron ventas a un producto digital construido con IA.
+            </p>
+            <Link
+              to="/trabajo/"
+              onClick={() => trackCta('Ver todos los casos', 'work_header')}
+              className="link-underline mt-4 inline-block font-grotesk text-sm text-santi"
+            >
+              Ver los 8 casos completos →
+            </Link>
+          </div>
         </div>
       </Reveal>
 

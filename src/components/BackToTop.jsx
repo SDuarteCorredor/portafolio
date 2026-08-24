@@ -24,7 +24,7 @@ export function BackToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.6, y: 12 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="group fixed bottom-6 right-6 z-40 grid h-11 w-11 place-items-center rounded-full border border-line bg-bg/70 text-fg backdrop-blur-md transition-colors duration-300 hover:border-santi hover:text-santi"
+          className="group fixed bottom-24 right-4 z-40 md:bottom-6 md:right-6 grid h-11 w-11 place-items-center rounded-full border border-line bg-bg/70 text-fg backdrop-blur-md transition-colors duration-300 hover:border-santi hover:text-santi"
         >
           <svg
             width="16" height="16" viewBox="0 0 24 24" fill="none"

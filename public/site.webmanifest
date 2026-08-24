@@ -1,0 +1,11 @@
+{
+  "name": "Iván Santiago Duarte — Marketing Digital",
+  "short_name": "Santiago Duarte",
+  "description": "Marketing digital, diseño y producto con IA desde Bogotá.",
+  "lang": "es-CO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06070D",
+  "theme_color": "#1B3CFF",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
