@@ -7,7 +7,7 @@ export default function NotFound() {
   const servicios = childrenOf('/servicios/')
 
   return (
-    <main className="container-x flex min-h-[70svh] flex-col justify-center pb-24 pt-36">
+    <div className="container-x flex min-h-[70svh] flex-col justify-center pb-24 pt-36">
       <p className="eyebrow">Error 404</p>
       <h1 className="mt-5 max-w-[16ch] text-balance font-grotesk text-huge font-extrabold leading-[0.98] tracking-[-0.035em]">
         Esta página no <span className="font-serif font-normal italic text-santi">existe</span>.
@@ -37,6 +37,6 @@ export default function NotFound() {
           </ul>
         </div>
       )}
-    </main>
+    </div>
   )
 }

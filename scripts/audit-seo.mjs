@@ -47,9 +47,13 @@ if (!existsSync(DIST)) {
   process.exit(1)
 }
 
+// findHtml solo recoge index.html; el 404 se sirve desde dist/404.html y también
+// tiene que pasar las mismas comprobaciones de estructura.
 const files = findHtml(DIST)
+if (existsSync(join(DIST, '404.html'))) files.push(join(DIST, '404.html'))
+
 const docs = files.map((file) => {
-  const rel = relative(DIST, file).replace(/index\.html$/, '')
+  const rel = relative(DIST, file).replace(/index\.html$/, '').replace(/404\.html$/, '404/')
   const url = `/${rel}`.replace(/\/+/g, '/')
   return { file, url, dom: parse(readFileSync(file, 'utf8')) }
 })
@@ -128,8 +132,9 @@ for (const { url, dom } of docs) {
     }
   }
 
-  // Punto 24 — reglas de URL.
-  for (const segment of url.split('/').filter(Boolean)) {
+  // Punto 24 — reglas de URL. /404/ queda fuera: es una convención de la
+  // plataforma, no una URL de contenido, y además va en noindex.
+  for (const segment of url === '/404/' ? [] : url.split('/').filter(Boolean)) {
     if (/\d/.test(segment)) fail(24, `${url} el segmento "${segment}" contiene números`)
     if (segment !== segment.toLowerCase()) fail(24, `${url} el segmento "${segment}" tiene mayúsculas`)
     for (const word of segment.split('-')) {
@@ -207,6 +212,11 @@ for (const { url, dom } of docs) {
     warn(17, `${url} solo tiene ${new Set(internal).size} enlaces internos únicos`)
   }
 
+  // Un solo landmark principal por documento. <main> anidados son HTML inválido
+  // y hacen que un lector de pantalla anuncie dos regiones principales.
+  const mains = dom.querySelectorAll('main').length
+  if (mains !== 1) fail('a11y', `${url} tiene ${mains} elementos <main> (debe haber exactamente uno)`)
+
   // Punto 4 y punto 6 — CTA móvil y compartir presentes en el HTML servido.
   if (url !== '/404/' && url !== '/contacto/' && !html.includes('data-share-root')) {
     fail(6, `${url} no tiene botón de compartir`)
@@ -217,6 +227,7 @@ ok(1, `${titles.size} metatítulos únicos`)
 ok(3, `${descriptions.size} metadescripciones únicas`)
 ok(5, 'Un solo H1 por página')
 ok(8, 'H1 distinto del metatítulo en todas las páginas')
+ok('a11y', 'Un solo landmark <main> por página')
 
 // ── Archivos de raíz: puntos 2, 11, 13, 23 ──────────────────────────────────
 
