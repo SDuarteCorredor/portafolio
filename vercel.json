@@ -4,52 +4,106 @@
   "trailingSlash": true,
   "headers": [
     {
-      "//": "Punto 25 — desindexar la subcarpeta /page/. La cabecera cubre lo que la meta no alcanza: PDFs, respuestas de API y cualquier archivo no HTML bajo esa ruta. follow deja que el enlace siga transmitiendo valor a los elementos paginados.",
       "source": "/(.*)page/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/(.*).(png|jpg|jpeg|svg|webp|avif|woff2)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
       ]
     },
     {
       "source": "/(llms.txt|llms-full.txt)",
       "headers": [
-        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
       ]
     }
   ],
   "redirects": [
     {
-      "//": "Las anclas del one-pager anterior ya tienen página propia. 301 para no perder los enlaces que apunten a ellas.",
       "source": "/servicios",
       "destination": "/servicios/",
       "permanent": true
     },
-    { "source": "/trabajo", "destination": "/trabajo/", "permanent": true },
-    { "source": "/perfil", "destination": "/perfil/", "permanent": true },
-    { "source": "/contacto", "destination": "/contacto/", "permanent": true },
-    { "source": "/sobre-mi", "destination": "/perfil/", "permanent": true },
-    { "source": "/sobre-mi/", "destination": "/perfil/", "permanent": true }
+    {
+      "source": "/trabajo",
+      "destination": "/trabajo/",
+      "permanent": true
+    },
+    {
+      "source": "/perfil",
+      "destination": "/perfil/",
+      "permanent": true
+    },
+    {
+      "source": "/contacto",
+      "destination": "/contacto/",
+      "permanent": true
+    },
+    {
+      "source": "/sobre-mi",
+      "destination": "/perfil/",
+      "permanent": true
+    },
+    {
+      "source": "/sobre-mi/",
+      "destination": "/perfil/",
+      "permanent": true
+    }
   ]
 }

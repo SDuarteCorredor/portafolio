@@ -124,7 +124,24 @@ declarado en `robots.txt`, que es como Google lo descubre sin que nadie lo enví
 
 ---
 
-## 4. Agregar una página nueva
+## 4. `vercel.json`
+
+Dos reglas merecen explicación, y no puede ir en el archivo: Vercel valida
+`vercel.json` con un esquema que prohíbe propiedades extra, así que una clave
+`"//"` a modo de comentario tumba el despliegue completo. El auditor lo
+comprueba en cada build.
+
+- **`X-Robots-Tag: noindex, follow` en `/(.*)page/(.*)`** — cubre lo que la
+  etiqueta meta no alcanza: PDFs, respuestas de API y cualquier archivo no HTML
+  bajo esa ruta. El `follow` deja que el enlace siga transmitiendo valor hacia
+  los elementos paginados.
+- **Redirecciones 301 de `/servicios`, `/trabajo`, `/perfil`, `/contacto` y
+  `/sobre-mi`** — las anclas del one-pager anterior ahora tienen página propia;
+  el 301 evita perder cualquier enlace que apunte a las direcciones viejas.
+
+---
+
+## 5. Agregar una página nueva
 
 1. Abrir el archivo de contenido que corresponda (`core.js`, `servicios.js` o
    `trabajo.js`) y añadir un objeto siguiendo `src/content/SCHEMA.md`.
@@ -141,7 +158,7 @@ con la etiqueta correcta, y solo si esa ruta existe.
 
 ---
 
-## 5. Comandos
+## 6. Comandos
 
 | Comando | Qué hace |
 |---|---|
@@ -154,7 +171,7 @@ con la etiqueta correcta, y solo si esa ruta existe.
 
 ---
 
-## 6. Qué queda fuera del código
+## 7. Qué queda fuera del código
 
 - **Enviar el sitemap** en Search Console (paso 5 de la sección 2).
 - **Google Business Profile**: el schema de negocio local ya está, pero para

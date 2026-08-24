@@ -309,6 +309,49 @@ if (!bundleSrc.includes('¿Hacemos crecer tu marca?')) {
 } else ok(4, 'CTA fijo de móvil presente')
 
 
+
+// ── vercel.json contra su esquema ───────────────────────────────────────────
+//
+// Vercel valida vercel.json con additionalProperties prohibido y rechaza el
+// despliegue entero si sobra una clave — incluido un "//" usado como comentario,
+// que es exactamente como se rompió el primer deploy de esta rama. Se comprueba
+// acá para que el fallo salga en el build local y no veinte minutos después.
+
+const vercelConfig = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'))
+
+{
+  const TOP = new Set([
+    '$schema', 'cleanUrls', 'trailingSlash', 'headers', 'redirects', 'rewrites',
+    'regions', 'framework', 'buildCommand', 'outputDirectory', 'installCommand',
+    'devCommand', 'functions', 'crons', 'images', 'public', 'git', 'ignoreCommand',
+  ])
+  const RULE = {
+    headers: new Set(['source', 'headers', 'has', 'missing']),
+    redirects: new Set(['source', 'destination', 'permanent', 'statusCode', 'has', 'missing']),
+    rewrites: new Set(['source', 'destination', 'has', 'missing']),
+  }
+
+  let bad = 0
+  for (const key of Object.keys(vercelConfig)) {
+    if (!TOP.has(key)) { fail('vercel', `vercel.json: propiedad desconocida en la raíz "${key}"`); bad++ }
+  }
+  for (const [section, allowed] of Object.entries(RULE)) {
+    ;(vercelConfig[section] || []).forEach((r, i) => {
+      for (const key of Object.keys(r)) {
+        if (!allowed.has(key)) { fail('vercel', `vercel.json: ${section}[${i}] tiene la propiedad no permitida "${key}"`); bad++ }
+      }
+    })
+  }
+  for (const h of vercelConfig.headers || []) {
+    for (const entry of h.headers || []) {
+      for (const key of Object.keys(entry)) {
+        if (key !== 'key' && key !== 'value') { fail('vercel', `vercel.json: cabecera con propiedad "${key}"`); bad++ }
+      }
+    }
+  }
+  if (!bad) ok('vercel', 'vercel.json válido contra el esquema de Vercel')
+}
+
 // ── Punto 25 — prueba del mecanismo de desindexación de /page/ ──────────────
 //
 // Hoy el sitio no tiene paginación, así que las comprobaciones sobre HTML de
@@ -346,8 +389,7 @@ if (!bundleSrc.includes('¿Hacemos crecer tu marca?')) {
   if (head.jsonLd !== null) fail(25, 'Una ruta /page/ no debería emitir JSON-LD')
 
   // Y la cabecera de servidor que cubre lo que la meta no alcanza.
-  const vercel = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'))
-  const rule = vercel.headers.find((h) => h.source.includes('page/'))
+  const rule = vercelConfig.headers.find((h) => h.source.includes('page/'))
   const xrobots = rule?.headers.find((h) => h.key === 'X-Robots-Tag')?.value || ''
   if (!xrobots.includes('noindex')) fail(25, 'vercel.json no manda X-Robots-Tag noindex para /page/')
 
