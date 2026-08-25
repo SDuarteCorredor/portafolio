@@ -1,6 +1,9 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { profile } from '../data'
+import { Accent } from './page/Accent'
+import { trackWhatsapp, trackCta } from '../seo/analytics'
 import { Magnetic } from './Magnetic'
 import { HoverButton } from './HoverButton'
 
@@ -12,7 +15,7 @@ const badges = [
   { v: 'Bogotá', k: 'Colombia', icon: '📍', pos: 'right-[4%] bottom-[24%]', d: '-1.2s' },
 ]
 
-export function Hero() {
+export function Hero({ h1, lead, eyebrow }) {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], [0, 120])
@@ -66,18 +69,15 @@ export function Hero() {
 
       <motion.div style={{ opacity }} className="relative z-0 flex max-w-6xl flex-col items-center">
         <motion.p {...fade(0.1)} className="eyebrow mb-7">
-          Marketing Digital · Diseño UI/UX
+          {eyebrow || 'Marketing Digital · Diseño UI/UX'}
         </motion.p>
 
-        <h1 className="text-balance font-grotesk text-[clamp(1.75rem,6.5vw,5.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-fg">
+        {/* Punto 5: el único H1 del sitio en esta ruta. El texto viene del
+            archivo de contenido para que titular y metatítulo se editen juntos. */}
+        <h1 className="max-w-[16ch] text-balance font-grotesk text-[clamp(1.75rem,6.5vw,5.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em] text-fg">
           <span className="block overflow-hidden pb-[0.08em]">
             <motion.span variants={line} initial="hidden" animate="show" custom={0} className="block">
-              Estrategia, diseño
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden pb-[0.08em]">
-            <motion.span variants={line} initial="hidden" animate="show" custom={1} className="block">
-              y <span className="font-serif font-normal italic text-santi">producto</span> con&nbsp;IA
+              <Accent text={h1 || 'Estrategia, diseño y *producto* con IA'} />
             </motion.span>
           </span>
         </h1>
@@ -86,17 +86,28 @@ export function Hero() {
           {...fade(0.8)}
           className="mt-8 max-w-xl text-balance text-lg text-muted md:text-xl"
         >
-          Especialista en marketing digital con <span className="text-fg">+6 años</span> ayudando a
-          marcas a crecer. Google &amp; Meta Ads, SEO, e-commerce — y ahora{' '}
-          <span className="text-santi">productos con IA</span>.
+          {lead || (
+            <>
+              Especialista en marketing digital con <span className="text-fg">+6 años</span> ayudando a
+              marcas a crecer. Google &amp; Meta Ads, SEO, e-commerce — y ahora{' '}
+              <span className="text-santi">productos con IA</span>.
+            </>
+          )}
         </motion.p>
 
         <motion.div {...fade(0.95)} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <HoverButton href={profile.whatsappLink} target="_blank" rel="noreferrer">
+          <HoverButton
+            href={profile.whatsappLink}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackWhatsapp('hero')}
+          >
             Hablemos →
           </HoverButton>
           <Magnetic strength={0.3}>
-            <a href="#trabajo" className="btn-ghost">Ver trabajo</a>
+            <Link to="/trabajo/" className="btn-ghost" onClick={() => trackCta('Ver trabajo', 'hero')}>
+              Ver trabajo
+            </Link>
           </Magnetic>
         </motion.div>
 

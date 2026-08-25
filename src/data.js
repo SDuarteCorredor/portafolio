@@ -14,8 +14,8 @@ export const profile = {
 }
 
 export const stats = [
-  { value: '+278%', metric: 'en ventas', client: 'Bio Laboratorios', note: 'Rediseño de marca · e-commerce · SEO/SEM' },
-  { value: '+120%', metric: 'en ventas', client: 'Nona Gastrobar', note: 'Apertura · +30 piezas · contenido' },
+  { value: '+278%', metric: 'en ventas', client: 'Bio Laboratorios', note: 'Rediseño de marca · e-commerce · SEO/SEM', slug: 'bio-laboratorios' },
+  { value: '+120%', metric: 'en ventas', client: 'Nona Gastrobar', note: 'Apertura · +30 piezas · contenido', slug: 'nona-gastro-bar' },
   { value: '24+', metric: 'marcas posicionadas', client: null, note: 'Nacionales e internacionales' },
   { value: '+6', metric: 'años en el oficio', client: null, note: 'De diseñador a producto con IA' },
 ]
@@ -31,36 +31,42 @@ export const services = [
   {
     n: '01',
     title: 'Estrategia de marketing digital',
+    slug: null,
     desc: 'Planeo el camino completo: posicionamiento, embudos de conversión y un plan que conecta cada peso invertido con un resultado de negocio.',
     tags: ['Estrategia', 'Funnels', 'Branding'],
   },
   {
     n: '02',
     title: 'Publicidad que rinde — Google & Meta Ads',
+    slug: 'google-ads',
     desc: 'Campañas PPC optimizadas a métricas reales (CTR, CPA, ROI). Menos gasto desperdiciado, más ventas medibles.',
     tags: ['Google Ads', 'Meta Ads', 'Remarketing'],
   },
   {
     n: '03',
     title: 'SEO / SEM',
+    slug: 'seo-sem',
     desc: 'Que te encuentren cuando importa. Posicionamiento orgánico y de pago para ganar visibilidad sostenible.',
     tags: ['SEO', 'SEM', 'Contenido'],
   },
   {
     n: '04',
     title: 'E-commerce',
+    slug: 'ecommerce',
     desc: 'Tiendas online que venden, en WooCommerce y Shopify. Desde el lanzamiento hasta la optimización continua.',
     tags: ['WooCommerce', 'Shopify', 'CRO'],
   },
   {
     n: '05',
     title: 'Branding & Diseño',
+    slug: 'branding',
     desc: 'Identidad visual con criterio: +6 años como diseñador gráfico aplicados a marcas que se recuerdan.',
     tags: ['Identidad', 'Piezas', 'Adobe Suite'],
   },
   {
     n: '06',
     title: 'Producto digital con IA',
+    slug: 'producto-ia',
     desc: 'Construyo productos reales con inteligencia artificial — del concepto al deploy. No solo lo imagino: lo llevo a producción.',
     tags: ['IA', 'React', 'Producto'],
   },
@@ -69,6 +75,7 @@ export const services = [
 export const work = [
   {
     title: 'Lumi',
+    slug: 'lumi',
     kind: 'Producto propio · IA',
     year: '2026',
     desc: 'App de bienestar emocional con chat de IA en tiempo real, detección de crisis y journey gamificado. React 19 + Supabase + Claude.',
@@ -80,6 +87,7 @@ export const work = [
   },
   {
     title: 'BLU Smartphones',
+    slug: 'blu-smartphones',
     kind: 'E-commerce · Branding',
     year: '2025',
     desc: 'Proyecto integral para la marca de smartphones: e-commerce, identidad, contenido y analítica — de punta a punta.',
@@ -89,6 +97,7 @@ export const work = [
   },
   {
     title: 'Nona Gastro Bar',
+    slug: 'nona-gastro-bar',
     kind: 'Branding · Marketing',
     year: '2024–2025',
     desc: 'Identidad de marca y apertura del restaurante: +30 piezas gráficas, contenido digital y operación liderando un equipo de 5.',
@@ -98,6 +107,7 @@ export const work = [
   },
   {
     title: 'Limonada Pink',
+    slug: 'limonada-pink',
     kind: 'Branding · E-commerce · Ads',
     year: '2025',
     desc: 'Brand book completo y tienda online, con campañas en Meta y Google Ads de punta a punta.',
@@ -107,6 +117,7 @@ export const work = [
   },
   {
     title: 'AIISO Consulting',
+    slug: 'aiiso-consulting',
     kind: 'Estrategia · Web · Redes',
     year: '2025',
     desc: 'Junto a GrowthBro: perfil de negocio, redes y sitio web — estrategia digital end-to-end para la consultora.',
@@ -116,6 +127,7 @@ export const work = [
   },
   {
     title: 'GrowthBro',
+    slug: 'growthbro',
     kind: 'Marketing · Operación',
     year: '2024',
     desc: 'Monté desde cero toda la operación de marketing y la presencia digital de la agencia.',
@@ -125,6 +137,7 @@ export const work = [
   },
   {
     title: 'Asignar',
+    slug: 'asignar',
     kind: 'Campañas · Funnels',
     year: '2026',
     desc: 'Estrategia de campañas y funnels de performance — optimización interna mientras renovamos el diseño.',

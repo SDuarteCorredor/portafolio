@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#06070D" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F7F6F2" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Tema: aplica la preferencia guardada antes del primer pintado (sin parpadeo).
          Modo oscuro es el predeterminado; solo queda claro si el usuario lo eligió. -->
@@ -19,14 +23,7 @@
       })();
     </script>
 
-    <title>Iván Santiago Duarte — Marketing, diseño y producto con IA</title>
-    <meta name="description" content="Especialista en marketing digital con +6 años ayudando a marcas a crecer. Google & Meta Ads, SEO, e-commerce, branding y productos digitales con IA. Bogotá, Colombia." />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Iván Santiago Duarte — Marketing, diseño y producto con IA" />
-    <meta property="og:description" content="Estrategia, diseño y producto digital que mueve números. +278% en ventas, 24+ marcas, +6 años." />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_CO" />
+    <!--seo-head-->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,7 +40,7 @@
     </noscript>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

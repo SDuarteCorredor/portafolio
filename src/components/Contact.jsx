@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { profile } from '../data'
+import { trackWhatsapp, trackCta } from '../seo/analytics'
 import { Reveal } from './Reveal'
 
 const WORD = 'Hablemos'
@@ -35,6 +37,7 @@ export function Contact() {
             href={profile.whatsappLink}
             target="_blank"
             rel="noreferrer"
+            onClick={() => trackWhatsapp('contact_kinetic')}
             className="group inline-block font-grotesk text-[clamp(3rem,13vw,9rem)] font-extrabold leading-[0.9] tracking-[-0.04em] text-fg"
           >
             {WORD.split('').map((ch, i) => (
@@ -71,11 +74,6 @@ export function Contact() {
         </Reveal>
       </div>
 
-      <footer className="container-x mt-20 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 text-sm text-muted md:flex-row">
-        <span>© {new Date().getFullYear()} {profile.name}</span>
-        <span className="font-mono text-xs">Hecho en Bogotá · con Claude Code</span>
-        <a href="#top" className="link-underline">Volver arriba ↑</a>
-      </footer>
     </section>
   )
 }

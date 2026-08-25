@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import { about, profile, education, certifications } from '../data'
 import { Reveal } from './Reveal'
+import { trackOutbound, trackCta } from '../seo/analytics'
 
 // Lead con palabras destacadas (serif itálica azul) — render simple y confiable.
 function Lead({ text, highlight = [] }) {
@@ -42,12 +44,22 @@ export function About() {
                 <span className="font-grotesk text-7xl font-extrabold text-fg/10">SD.</span>
               </div>
 
-              <img
-                src="/santiago.png"
-                alt={profile.name}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
+              {/* Punto 20: el archivo se llama como lo que muestra.
+                  Punto 21: el alt describe la escena y el contexto, no repite
+                  el nombre a secas ni amontona palabras clave. */}
+              <picture>
+                <source srcSet="/img/ivan-santiago-duarte-especialista-marketing-digital-bogota.avif" type="image/avif" />
+                <source srcSet="/img/ivan-santiago-duarte-especialista-marketing-digital-bogota.webp" type="image/webp" />
+                <img
+                  src="/img/ivan-santiago-duarte-especialista-marketing-digital-bogota.png"
+                  alt="Iván Santiago Duarte, especialista en marketing digital, retratado en Bogotá"
+                  width="1200"
+                  height="1500"
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </picture>
 
               {/* Badge de disponibilidad */}
               <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur-md">
@@ -74,14 +86,24 @@ export function About() {
             ))}
           </div>
           <Reveal delay={0.1} className="mt-8">
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="btn-ghost"
-            >
-              Ver perfil completo en LinkedIn ↗
-            </a>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/perfil/"
+                onClick={() => trackCta('Perfil completo', 'about')}
+                className="btn-blue"
+              >
+                Ver la trayectoria completa →
+              </Link>
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackOutbound(profile.linkedin, 'LinkedIn')}
+                className="btn-ghost"
+              >
+                LinkedIn ↗
+              </a>
+            </div>
           </Reveal>
         </div>
       </div>
