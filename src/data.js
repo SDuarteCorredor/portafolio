@@ -72,6 +72,17 @@ export const services = [
   },
 ]
 
+// Cada caso puede llevar arte propio. Sin estos campos, CaseCover dibuja una
+// escena generativa derivada del slug — nunca queda un hueco vacío.
+//
+//   cover:    '/img/casos/lumi.webp'   imagen de portada (16/10 en las tarjetas
+//                                      normales, 4/3 en la destacada)
+//   coverAlt: 'texto alternativo'      opcional; si falta se arma con título y tipo
+//   video:    '/video/lumi.mp4'        bucle mudo; tiene prioridad sobre cover
+//   poster:   '/img/casos/lumi.webp'   primer fotograma mientras carga el video
+//
+// Los archivos van en public/ y se referencian con ruta absoluta. Conviene
+// pasar las imágenes por `npm run images` para generar webp/avif.
 export const work = [
   {
     title: 'Lumi',

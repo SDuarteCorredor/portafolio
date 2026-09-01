@@ -5,6 +5,8 @@ import { Nav } from './components/Nav'
 import { SiteFooter } from './components/SiteFooter'
 import { BackToTop } from './components/BackToTop'
 import { MobileCta } from './components/MobileCta'
+import { Cursor } from './components/Cursor'
+import { ScrollProgress } from './components/motion/ScrollProgress'
 import { pages, getPage } from './content/index.js'
 import { useHead } from './seo/useHead'
 import { initAnalytics, trackPageView, initScrollDepth } from './seo/analytics'
@@ -56,6 +58,14 @@ function Shell() {
       >
         Saltar al contenido
       </a>
+
+      {/* Progreso de lectura: con scroll suave la barra nativa del navegador
+          queda oculta en escritorio y se pierde la referencia de cuánto falta. */}
+      <ScrollProgress />
+
+      {/* El glow que sigue al mouse. El componente ya existía pero nunca se
+          había montado, así que en la práctica era código muerto. */}
+      <Cursor />
 
       <Nav />
       <ScrollToTop />

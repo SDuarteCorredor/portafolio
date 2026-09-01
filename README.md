@@ -42,3 +42,36 @@ Pensado para desplegarse en **Vercel** (framework detectado: Vite). El dominio f
 ---
 
 Hecho con Claude Code.
+
+## Movimiento y capa 3D
+
+El sitio dejó de apoyarse solo en fundidos al hacer scroll. Piezas nuevas:
+
+| Pieza | Archivo | Qué hace |
+|---|---|---|
+| Escena WebGL del hero | `src/components/webgl/auroraScene.js` | Campo de ruido simplex con *domain warping* + nube de partículas en three.js. Reacciona al mouse y al scroll. |
+| Puente React | `src/components/webgl/AuroraCanvas.jsx` | Decide si vale la pena dibujar y recién ahí carga three.js con `import()`. |
+| Titulares cinéticos | `src/components/motion/SplitText.jsx` | Revela letra por letra tras una máscara. Entiende la sintaxis `*acento*`. |
+| Inclinación 3D | `src/components/motion/Tilt.jsx` | Perspectiva + foco de luz que sigue al cursor en tarjetas. |
+| Marquee por velocidad | `src/components/motion/VelocityMarquee.jsx` | Acelera con el scroll e invierte el sentido al subir. |
+| Paralaje | `src/components/motion/Parallax.jsx` | Desplaza contenido a distinta velocidad que la página. |
+| Progreso de lectura | `src/components/motion/ScrollProgress.jsx` | Hilo azul superior. |
+| Portadas de casos | `src/components/CaseCover.jsx` | Imagen, video o escena generativa determinista. |
+
+### Rendimiento
+
+`three` vive en su propio chunk (`assets/three-*.js`, ~504 KB) y **no** se precarga:
+solo se descarga cuando `AuroraCanvas` decide dibujar. El bundle inicial no cambió.
+
+No se dibuja —ni se descarga three.js— si el visitante pidió `prefers-reduced-motion`,
+tiene el ahorro de datos activado, reporta menos de 4 núcleos o no consigue contexto
+WebGL. En todos esos casos queda el degradado CSS `.aurora-mesh`, que ya existía.
+Además la escena se pausa fuera de viewport y con la pestaña en segundo plano.
+
+### Arte de los casos
+
+Las tarjetas de trabajo aceptan arte propio sin tocar componentes: agregá `cover`,
+`video` y `poster` al item correspondiente en `src/data.js` (los campos están
+documentados ahí mismo). Mientras no haya archivo, `CaseCover` genera una escena
+SVG determinista a partir del slug, así que ninguna tarjeta queda vacía y las que
+todavía no tienen foto no desentonan con las que sí.
