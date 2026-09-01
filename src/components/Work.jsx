@@ -50,8 +50,8 @@ function Featured({ w, i }) {
 
             <div className="mt-6 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-muted">
               <span style={{ color: 'var(--a)' }}>{w.kind}</span>
-              <span className="h-px w-8 bg-line" />
-              <span>{w.year}</span>
+              {w.year && <span className="h-px w-8 bg-line" />}
+              {w.year && <span>{w.year}</span>}
             </div>
 
             <h3 className="mt-4 text-left font-grotesk text-[clamp(2.8rem,7vw,5rem)] font-extrabold leading-[0.92] tracking-[-0.03em]">
@@ -102,7 +102,7 @@ function Card({ w }) {
         <div className="flex flex-1 flex-col px-3 pb-2 pt-5">
           <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest">
             <span style={{ color: 'var(--a)' }}>{w.kind}</span>
-            <span className="text-muted">{w.year}</span>
+            {w.year && <span className="text-muted">{w.year}</span>}
           </div>
 
           <h3 className="mt-3 text-left font-grotesk text-2xl font-bold tracking-[-0.02em] md:text-3xl">

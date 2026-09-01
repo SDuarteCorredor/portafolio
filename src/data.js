@@ -87,6 +87,10 @@ export const services = [
 //   cover:    '/img/casos/lumi.webp'   imagen de portada (16/10 en las tarjetas
 //                                      normales, 4/3 en la destacada)
 //   coverAlt: 'texto alternativo'      opcional; si falta se arma con título y tipo
+//   coverRatio: 'aspect-[3/4]'         proporción del slot, si el arte no es 16/10
+//   coverFit: 'contain'                no recortar; el arte se centra sobre el
+//                                      fondo oscuro de la tarjeta. Úsalo cuando
+//                                      la pieza no coincide con la proporción.
 //   video:    '/video/lumi.mp4'        bucle mudo; tiene prioridad sobre cover
 //   poster:   '/img/casos/lumi.webp'   primer fotograma mientras carga el video
 //
@@ -97,6 +101,9 @@ export const work = [
     title: 'Lumi',
     slug: 'lumi',
     hook: 'Chat de IA en tiempo real, detección de crisis y journey gamificado.',
+    cover: '/img/casos/lumi.png',
+    coverRatio: 'aspect-[3/4]',
+    coverAlt: 'La app Lumi en dos pantallas: inicio con racha y journey, y la conversación con la IA.',
     kind: 'Producto propio · IA',
     year: '2026',
     desc: 'App de bienestar emocional con chat de IA en tiempo real, detección de crisis y journey gamificado. React 19 + Supabase + Claude.',
@@ -107,9 +114,25 @@ export const work = [
     cta: 'Ver Lumi en vivo',
   },
   {
+    title: 'Bio Laboratorios',
+    slug: 'bio-laboratorios',
+    hook: 'Marca, tienda y medición en orden: primero la base, después la pauta.',
+    accent: '#00E08A',
+    kind: 'Branding · E-commerce · SEO/SEM',
+    desc: 'Rediseño de marca, montaje del e-commerce y estrategia de SEO/SEM — en ese orden, que fue lo que hizo la diferencia.',
+    metric: '+278% en ventas',
+    cover: '/img/casos/bio-laboratorios.png',
+    coverFit: 'contain',
+    coverAlt: 'Sistema de identidad de Bio Labs Estelar: papelería, credenciales y aplicaciones de marca.',
+    link: null,
+    cta: 'Ver el caso',
+  },
+  {
     title: 'BLU Smartphones',
     slug: 'blu-smartphones',
     hook: 'Marca, tienda y medición armadas juntas, de punta a punta.',
+    cover: '/img/casos/blu-smartphones.png',
+    coverAlt: 'Pieza de campaña del BOLD K50 5G para BLU Smartphones en pantalla.',
     accent: '#00C2FF',
     kind: 'E-commerce · Branding',
     year: '2025',

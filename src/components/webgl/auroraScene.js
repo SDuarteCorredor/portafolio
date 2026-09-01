@@ -19,6 +19,7 @@ import {
   WebGLRenderer, Scene, OrthographicCamera, PerspectiveCamera, PlaneGeometry,
   TorusKnotGeometry, BufferGeometry, BufferAttribute, ShaderMaterial, Mesh, Points,
   Vector2, Vector3, Color, AdditiveBlending, NormalBlending, DoubleSide,
+  WebGLRenderTarget, LinearFilter,
 } from 'three'
 
 // ── Aurora: quad a pantalla completa ────────────────────────────────────────
@@ -109,13 +110,14 @@ const auroraFrag = /* glsl */ `
 
     // Domain warping: se deforma el espacio con ruido antes de volver a
     // muestrearlo. Es lo que convierte un fbm plano en algo que parece fluido.
+    //
+    // Una sola pasada de warp, no dos. La segunda costaba dos fbm más por píxel
+    // (5 en total × 3 octavas = 15 evaluaciones de ruido por píxel y por frame)
+    // y a esta escala de forma su aporte visual no se distingue.
     vec2 q = vec2(fbm(p + vec2(0.0, t)),
                   fbm(p + vec2(5.2, 1.3) - t));
 
-    vec2 r = vec2(fbm(p + 1.0 * q + vec2(8.3, 2.8) + t * 0.7),
-                  fbm(p + 1.0 * q + vec2(1.4, 9.2) - t * 0.5));
-
-    float f = fbm(p + 0.9 * r);
+    float f = fbm(p + 1.35 * q);
 
     // El fbm devuelve aprox. ±0.6 en la práctica, no ±1. Normalizar con ese
     // rango real es lo que hace que los smoothstep de abajo lleguen a activarse;
@@ -152,6 +154,16 @@ const auroraFrag = /* glsl */ `
 
     gl_FragColor = vec4(col, 1.0);
   }
+`
+
+// Copia la textura de la aurora a pantalla. Un solo texture2D por píxel: es lo
+// que permite calcular el ruido a media resolución y a mitad de framerate sin
+// que se note.
+const blitFrag = /* glsl */ `
+  precision mediump float;
+  varying vec2 vUv;
+  uniform sampler2D uMap;
+  void main() { gl_FragColor = texture2D(uMap, vUv); }
 `
 
 // ── Partículas: la profundidad ──────────────────────────────────────────────
@@ -284,8 +296,9 @@ export function createAuroraScene(canvas, opts = {}) {
     depth: false,
   })
 
-  // Más de 1.75 no se distingue a simple vista y sí se nota en el frame time.
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.75)
+  // Más de 1.5 no se distingue a simple vista y sí se nota en el frame time:
+  // el costo del shader crece con el cuadrado de esta cifra.
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
   renderer.setPixelRatio(dpr)
   renderer.autoClear = false
 
@@ -307,6 +320,26 @@ export function createAuroraScene(canvas, opts = {}) {
     uGrain:     { value: theme.grain },
   }
 
+  // La aurora no se dibuja directo a pantalla: se calcula en un buffer a la
+  // mitad de resolución (una cuarta parte de los píxeles) y después se copia
+  // estirada. Es un campo difuso y muy lento, así que la pérdida de nitidez no
+  // se percibe — y es, de lejos, el mayor ahorro disponible.
+  // Nivel de calidad: no decide SI se dibuja la aurora, sino cada cuántos
+  // frames se recalcula y a qué resolución. Apagarla dejaría el hero vacío, que
+  // es peor que una aurora que se mueve un poco más lento.
+  const TIERS = [
+    { scale: 0.50, every: 2, dust: 1.00, knot: true  },  // 2 · completo
+    { scale: 0.40, every: 3, dust: 0.60, knot: false },  // 1 · sin objeto
+    { scale: 0.30, every: 6, dust: 0.35, knot: false },  // 0 · mínimo viable
+  ]
+
+  const auroraRT = new WebGLRenderTarget(1, 1, {
+    minFilter: LinearFilter,
+    magFilter: LinearFilter,
+    depthBuffer: false,
+    stencilBuffer: false,
+  })
+
   const auroraMesh = new Mesh(
     new PlaneGeometry(2, 2),
     new ShaderMaterial({
@@ -321,12 +354,26 @@ export function createAuroraScene(canvas, opts = {}) {
   auroraMesh.frustumCulled = false
   auroraScene.add(auroraMesh)
 
+  const blitScene = new Scene()
+  const blitMesh = new Mesh(
+    new PlaneGeometry(2, 2),
+    new ShaderMaterial({
+      vertexShader: auroraVert,
+      fragmentShader: blitFrag,
+      uniforms: { uMap: { value: auroraRT.texture } },
+      depthTest: false,
+      depthWrite: false,
+    }),
+  )
+  blitMesh.frustumCulled = false
+  blitScene.add(blitMesh)
+
   // ── Pasada 2: polvo ───────────────────────────────────────────────────────
   const dustScene = new Scene()
   const dustCam = new PerspectiveCamera(60, 1, 0.1, 60)
   dustCam.position.set(0, 0, 10)
 
-  const COUNT = Math.round((opts.density ?? 1) * 620)
+  const COUNT = Math.round((opts.density ?? 1) * 420)
   const positions = new Float32Array(COUNT * 3)
   const scales = new Float32Array(COUNT)
   const seeds = new Float32Array(COUNT)
@@ -382,7 +429,7 @@ export function createAuroraScene(canvas, opts = {}) {
   // Tubo fino (0.21) sobre un nudo 2/3: se lee como una cinta que se pliega,
   // no como una rosquilla. 200 segmentos alcanzan para que el filo de luz no
   // muestre facetas.
-  const knotGeo = new TorusKnotGeometry(1, 0.21, 200, 24, 2, 3)
+  const knotGeo = new TorusKnotGeometry(1, 0.21, 150, 18, 2, 3)
 
   const knot = new Mesh(
     knotGeo,
@@ -420,7 +467,12 @@ export function createAuroraScene(canvas, opts = {}) {
     const w = canvas.clientWidth || window.innerWidth
     const h = canvas.clientHeight || window.innerHeight
     renderer.setSize(w, h, false)
-    auroraUniforms.uRes.value.set(w * dpr, h * dpr)
+
+    const scale = TIERS[2 - quality].scale
+    const aw = Math.max(1, Math.round(w * dpr * scale))
+    const ah = Math.max(1, Math.round(h * dpr * scale))
+    auroraRT.setSize(aw, ah)
+    auroraUniforms.uRes.value.set(aw, ah)
     dustCam.aspect = w / h
     dustCam.updateProjectionMatrix()
   }
@@ -434,6 +486,11 @@ export function createAuroraScene(canvas, opts = {}) {
   let paused = false
   let last = performance.now()
   let clock = 0
+  let auroraFrame = 0
+
+  let quality = 2
+  let frameSamples = 0
+  let frameAccum = 0
 
   function frame(now) {
     raf = requestAnimationFrame(frame)
@@ -473,10 +530,50 @@ export function createAuroraScene(canvas, opts = {}) {
     dustCam.position.lerp(camTarget, k)
     dustCam.lookAt(0, 0, -6)
 
+    // La aurora se recalcula un frame sí y otro no. Avanza a uTime * 0.055, o
+    // sea lentísimo: a 30 actualizaciones por segundo el movimiento es idéntico
+    // a simple vista y el shader caro corre la mitad de las veces.
+    const tier = TIERS[2 - quality]
+
+    auroraFrame++
+    if (auroraFrame % tier.every === 0) {
+      renderer.setRenderTarget(auroraRT)
+      renderer.clear()
+      renderer.render(auroraScene, auroraCam)
+      renderer.setRenderTarget(null)
+    }
+
     renderer.clear()
-    renderer.render(auroraScene, auroraCam)   // fondo
-    renderer.render(knotScene, dustCam)       // el objeto
-    renderer.render(dustScene, dustCam)       // polvo al frente
+    renderer.render(blitScene, auroraCam)              // fondo (copia del buffer)
+    if (tier.knot) renderer.render(knotScene, dustCam) // el objeto
+    renderer.render(dustScene, dustCam)                // polvo al frente
+
+    // ── Degradación adaptativa ──────────────────────────────────────────────
+    //
+    // No hay forma de saber de antemano si la GPU del visitante aguanta: el
+    // número de núcleos no dice nada de los gráficos, y una integrada moderna
+    // convive con un procesador rápido. Así que se mide el frame real y se
+    // baja un escalón si no llega. Nunca se vuelve a subir: oscilar entre dos
+    // niveles se ve peor que quedarse en el bajo.
+    // Los dos primeros segundos no cuentan: durante el arranque compiten la
+    // hidratación, la decodificación de fuentes y el primer layout, y un pico
+    // ahí no dice nada sobre la máquina.
+    if (clock > 2) {
+      frameSamples++
+      frameAccum += dt
+      if (frameSamples >= 120) {
+        // 33 ms ≈ 30 fps sostenidos. Más exigente que eso haría bajar de nivel
+        // a equipos que en realidad iban bien.
+        if (frameAccum / frameSamples > 0.033 && quality > 0) {
+          quality--
+          const next = TIERS[2 - quality]
+          dust.geometry.setDrawRange(0, Math.floor(COUNT * next.dust))
+          resize()   // reajusta el buffer a la resolución del nuevo nivel
+        }
+        frameSamples = 0
+        frameAccum = 0
+      }
+    }
   }
   raf = requestAnimationFrame(frame)
 
@@ -506,6 +603,9 @@ export function createAuroraScene(canvas, opts = {}) {
       document.removeEventListener('visibilitychange', onVisibility)
       auroraMesh.geometry.dispose()
       auroraMesh.material.dispose()
+      blitMesh.geometry.dispose()
+      blitMesh.material.dispose()
+      auroraRT.dispose()
       dustGeo.dispose()
       dust.material.dispose()
       knotGeo.dispose()

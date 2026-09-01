@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 
 // Portada visual de cada caso.
 //
@@ -161,21 +161,43 @@ function GenerativeScene({ slug, accent, label, initials }) {
  *   `w` es un item de `work` en src/data.js. Campos opcionales que activan los
  *   niveles altos: `cover` (ruta de imagen), `video` + `poster`.
  *
- * Sobre `blend`: el arte se genera sobre fondo negro puro, no transparente —
- * estos modelos hacen mal el canal alfa. Con `mix-blend-mode: screen` el negro
- * desaparece solo (screen con negro es identidad), así que el objeto queda
- * flotando sobre la tarjeta sin recorte ni PNG con alfa. Solo aplica en modo
- * oscuro: sobre papel claro, screen borraría la imagen entera.
+ * `coverRatio` fija la proporción del slot y `coverFit: 'contain'` evita el
+ * recorte cuando el arte no coincide con ella.
  */
 export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
-  const base = `relative overflow-hidden rounded-xl border border-line bg-ink ${ratio} ${className}`
-  const blend = w.blend === 'screen' ? 'dark:mix-blend-screen' : ''
+  // El arte viene en formatos distintos (los teléfonos de Lumi son verticales,
+  // el mockup de BLU es apaisado), así que el slot se adapta al arte en vez de
+  // recortarlo. `contain` deja el original completo sobre el fondo oscuro de la
+  // tarjeta, que es el mismo negro sobre el que se compuso la pieza.
+  // Si el archivo no existe todavía o la ruta cambia, la tarjeta cae a la
+  // escena generativa en lugar de mostrar el ícono de imagen rota. Permite
+  // referenciar el arte en data.js antes de que los archivos estén subidos.
+  const [failed, setFailed] = useState(false)
 
-  if (w.video) {
+  const slot = w.coverRatio || ratio
+  const fit = w.coverFit === 'contain' ? 'object-contain' : 'object-cover'
+
+  // El arte está compuesto sobre negro. En oscuro se funde con la página; en
+  // claro, en vez de disimularlo, se trata como una foto enmarcada: fondo
+  // oscuro deliberado, anillo y sombra para que se lea como una pieza sobre
+  // papel y no como un agujero.
+  const base =
+    `relative overflow-hidden rounded-xl bg-ink ${slot} ${className} ` +
+    'border border-line ring-1 ring-black/10 shadow-[0_10px_30px_-12px_rgba(6,7,13,0.35)] ' +
+    'dark:ring-0 dark:shadow-none'
+
+  // El degradado inferior solo tiene sentido cuando la imagen llena el marco:
+  // sobre una pieza contenida oscurecería el propio arte.
+  const scrim =
+    w.coverFit === 'contain'
+      ? null
+      : <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/60 via-transparent to-transparent" />
+
+  if (w.video && !failed) {
     return (
       <div className={base}>
         <video
-          className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] ${blend}`}
+          className={`h-full w-full ${fit} transition-transform duration-700 group-hover:scale-[1.03]`}
           src={w.video}
           poster={w.poster || w.cover}
           autoPlay
@@ -185,13 +207,14 @@ export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
           // El video es decorativo: el caso ya se describe en el texto de al lado.
           aria-hidden
           preload="none"
+          onError={() => setFailed(true)}
         />
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
+        {scrim}
       </div>
     )
   }
 
-  if (w.cover) {
+  if (w.cover && !failed) {
     return (
       <div className={base}>
         <img
@@ -199,9 +222,10 @@ export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
           alt={w.coverAlt || `${w.title} — ${w.kind}`}
           loading="lazy"
           decoding="async"
-          className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] ${blend}`}
+          className={`h-full w-full ${fit} transition-transform duration-700 group-hover:scale-[1.03]`}
+          onError={() => setFailed(true)}
         />
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/60 via-transparent to-transparent" />
+        {scrim}
       </div>
     )
   }
@@ -216,7 +240,6 @@ export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
           initials={String(w.title).slice(0, 2)}
         />
       </div>
-
       <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/55 via-transparent to-transparent" />
     </div>
   )
