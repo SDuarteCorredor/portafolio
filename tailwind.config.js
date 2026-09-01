@@ -76,6 +76,11 @@ export default {
           '0%,100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-14px)' },
         },
+        // Señal de scroll del hero: la barra cae y reaparece arriba.
+        'scroll-cue': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(200%)' },
+        },
       },
       animation: {
         marquee: 'marquee 28s linear infinite',
@@ -86,6 +91,7 @@ export default {
         'spin-slower': 'spin 32s linear infinite',
         aurora: 'aurora 24s ease-in-out infinite',
         floaty: 'floaty 6s ease-in-out infinite',
+        'scroll-cue': 'scroll-cue 2.2s cubic-bezier(0.65,0,0.35,1) infinite',
       },
     },
   },

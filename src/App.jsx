@@ -5,6 +5,7 @@ import { Nav } from './components/Nav'
 import { SiteFooter } from './components/SiteFooter'
 import { BackToTop } from './components/BackToTop'
 import { MobileCta } from './components/MobileCta'
+import { ScrollProgress } from './components/motion/ScrollProgress'
 import { pages, getPage } from './content/index.js'
 import { useHead } from './seo/useHead'
 import { initAnalytics, trackPageView, initScrollDepth } from './seo/analytics'
@@ -56,6 +57,10 @@ function Shell() {
       >
         Saltar al contenido
       </a>
+
+      {/* Progreso de lectura: con scroll suave la barra nativa del navegador
+          queda oculta en escritorio y se pierde la referencia de cuánto falta. */}
+      <ScrollProgress />
 
       <Nav />
       <ScrollToTop />

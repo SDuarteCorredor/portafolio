@@ -21,7 +21,6 @@
     --c-aurora-2: rgba(27, 60, 255, 0.10);
     --c-aurora-3: rgba(61, 91, 255, 0.07);
     --c-lumi: 232 85 37; /* #E85525 — naranja Lumi en claro */
-    --cursor-blend: normal;
   }
 
   /* ── Modo oscuro ──────────────────────────────────────────── */
@@ -42,7 +41,6 @@
     --c-aurora-2: rgba(10, 26, 138, 0.30);
     --c-aurora-3: rgba(61, 91, 255, 0.10);
     --c-lumi: 255 107 53; /* #FF6B35 — naranja Lumi oficial (oscuro) */
-    --cursor-blend: screen;
   }
 
   * {

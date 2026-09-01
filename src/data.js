@@ -72,22 +72,68 @@ export const services = [
   },
 ]
 
+// Cada caso puede llevar arte propio. Sin estos campos, CaseCover dibuja una
+// escena generativa derivada del slug — nunca queda un hueco vacío.
+//
+//   hook:     'una línea'              gancho corto para la tarjeta. `desc` sigue
+//                                      existiendo y se usa donde hay espacio;
+//                                      la tarjeta prefiere `hook` porque ahí
+//                                      manda la imagen, no el párrafo.
+//   accent:   '#FF6B35'                color propio del caso. Tiñe la escena
+//                                      generativa, el borde en hover y las
+//                                      etiquetas de la tarjeta. Es lo que hace
+//                                      que la grilla se lea como ocho proyectos
+//                                      distintos y no como ocho iguales.
+//   cover:    '/img/casos/lumi.webp'   imagen de portada (16/10 en las tarjetas
+//                                      normales, 4/3 en la destacada)
+//   coverAlt: 'texto alternativo'      opcional; si falta se arma con título y tipo
+//   coverRatio: 'aspect-[3/4]'         proporción del slot, si el arte no es 16/10
+//   coverFit: 'contain'                no recortar; el arte se centra sobre el
+//                                      fondo oscuro de la tarjeta. Úsalo cuando
+//                                      la pieza no coincide con la proporción.
+//   video:    '/video/lumi.mp4'        bucle mudo; tiene prioridad sobre cover
+//   poster:   '/img/casos/lumi.webp'   primer fotograma mientras carga el video
+//
+// Los archivos van en public/ y se referencian con ruta absoluta. Conviene
+// pasar las imágenes por `npm run images` para generar webp/avif.
 export const work = [
   {
     title: 'Lumi',
     slug: 'lumi',
+    hook: 'Chat de IA en tiempo real, detección de crisis y journey gamificado.',
+    cover: '/img/casos/lumi.png',
+    coverRatio: 'aspect-[3/4]',
+    coverAlt: 'La app Lumi en dos pantallas: inicio con racha y journey, y la conversación con la IA.',
     kind: 'Producto propio · IA',
     year: '2026',
     desc: 'App de bienestar emocional con chat de IA en tiempo real, detección de crisis y journey gamificado. React 19 + Supabase + Claude.',
     metric: 'De la idea al deploy',
     featured: true,
-    accent: 'lumi',
+    accent: '#FF6B35',
     link: 'https://lumi-mvp-one.vercel.app',
     cta: 'Ver Lumi en vivo',
   },
   {
+    title: 'Bio Laboratorios',
+    slug: 'bio-laboratorios',
+    hook: 'Marca, tienda y medición en orden: primero la base, después la pauta.',
+    accent: '#00E08A',
+    kind: 'Branding · E-commerce · SEO/SEM',
+    desc: 'Rediseño de marca, montaje del e-commerce y estrategia de SEO/SEM — en ese orden, que fue lo que hizo la diferencia.',
+    metric: '+278% en ventas',
+    cover: '/img/casos/bio-laboratorios.png',
+    coverFit: 'contain',
+    coverAlt: 'Sistema de identidad de Bio Labs Estelar: papelería, credenciales y aplicaciones de marca.',
+    link: null,
+    cta: 'Ver el caso',
+  },
+  {
     title: 'BLU Smartphones',
     slug: 'blu-smartphones',
+    hook: 'Marca, tienda y medición armadas juntas, de punta a punta.',
+    cover: '/img/casos/blu-smartphones.png',
+    coverAlt: 'Pieza de campaña del BOLD K50 5G para BLU Smartphones en pantalla.',
+    accent: '#00C2FF',
     kind: 'E-commerce · Branding',
     year: '2025',
     desc: 'Proyecto integral para la marca de smartphones: e-commerce, identidad, contenido y analítica — de punta a punta.',
@@ -98,6 +144,8 @@ export const work = [
   {
     title: 'Nona Gastro Bar',
     slug: 'nona-gastro-bar',
+    hook: 'Identidad y apertura, con +30 piezas y un equipo de 5.',
+    accent: '#FF2D55',
     kind: 'Branding · Marketing',
     year: '2024–2025',
     desc: 'Identidad de marca y apertura del restaurante: +30 piezas gráficas, contenido digital y operación liderando un equipo de 5.',
@@ -108,6 +156,8 @@ export const work = [
   {
     title: 'Limonada Pink',
     slug: 'limonada-pink',
+    hook: 'Brand book completo, tienda online y campañas en Meta y Google.',
+    accent: '#FF3D8B',
     kind: 'Branding · E-commerce · Ads',
     year: '2025',
     desc: 'Brand book completo y tienda online, con campañas en Meta y Google Ads de punta a punta.',
@@ -118,6 +168,8 @@ export const work = [
   {
     title: 'AIISO Consulting',
     slug: 'aiiso-consulting',
+    hook: 'Perfil de negocio, redes y sitio para la consultora.',
+    accent: '#6B4CFF',
     kind: 'Estrategia · Web · Redes',
     year: '2025',
     desc: 'Junto a GrowthBro: perfil de negocio, redes y sitio web — estrategia digital end-to-end para la consultora.',
@@ -128,6 +180,8 @@ export const work = [
   {
     title: 'GrowthBro',
     slug: 'growthbro',
+    hook: 'La operación de marketing de la agencia, montada desde cero.',
+    accent: '#A3FF3D',
     kind: 'Marketing · Operación',
     year: '2024',
     desc: 'Monté desde cero toda la operación de marketing y la presencia digital de la agencia.',
@@ -138,6 +192,8 @@ export const work = [
   {
     title: 'Asignar',
     slug: 'asignar',
+    hook: 'Estrategia de campañas y funnels. Caso abierto.',
+    accent: '#00D4FF',
     kind: 'Campañas · Funnels',
     year: '2026',
     desc: 'Estrategia de campañas y funnels de performance — optimización interna mientras renovamos el diseño.',

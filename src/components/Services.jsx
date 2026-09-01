@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { services } from '../data'
 import { Reveal } from './Reveal'
 import { trackCta } from '../seo/analytics'
+import { SplitText } from './motion/SplitText'
 
 
 // Una fila de servicio. Cuando el servicio tiene página propia, toda la fila es
@@ -63,9 +64,11 @@ export function Services() {
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(04)</span>
               <p className="eyebrow">Qué hago por tu marca</p>
             </div>
-            <h2 className="font-grotesk text-huge font-bold leading-[0.95] tracking-[-0.03em]">
-              Servicios que <span className="font-serif font-normal italic text-santi">mueven</span> números.
-            </h2>
+            <SplitText
+              as="h2"
+              text="Servicios que *mueven* números."
+              className="block font-grotesk text-huge font-bold leading-[0.95] tracking-[-0.03em]"
+            />
           </div>
           <div className="max-w-sm">
             <p className="text-pretty text-muted">

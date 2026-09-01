@@ -21,6 +21,10 @@ export default defineConfig({
             if (id.includes('/src/content/')) return 'content'
             return undefined
           }
+          // three.js entra solo por import() dinámico (la escena del hero). Si
+          // cayera en 'vendor' junto a lenis —que sí es estático— el chunk se
+          // volvería de carga inmediata y la escena dejaría de ser diferida.
+          if (id.includes('/three/')) return 'three'
           if (id.includes('framer-motion') || id.includes('popmotion') || id.includes('style-value-types')) return 'motion'
           if (id.includes('react-router') || id.includes('@remix-run')) return 'router'
           if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('scheduler')) return 'react'

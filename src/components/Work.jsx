@@ -2,91 +2,129 @@ import { Link } from 'react-router-dom'
 import { work } from '../data'
 import { Reveal } from './Reveal'
 import { trackCta } from '../seo/analytics'
+import { CaseCover } from './CaseCover'
+import { Tilt } from './motion/Tilt'
+import { SplitText } from './motion/SplitText'
 
-// Punto 17 — las tarjetas ahora llevan al caso de estudio interno en vez de
-// salir del sitio. El enlace externo (Behance, sitio en vivo) vive dentro del
-// caso, así el enlace interno acumula el valor y el visitante no se va antes
-// de leer el trabajo.
+// Punto 17 — las tarjetas llevan al caso de estudio interno en vez de salir del
+// sitio. El enlace externo (Behance, sitio en vivo) vive dentro del caso.
 const caseUrl = (w) => (w.slug ? `/trabajo/${w.slug}/` : '/trabajo/')
 
-// Card destacada (Lumi) — naranja Lumi, a ancho completo, link a su sitio en vivo.
+// Color propio de cada caso (data.js). Se inyecta como variable CSS para poder
+// usarlo en borde, texto y fondo sin generar una clase por proyecto.
+//
+// Las variantes con alfa se arman concatenando dígitos hex al final (#RRGGBB +
+// AA). Tailwind no sabe aplicar opacidad sobre un color que viene de una
+// variable arbitraria, así que esta es la vía que no depende de su compilador.
+const accentVars = (w) => {
+  const a = w.accent || '#1B3CFF'
+  return { '--a': a, '--a-40': `${a}66`, '--a-15': `${a}26`, '--a-08': `${a}14` }
+}
+
+// Card destacada — a ancho completo, con la portada al lado.
 function Featured({ w, i }) {
   return (
-    <Link
-      to={caseUrl(w)}
-      onClick={() => trackCta(w.title, 'work_featured')}
-      className="group relative block overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-lumi/[0.1] via-surface to-surface p-8 transition-all duration-300 hover:border-lumi/40 md:p-12"
-    >
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -right-3 -top-8 select-none font-grotesk text-[8rem] font-extrabold leading-none tracking-tight text-outline opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.12]"
+    <Tilt max={4} lift={4} scale={1.006} className="rounded-3xl">
+      <Link
+        to={caseUrl(w)}
+        onClick={() => trackCta(w.title, 'work_featured')}
+        style={accentVars(w)}
+        className="group relative block overflow-hidden rounded-3xl border border-line bg-surface p-8 transition-colors duration-300 hover:border-[color:var(--a-40)] md:p-12"
       >
-        0{i + 1}
-      </span>
+        {/* Lavado de color propio del caso, en vez de un degradado fijo. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: 'radial-gradient(120% 90% at 78% 15%, var(--a-15), transparent 62%)' }}
+        />
 
-      <div className="grid gap-8 md:grid-cols-12 md:items-end">
-        <div className="md:col-span-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-lumi/40 bg-lumi/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-lumi">
-            <span className="h-1.5 w-1.5 rounded-full bg-lumi animate-pulse" /> Producto destacado
-          </span>
+        <div className="relative grid gap-8 md:grid-cols-12 md:items-center">
+          <div className="md:col-span-6">
+            <span
+              className="inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em]"
+              style={{ borderColor: 'var(--a-40)', background: 'var(--a-15)', color: 'var(--a)' }}
+            >
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: 'var(--a)' }} />
+              Producto destacado
+            </span>
 
-          <div className="mt-6 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-muted">
-            <span className="text-lumi">{w.kind}</span>
-            <span className="h-px w-8 bg-line" />
-            <span>{w.year}</span>
+            <div className="mt-6 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-muted">
+              <span style={{ color: 'var(--a)' }}>{w.kind}</span>
+              {w.year && <span className="h-px w-8 bg-line" />}
+              {w.year && <span>{w.year}</span>}
+            </div>
+
+            <h3 className="mt-4 text-left font-grotesk text-[clamp(2.8rem,7vw,5rem)] font-extrabold leading-[0.92] tracking-[-0.03em]">
+              {w.title}
+            </h3>
+
+            {/* Una línea, no un párrafo: la tarjeta vende con la imagen y el
+                número; el detalle está dentro del caso. */}
+            <p className="mt-4 max-w-md text-pretty text-muted md:text-lg">{w.hook || w.desc}</p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-5">
+              <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
+              <span
+                className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:text-ink"
+                style={{ borderColor: 'var(--a-40)' }}
+              >
+                Ver el caso
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
+            </div>
           </div>
 
-          <h3 className="mt-4 text-left font-grotesk text-[clamp(2.6rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.03em]">
-            {w.title}
-          </h3>
-          <p className="mt-5 max-w-xl text-pretty text-muted md:text-lg">{w.desc}</p>
+          {/* La portada entra en el espacio 3D de la tarjeta: al inclinarse se
+              despega del fondo en vez de moverse pegada a él. */}
+          <div className="md:col-span-6" style={{ transform: 'translateZ(38px)' }}>
+            <CaseCover w={w} ratio="aspect-[4/3]" />
+          </div>
         </div>
-
-        <div className="flex items-center justify-between gap-4 md:col-span-4 md:flex-col md:items-end md:gap-8 md:text-right">
-          <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
-          <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:border-lumi group-hover:bg-lumi group-hover:text-white">
-            Ver el caso
-            <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-          </span>
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </Tilt>
   )
 }
 
-// Card estándar editorial — azul firma, link a Behance / sitio (o "Próximamente").
-function Card({ w, i }) {
+// Card estándar — la portada manda, el texto acompaña.
+function Card({ w }) {
   return (
-    <Link
-      to={caseUrl(w)}
-      onClick={() => trackCta(w.title, 'work_card')}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-santi/40 md:p-10"
-    >
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -right-2 -top-6 select-none font-grotesk text-[6rem] font-extrabold leading-none tracking-tight text-outline opacity-[0.05] transition-opacity duration-500 group-hover:opacity-[0.1]"
+    <Tilt max={6} className="h-full rounded-2xl">
+      <Link
+        to={caseUrl(w)}
+        onClick={() => trackCta(w.title, 'work_card')}
+        style={accentVars(w)}
+        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-4 transition-colors duration-300 hover:border-[color:var(--a-40)]"
       >
-        0{i + 1}
-      </span>
+        <div style={{ transform: 'translateZ(30px)' }}>
+          <CaseCover w={w} ratio="aspect-[16/10]" />
+        </div>
 
-      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest">
-        <span className="text-santi">{w.kind}</span>
-        <span className="text-muted">{w.year}</span>
-      </div>
+        <div className="flex flex-1 flex-col px-3 pb-2 pt-5">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest">
+            <span style={{ color: 'var(--a)' }}>{w.kind}</span>
+            {w.year && <span className="text-muted">{w.year}</span>}
+          </div>
 
-      <h3 className="mt-6 text-left font-grotesk text-2xl font-bold tracking-[-0.02em] md:text-3xl">
-        {w.title}
-      </h3>
-      <p className="mt-4 flex-1 text-pretty text-muted">{w.desc}</p>
+          <h3 className="mt-3 text-left font-grotesk text-2xl font-bold tracking-[-0.02em] md:text-3xl">
+            {w.title}
+          </h3>
 
-      <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-5">
-        <span className="font-grotesk font-medium text-fg">{w.metric}</span>
-        <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 group-hover:border-santi group-hover:text-santi">
-          Ver el caso
-          <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-        </span>
-      </div>
-    </Link>
+          {/* Gancho corto en vez del párrafo completo. */}
+          <p className="mt-2 flex-1 text-pretty text-sm text-muted">{w.hook || w.desc}</p>
+
+          <div className="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4">
+            <span className="font-grotesk text-sm font-medium text-fg">{w.metric}</span>
+            <span
+              className="inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.15em] transition-colors duration-300"
+              style={{ color: 'var(--a)' }}
+            >
+              Ver el caso
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </span>
+          </div>
+        </div>
+      </Link>
+    </Tilt>
   )
 }
 
@@ -97,28 +135,25 @@ export function Work() {
   return (
     <section id="trabajo" className="container-x py-16 md:py-24">
       <Reveal>
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div>
             <div className="mb-6 flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(03)</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(02)</span>
               <p className="eyebrow">Trabajo seleccionado</p>
             </div>
-            <h2 className="font-grotesk text-huge font-bold leading-[0.95] tracking-[-0.03em]">
-              Casos <span className="font-serif font-normal italic text-santi">reales</span>.
-            </h2>
+            <SplitText
+              as="h2"
+              text="Casos *reales*."
+              className="block font-grotesk text-huge font-bold leading-[0.95] tracking-[-0.03em]"
+            />
           </div>
-          <div className="max-w-sm">
-            <p className="text-pretty text-muted">
-              De campañas que multiplicaron ventas a un producto digital construido con IA.
-            </p>
-            <Link
-              to="/trabajo/"
-              onClick={() => trackCta('Ver todos los casos', 'work_header')}
-              className="link-underline mt-4 inline-block font-grotesk text-sm text-santi"
-            >
-              Ver los 8 casos completos →
-            </Link>
-          </div>
+          <Link
+            to="/trabajo/"
+            onClick={() => trackCta('Ver todos los casos', 'work_header')}
+            className="link-underline font-grotesk text-sm text-santi"
+          >
+            Ver los 8 casos completos →
+          </Link>
         </div>
       </Reveal>
 
@@ -129,10 +164,10 @@ export function Work() {
           </Reveal>
         ))}
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {rest.map((w) => (
-            <Reveal key={w.title} delay={(work.indexOf(w) % 2) * 0.06} className="h-full">
-              <Card w={w} i={work.indexOf(w)} />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {rest.map((w, i) => (
+            <Reveal key={w.title} delay={(i % 3) * 0.06} className="h-full">
+              <Card w={w} />
             </Reveal>
           ))}
         </div>
