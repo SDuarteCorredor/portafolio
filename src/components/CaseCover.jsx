@@ -42,9 +42,10 @@ function GenerativeScene({ slug, accent, label, initials }) {
   const uid = useId().replace(/:/g, '')
   const rnd = seeded(hashSlug(slug || 'caso'))
 
-  // Azul de marca por defecto; Lumi trae su naranja.
-  const hue = accent === 'lumi' ? '#FF6B35' : '#1B3CFF'
-  const hue2 = accent === 'lumi' ? '#FF8C42' : '#6B82FF'
+  // Cada caso trae su color en data.js. Es lo que separa una tarjeta de la de al
+  // lado; sin esto la grilla entera se lee como un solo bloque azul.
+  const hue = accent || '#1B3CFF'
+  const hue2 = accent || '#6B82FF'
 
   const blobs = Array.from({ length: 3 }, () => ({
     cx: 20 + rnd() * 60,
@@ -159,15 +160,22 @@ function GenerativeScene({ slug, accent, label, initials }) {
  * @param {{ w: object, className?: string, ratio?: string }} props
  *   `w` es un item de `work` en src/data.js. Campos opcionales que activan los
  *   niveles altos: `cover` (ruta de imagen), `video` + `poster`.
+ *
+ * Sobre `blend`: el arte se genera sobre fondo negro puro, no transparente —
+ * estos modelos hacen mal el canal alfa. Con `mix-blend-mode: screen` el negro
+ * desaparece solo (screen con negro es identidad), así que el objeto queda
+ * flotando sobre la tarjeta sin recorte ni PNG con alfa. Solo aplica en modo
+ * oscuro: sobre papel claro, screen borraría la imagen entera.
  */
 export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
-  const base = `relative overflow-hidden rounded-xl border border-line bg-surface ${ratio} ${className}`
+  const base = `relative overflow-hidden rounded-xl border border-line bg-ink ${ratio} ${className}`
+  const blend = w.blend === 'screen' ? 'dark:mix-blend-screen' : ''
 
   if (w.video) {
     return (
       <div className={base}>
         <video
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] ${blend}`}
           src={w.video}
           poster={w.poster || w.cover}
           autoPlay
@@ -191,7 +199,7 @@ export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
           alt={w.coverAlt || `${w.title} — ${w.kind}`}
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] ${blend}`}
         />
         <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/60 via-transparent to-transparent" />
       </div>

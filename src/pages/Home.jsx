@@ -21,6 +21,26 @@ import { stripAccent } from '../components/page/Accent'
 // El CTA que exige el punto 15 ya está en el hero, justo debajo del primer
 // párrafo, así que no se duplica aquí.
 
+// El lead de la home son ~80 palabras. Completo en el hero es un muro: lo
+// primero que ve el visitante es un párrafo, no el trabajo. Se muestra la
+// primera frase arriba (que es la que posiciona y la que se lee) y el resto
+// baja al bloque de introducción — el texto sigue en la página, solo deja de
+// estar todo apilado en la portada.
+function splitLead(lead = '') {
+  const text = String(lead).trim()
+  // Corta en el primer punto seguido de espacio y mayúscula: evita partir en
+  // abreviaturas o en decimales.
+  const m = text.match(/^(.+?\.)\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/)
+  if (!m) return [text, '']
+  const first = m[1]
+  // Una frase demasiado corta no sostiene el hero sola.
+  if (first.length < 60) {
+    const second = text.slice(m[0].length).match(/^(.+?\.)\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/)
+    if (second) return [`${first} ${second[1]}`, text.slice(m[0].length + second[0].length)]
+  }
+  return [first, text.slice(m[0].length)]
+}
+
 function Section({ section, index }) {
   return (
     <Reveal>
@@ -56,24 +76,33 @@ function Section({ section, index }) {
 }
 
 export default function Home({ page }) {
+  const [heroLead, restLead] = splitLead(stripAccent(page.lead))
+
   return (
     <>
-      <Hero h1={page.h1} lead={stripAccent(page.lead)} eyebrow={page.navLabel} />
+      <Hero h1={page.h1} lead={heroLead} eyebrow={page.navLabel} />
       <Marquee />
 
-      {/* Punto 10 y, pegado debajo, puntos 12 y 14 */}
-      <div className="container-x pt-16 md:pt-20">
+      {/* El trabajo va primero: es un portafolio, lo que convence son los casos,
+          no la explicación previa. Antes venían dos bloques de texto (intención
+          de búsqueda y TL;DR) entre la portada y la primera imagen. */}
+      <Work />
+      <Stats />
+      <Services />
+
+      {/* Punto 10 y, pegado debajo, puntos 12 y 14. Ahora debajo del trabajo:
+          quien llegó hasta acá ya vio los casos y sí quiere leer. */}
+      <div className="container-x pt-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="eyebrow">Qué vas a encontrar acá</p>
           <ShareButton page={page} />
         </div>
+        {restLead && (
+          <p className="mt-6 max-w-3xl text-pretty text-lg text-muted">{restLead}</p>
+        )}
         <SearchIntent intent={page.intent} />
         <Tldr items={page.tldr} />
       </div>
-
-      <Stats />
-      <Work />
-      <Services />
 
       {/* Cuerpo editorial con la jerarquía H2/H3 — punto 16 */}
       <div className="container-x pt-8">

@@ -17,8 +17,8 @@
 
 import {
   WebGLRenderer, Scene, OrthographicCamera, PerspectiveCamera, PlaneGeometry,
-  BufferGeometry, BufferAttribute, ShaderMaterial, Mesh, Points, Vector2, Vector3,
-  Color, AdditiveBlending, NormalBlending,
+  TorusKnotGeometry, BufferGeometry, BufferAttribute, ShaderMaterial, Mesh, Points,
+  Vector2, Vector3, Color, AdditiveBlending, NormalBlending, DoubleSide,
 } from 'three'
 
 // ── Aurora: quad a pantalla completa ────────────────────────────────────────
@@ -203,11 +203,68 @@ const dustFrag = /* glsl */ `
   }
 `
 
+// ── Objeto: la pieza 3D real ────────────────────────────────────────────────
+//
+// Un nudo toroidal de tubo fino, iluminado solo por su propio borde. No lleva
+// luces de escena ni mapa de entorno: el volumen sale del término de Fresnel
+// (cuánto se aleja la normal de la vista), que es lo que dibuja el contorno
+// brillante de los materiales tipo vidrio. Sale barato y no depende de assets.
+
+const knotVert = /* glsl */ `
+  varying vec3 vNormal;
+  varying vec3 vView;
+  varying vec3 vPos;
+
+  void main() {
+    vPos = position;
+    vNormal = normalize(normalMatrix * normal);
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    vView = -mv.xyz;                 // del fragmento hacia la cámara
+    gl_Position = projectionMatrix * mv;
+  }
+`
+
+const knotFrag = /* glsl */ `
+  precision highp float;
+
+  varying vec3 vNormal;
+  varying vec3 vView;
+  varying vec3 vPos;
+
+  uniform float uTime;
+  uniform vec3  uBase;
+  uniform vec3  uRim;
+  uniform float uOpacity;
+
+  void main() {
+    vec3 n = normalize(vNormal);
+    vec3 v = normalize(vView);
+
+    // Fresnel: 0 de frente, 1 en los bordes. La potencia decide qué tan fino
+    // queda el filo de luz.
+    float fres = pow(1.0 - abs(dot(n, v)), 2.6);
+
+    // Pulso de luz que recorre el nudo a lo largo. Sin esto la pieza gira pero
+    // se ve muerta: es el detalle que la hace parecer material y no maqueta.
+    float band = sin(vPos.x * 1.6 + vPos.y * 1.2 - uTime * 0.9) * 0.5 + 0.5;
+
+    vec3 col = uBase;
+    col += uRim * fres * 1.5;
+    col += uRim * pow(band, 6.0) * 0.55;
+
+    // El cuerpo casi transparente y los bordes sólidos: se lee como vidrio
+    // ahumado en vez de plástico.
+    float alpha = clamp(fres * 1.35 + pow(band, 8.0) * 0.35, 0.0, 1.0) * uOpacity;
+
+    gl_FragColor = vec4(col, alpha);
+  }
+`
+
 // Paleta por tema. En claro la aurora casi desaparece: sobre papel cálido el
 // mismo azul que funciona en oscuro se ve sucio.
 const THEMES = {
-  dark:  { bg: '#06070D', ink: '#1B3CFF', glow: '#6B82FF', intensity: 0.62, grain: 0.022, dust: '#A8B6FF', dustOpacity: 0.55 },
-  light: { bg: '#F7F6F2', ink: '#1B3CFF', glow: '#6B82FF', intensity: 0.14, grain: 0.010, dust: '#1B3CFF', dustOpacity: 0.16 },
+  dark:  { bg: '#06070D', ink: '#1B3CFF', glow: '#6B82FF', intensity: 0.62, grain: 0.022, dust: '#A8B6FF', dustOpacity: 0.55, knotBase: '#080C22', knotRim: '#4E6BFF', knotOpacity: 0.42 },
+  light: { bg: '#F7F6F2', ink: '#1B3CFF', glow: '#6B82FF', intensity: 0.14, grain: 0.010, dust: '#1B3CFF', dustOpacity: 0.16, knotBase: '#C9D0F5', knotRim: '#1B3CFF', knotOpacity: 0.30 },
 }
 
 /**
@@ -232,7 +289,7 @@ export function createAuroraScene(canvas, opts = {}) {
   renderer.setPixelRatio(dpr)
   renderer.autoClear = false
 
-  const theme = THEMES[opts.theme === 'light' ? 'light' : 'dark']
+  let theme = THEMES[opts.theme === 'light' ? 'light' : 'dark']
 
   // ── Pasada 1: aurora ──────────────────────────────────────────────────────
   const auroraScene = new Scene()
@@ -309,6 +366,40 @@ export function createAuroraScene(canvas, opts = {}) {
   dust.frustumCulled = false
   dustScene.add(dust)
 
+  // ── Pasada 3: el objeto ───────────────────────────────────────────────────
+  //
+  // Comparte cámara con el polvo: así el paralaje del mouse lo mueve junto con
+  // las partículas y todo se lee como un mismo espacio, no como capas pegadas.
+  const knotScene = new Scene()
+
+  const knotUniforms = {
+    uTime:    { value: 0 },
+    uBase:    { value: new Color(theme.knotBase) },
+    uRim:     { value: new Color(theme.knotRim) },
+    uOpacity: { value: theme.knotOpacity },
+  }
+
+  // Tubo fino (0.21) sobre un nudo 2/3: se lee como una cinta que se pliega,
+  // no como una rosquilla. 200 segmentos alcanzan para que el filo de luz no
+  // muestre facetas.
+  const knotGeo = new TorusKnotGeometry(1, 0.21, 200, 24, 2, 3)
+
+  const knot = new Mesh(
+    knotGeo,
+    new ShaderMaterial({
+      vertexShader: knotVert,
+      fragmentShader: knotFrag,
+      uniforms: knotUniforms,
+      transparent: true,
+      depthWrite: false,     // sin esto los tramos traseros recortan a los de adelante
+      side: DoubleSide,
+      blending: AdditiveBlending,
+    }),
+  )
+  knot.position.set(2.9, 0.9, -3.2)
+  knot.scale.setScalar(1.55)
+  knotScene.add(knot)
+
   // ── Entrada: mouse y scroll ───────────────────────────────────────────────
   const mouse = new Vector2(0, 0)        // objetivo
   const smooth = new Vector2(0, 0)       // valor suavizado que llega al shader
@@ -366,6 +457,15 @@ export function createAuroraScene(canvas, opts = {}) {
     dustUniforms.uTime.value = clock
     dustUniforms.uScroll.value = scrollSmooth
 
+    knotUniforms.uTime.value = clock
+
+    // Giro base lento, más un empuje proporcional al scroll: al bajar, la pieza
+    // rota de más y se hunde, en vez de quedarse flotando igual todo el rato.
+    knot.rotation.x = clock * 0.09 + scrollSmooth * 1.6
+    knot.rotation.y = clock * 0.13 + scrollSmooth * 2.1
+    knot.position.y = 0.9 - scrollSmooth * 3.2
+    knotUniforms.uOpacity.value = theme.knotOpacity * (1 - Math.min(1, scrollSmooth * 1.3))
+
     // Paralaje: la cámara se desplaza con el mouse, no las partículas. Así el
     // desplazamiento depende de la profundidad de cada punto — que es
     // exactamente lo que el ojo lee como "3D".
@@ -374,8 +474,9 @@ export function createAuroraScene(canvas, opts = {}) {
     dustCam.lookAt(0, 0, -6)
 
     renderer.clear()
-    renderer.render(auroraScene, auroraCam)
-    renderer.render(dustScene, dustCam)
+    renderer.render(auroraScene, auroraCam)   // fondo
+    renderer.render(knotScene, dustCam)       // el objeto
+    renderer.render(dustScene, dustCam)       // polvo al frente
   }
   raf = requestAnimationFrame(frame)
 
@@ -392,6 +493,9 @@ export function createAuroraScene(canvas, opts = {}) {
       auroraUniforms.uGrain.value = t.grain
       dustUniforms.uColor.value.set(t.dust)
       dustUniforms.uOpacity.value = t.dustOpacity
+      knotUniforms.uBase.value.set(t.knotBase)
+      knotUniforms.uRim.value.set(t.knotRim)
+      theme = t
     },
     setScroll(v) { scroll = v },
     setPaused(p) { paused = p; if (!p) last = performance.now() },
@@ -404,6 +508,8 @@ export function createAuroraScene(canvas, opts = {}) {
       auroraMesh.material.dispose()
       dustGeo.dispose()
       dust.material.dispose()
+      knotGeo.dispose()
+      knot.material.dispose()
       renderer.dispose()
     },
   }

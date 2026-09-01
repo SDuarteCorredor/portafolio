@@ -12,7 +12,7 @@ export function Stats() {
         <div className="mb-14 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div>
             <div className="mb-6 flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(02)</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(03)</span>
               <p className="eyebrow">Resultados, no promesas</p>
             </div>
             <SplitText
