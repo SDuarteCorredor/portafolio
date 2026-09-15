@@ -4,7 +4,7 @@ import { childrenOf } from '../content/index.js'
 import { Reveal } from '../components/Reveal'
 import { trackCta } from '../seo/analytics'
 import { work } from '../data'
-import { CaseCard } from '../components/CaseCard'
+import { CaseGrid } from '../components/CaseGrid'
 
 // Punto 17 — los hubs son la cabeza del cluster: enlazan a TODOS sus hijos con
 // un enlace descriptivo cada uno. Es lo que convierte un montón de páginas
@@ -74,12 +74,8 @@ function WorkGrid({ items }) {
         Los ocho casos
       </h2>
 
-      <div className="mt-9 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {items.map((w, i) => (
-          <Reveal key={w.slug} delay={(i % 3) * 0.06} className="h-full">
-            <CaseCard w={w} source="cluster_hub" />
-          </Reveal>
-        ))}
+      <div className="mt-9">
+        <CaseGrid items={items} source="cluster_hub" />
       </div>
     </section>
   )

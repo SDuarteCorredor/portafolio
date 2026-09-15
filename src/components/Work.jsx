@@ -3,7 +3,8 @@ import { work } from '../data'
 import { Reveal } from './Reveal'
 import { trackCta } from '../seo/analytics'
 import { CaseCover } from './CaseCover'
-import { CaseCard, caseUrl, accentVars } from './CaseCard'
+import { caseUrl, accentVars } from './CaseCard'
+import { CaseGrid } from './CaseGrid'
 import { Tilt } from './motion/Tilt'
 import { SplitText } from './motion/SplitText'
 
@@ -107,13 +108,7 @@ export function Work() {
           </Reveal>
         ))}
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {rest.map((w, i) => (
-            <Reveal key={w.title} delay={(i % 3) * 0.06} className="h-full">
-              <CaseCard w={w} />
-            </Reveal>
-          ))}
-        </div>
+        <CaseGrid items={rest} />
       </div>
     </section>
   )

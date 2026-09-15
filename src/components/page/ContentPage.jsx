@@ -7,6 +7,7 @@ import { Faq } from './Faq'
 import { Related } from './Related'
 import { ProseTable, ProseList, ProseP } from './Prose'
 import { ShareButton } from '../ShareButton'
+import { PageArt, hasPageArt } from './PageArt'
 import { trackOutbound } from '../../seo/analytics'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -77,27 +78,71 @@ function CaseMeta({ meta }) {
         ))}
       </dl>
 
-      {(meta.scope?.length || meta.externalUrl) && (
+      {meta.scope?.length > 0 && (
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          {meta.scope?.map((s) => (
+          {meta.scope.map((s) => (
             <span key={s} className="rounded-full border border-line px-3.5 py-1.5 text-xs text-muted">
               {s}
             </span>
           ))}
-          {meta.externalUrl && (
-            <a
-              href={meta.externalUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => trackOutbound(meta.externalUrl, meta.externalLabel || meta.client)}
-              className="inline-flex items-center gap-2 rounded-full border border-santi/40 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-santi transition-colors hover:bg-santi hover:text-white"
-            >
-              {meta.externalLabel || 'Ver proyecto'} ↗
-            </a>
-          )}
         </div>
       )}
     </div>
+  )
+}
+
+/**
+ * Enlace al proyecto en vivo (Behance, el sitio del cliente, la app).
+ *
+ * Existía, pero iba como una píldora de texto mono al final de la fila de
+ * etiquetas de alcance, con el mismo peso visual que "Branding" o "Funnels".
+ * La tarjeta promete "Ver el caso", se entra, y lo único que lleva al trabajo
+ * real queda indistinguible de una etiqueta. Ahora es un botón, y se repite al
+ * cerrar el caso — que es el momento en que alguien que terminó de leer quiere
+ * ir a verlo.
+ */
+function CaseLink({ meta, variant = 'inline' }) {
+  if (!meta?.externalUrl) return null
+
+  const label = meta.externalLabel || 'Ver el proyecto'
+  const track = () => trackOutbound(meta.externalUrl, label)
+
+  if (variant === 'inline') {
+    return (
+      <a
+        href={meta.externalUrl}
+        target="_blank"
+        rel="noreferrer"
+        onClick={track}
+        className="group mt-6 inline-flex items-center gap-2.5 rounded-full bg-santi px-7 py-3.5 font-grotesk text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-8px_rgba(27,60,255,0.7)]"
+      >
+        {label}
+        <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+      </a>
+    )
+  }
+
+  return (
+    <Reveal>
+      <aside className="mt-16 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 rounded-2xl border border-santi/25 bg-santi/[0.06] p-7 md:p-9">
+        <div className="min-w-0">
+          <p className="eyebrow">El proyecto, fuera de esta página</p>
+          <p className="mt-3 max-w-xl text-pretty font-grotesk text-xl font-bold tracking-[-0.01em] text-fg md:text-2xl">
+            Ya leíste cómo se hizo. Acá está el resultado, sin intermediarios.
+          </p>
+        </div>
+        <a
+          href={meta.externalUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={track}
+          className="group inline-flex shrink-0 items-center gap-2.5 rounded-full bg-santi px-7 py-3.5 font-grotesk text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-8px_rgba(27,60,255,0.7)]"
+        >
+          {label}
+          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+        </a>
+      </aside>
+    </Reveal>
   )
 }
 
@@ -109,31 +154,62 @@ function CaseMeta({ meta }) {
  *   que es donde tiene sentido un índice que se consulta al final.
  */
 export function ContentPage({ page, children, afterHeader }) {
+  // La cabecera se maqueta distinto según haya portada o no, y PageArt es quien
+  // sabe si esta ruta tiene una.
+  const hasArt = hasPageArt(page)
+
   return (
     <article className="container-x pb-24 pt-32 md:pt-36">
       <Breadcrumbs path={page.path} />
 
-      <header>
-        <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-5">
-          <div className="min-w-0 flex-1">
-            <p className="eyebrow">{page.navLabel}</p>
+      {/* Cabecera a dos columnas cuando la página tiene portada.
+          Puesta debajo del texto, la portada caía fuera de la primera pantalla:
+          el H1 a tamaño display más el párrafo de entrada ya ocupan el alto
+          completo, así que lo primero que se veía seguía siendo un muro de
+          tipografía. Al lado del titular entra en el primer vistazo, que es
+          para lo que existe. Sin portada, la columna de texto ocupa todo el
+          ancho como antes. */}
+      <header className={hasArt ? 'grid gap-x-12 gap-y-10 lg:grid-cols-12' : ''}>
+        <div className={hasArt ? 'lg:col-span-7' : ''}>
+          <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-5">
+            <div className="min-w-0 flex-1">
+              <p className="eyebrow">{page.navLabel}</p>
 
-            {/* Punto 5: este es el único H1 de la página. Punto 8: dice algo
-                distinto del metaTitle, no lo repite. */}
-            <h1 className="mt-5 max-w-[20ch] text-balance font-grotesk text-huge font-extrabold leading-[0.98] tracking-[-0.035em] text-fg">
-              {page.h1}
-            </h1>
+              {/* Punto 5: este es el único H1 de la página. Punto 8: dice algo
+                  distinto del metaTitle, no lo repite. */}
+              <h1
+                className={
+                  'mt-5 max-w-[20ch] text-balance font-grotesk font-extrabold leading-[0.98] tracking-[-0.035em] text-fg ' +
+                  // A siete columnas, el tamaño display se come el ancho y parte
+                  // el titular en demasiadas líneas.
+                  (hasArt ? 'text-[clamp(2.1rem,5vw,4.2rem)]' : 'text-huge')
+                }
+              >
+                {page.h1}
+              </h1>
+            </div>
+
+            {/* Punto 6 */}
+            <ShareButton page={page} className="mt-2 shrink-0" />
           </div>
 
-          {/* Punto 6 */}
-          <ShareButton page={page} className="mt-2 shrink-0" />
+          <ProseP>{page.lead}</ProseP>
+
+          {/* Punto 15 */}
+          <InlineCta cta={page.ctaInline} />
+
+          {/* El enlace al trabajo real. Ver CaseLink. */}
+          <CaseLink meta={page.caseMeta} />
         </div>
 
-        <ProseP>{page.lead}</ProseP>
+        {hasArt && (
+          <div className="lg:col-span-5 lg:self-center">
+            <PageArt page={page} />
+          </div>
+        )}
+      </header>
 
-        {/* Punto 15 */}
-        <InlineCta cta={page.ctaInline} />
-
+      <div>
         <CaseMeta meta={page.caseMeta} />
 
         {/* Punto 10 */}
@@ -141,7 +217,7 @@ export function ContentPage({ page, children, afterHeader }) {
 
         {/* Puntos 12 y 14 — inmediatamente después de la intención */}
         <Tldr items={page.tldr} />
-      </header>
+      </div>
 
       {afterHeader}
 
@@ -151,6 +227,9 @@ export function ContentPage({ page, children, afterHeader }) {
       {/* Bloques extra que inyecta una página concreta (p. ej. la grilla de
           servicios en el hub) — van después del cuerpo editorial. */}
       {children}
+
+      {/* Quien terminó de leer el caso es justo quien quiere ir a verlo. */}
+      <CaseLink meta={page.caseMeta} variant="outro" />
 
       {/* Punto 19 */}
       <Reveal><Faq items={page.faq} path={page.path} /></Reveal>

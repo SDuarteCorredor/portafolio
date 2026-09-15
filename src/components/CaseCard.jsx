@@ -23,27 +23,59 @@ export const accentVars = (w) => {
   return { '--a': a, '--a-40': `${a}66`, '--a-15': `${a}26`, '--a-08': `${a}14` }
 }
 
+// Cuando el último proyecto de la grilla cerraría la fila solo, en vez de
+// dejarlo colgando ocupa el ancho que le sobra a esa fila y pasa a formato
+// horizontal: portada a un lado, texto al otro. Una tarjeta suelta al final se
+// lee como un error de maquetación, no como una decisión.
+//
+// Las clases van literales porque Tailwind compila a partir del código fuente y
+// no vería una clase armada por concatenación.
+const WIDE = {
+  md: {
+    body: 'md:flex-row md:items-stretch md:gap-5',
+    cover: 'md:w-1/2 md:shrink-0',
+    text: 'md:justify-center md:py-4',
+    // Sin esto el párrafo se estira para llenar la altura de la portada y
+    // empuja la fila del resultado hasta el borde: la tarjeta queda con un
+    // hueco en medio.
+    lead: 'md:flex-none',
+  },
+  xl: {
+    body: 'xl:flex-row xl:items-stretch xl:gap-5',
+    cover: 'xl:w-1/2 xl:shrink-0',
+    text: 'xl:justify-center xl:py-4',
+    lead: 'xl:flex-none',
+  },
+}
+
 /**
  * Tarjeta estándar — la portada manda, el texto acompaña.
  *
- * @param {{ w: object, source?: string }} props
+ * @param {{ w: object, source?: string, wide?: 'md'|'xl'|null }} props
  *   `source` es la etiqueta que se manda a analítica, para poder distinguir un
  *   clic desde la home de uno desde el hub.
+ *   `wide` es el breakpoint a partir del cual la tarjeta se estira en
+ *   horizontal. Lo decide la grilla, que es la que sabe si queda huérfana.
  */
-export function CaseCard({ w, source = 'work_card' }) {
+export function CaseCard({ w, source = 'work_card', wide = null }) {
+  const v = WIDE[wide] || { body: '', cover: '', text: '', lead: '' }
+
   return (
     <Tilt max={6} className="h-full rounded-2xl">
       <Link
         to={caseUrl(w)}
         onClick={() => trackCta(w.title, source)}
         style={accentVars(w)}
-        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-4 transition-colors duration-300 hover:border-[color:var(--a-40)]"
+        className={
+          'group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-4 transition-colors duration-300 hover:border-[color:var(--a-40)] ' +
+          v.body
+        }
       >
-        <div style={{ transform: 'translateZ(30px)' }}>
+        <div className={v.cover} style={{ transform: 'translateZ(30px)' }}>
           <CaseCover w={w} ratio="aspect-[16/10]" />
         </div>
 
-        <div className="flex flex-1 flex-col px-3 pb-2 pt-5">
+        <div className={`flex flex-1 flex-col px-3 pb-2 pt-5 ${v.text}`}>
           <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest">
             <span style={{ color: 'var(--a)' }}>{w.kind}</span>
             {w.year && <span className="text-muted">{w.year}</span>}
@@ -53,8 +85,11 @@ export function CaseCard({ w, source = 'work_card' }) {
             {w.title}
           </h3>
 
-          {/* Gancho corto en vez del párrafo completo. */}
-          <p className="mt-2 flex-1 text-pretty text-sm text-muted">{w.hook || w.desc}</p>
+          {/* Gancho corto en vez del párrafo completo. En formato ancho hay
+              sitio de sobra, así que va la descripción larga. */}
+          <p className={`mt-2 flex-1 text-pretty text-sm text-muted ${v.lead}`}>
+            {wide ? w.desc || w.hook : w.hook || w.desc}
+          </p>
 
           <div className="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4">
             <span className="font-grotesk text-sm font-medium text-fg">{w.metric}</span>

@@ -56,6 +56,32 @@ function Pauta() {
   )
 }
 
+/** Meta Ads — la audiencia que hay que construir antes de capturarla. */
+function Meta() {
+  return (
+    <>
+      <circle cx="18" cy="17" r="6.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M7 38a11 11 0 0 1 22 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="34" cy="20" r="5" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.55" />
+      <path
+        d="M31 33a9 9 0 0 1 10-4.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.55"
+      />
+      <path d="M38 8v7M34.5 11.5h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </>
+  )
+}
+
 /** SEO / SEM — la lupa sobre las posiciones. */
 function Seo() {
   return (
@@ -141,6 +167,7 @@ function ProductoIa() {
 const GLYPHS = {
   '01': Estrategia,
   'google-ads': Pauta,
+  'meta-ads': Meta,
   'seo-sem': Seo,
   ecommerce: Ecommerce,
   branding: Branding,

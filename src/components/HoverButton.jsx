@@ -1,8 +1,14 @@
 import { useRef, useState, useEffect, useCallback, forwardRef } from 'react'
 
-// Botón "glass" con estela de luz azul firma que sigue el cursor.
-// Adaptado del HoverButton (shadcn/TS) a este stack: JSX + Tailwind, sin `cn`,
-// theme-aware y con el azul #1B3CFF. Se usa solo en CTAs destacados.
+// Botón primario con estela de luz que sigue el cursor.
+// Adaptado del HoverButton (shadcn/TS) a este stack: JSX + Tailwind, sin `cn`.
+// Se usa solo en CTAs destacados.
+//
+// Era de vidrio: fondo del azul firma al 7% y texto del color del tema. Sobre
+// el hero oscuro se leía como un botón apagado al lado del "Ver trabajo", que
+// es el secundario — el CTA principal no puede pesar menos que el secundario.
+// Va en azul #1B3CFF sólido y texto blanco, como el resto de los CTA primarios
+// del sitio (.btn-blue). La estela se conserva y se ve mejor sobre el sólido.
 // Renderiza <a> si recibe href, si no <button>.
 export const HoverButton = forwardRef(function HoverButton(
   { className = '', children, ...props },
@@ -57,12 +63,12 @@ export const HoverButton = forwardRef(function HoverButton(
       onPointerMove={handlePointerMove}
       onPointerEnter={() => setIsListening(true)}
       onPointerLeave={() => setIsListening(false)}
-      style={{ '--circle-start': '#6B82FF', '--circle-end': '#1B3CFF' }}
+      style={{ '--circle-start': 'rgba(255,255,255,0.95)', '--circle-end': '#9FB0FF' }}
       className={
         'relative isolate inline-flex cursor-pointer items-center gap-2 overflow-hidden rounded-full px-8 py-3.5 ' +
-        'font-grotesk text-sm font-medium text-fg backdrop-blur-lg bg-santi/[0.07] transition-transform ' +
+        'font-grotesk text-sm font-semibold text-white bg-santi transition-all duration-300 hover:-translate-y-0.5 ' +
         "before:pointer-events-none before:absolute before:inset-0 before:z-[1] before:rounded-[inherit] before:content-[''] " +
-        'before:shadow-[inset_0_0_0_1px_rgba(27,60,255,0.30),inset_0_0_16px_0_rgba(107,130,255,0.15),inset_0_-3px_12px_0_rgba(27,60,255,0.20),0_1px_3px_0_rgba(0,0,0,0.40),0_8px_24px_-8px_rgba(27,60,255,0.45)] ' +
+        'before:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_6px_0_rgba(6,7,13,0.35),0_16px_44px_-12px_rgba(27,60,255,0.75)] ' +
         'before:transition-transform before:duration-300 active:before:scale-[0.975] ' +
         className
       }
