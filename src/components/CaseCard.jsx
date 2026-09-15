@@ -23,14 +23,17 @@ export const accentVars = (w) => {
   return { '--a': a, '--a-40': `${a}66`, '--a-15': `${a}26`, '--a-08': `${a}14` }
 }
 
-// Cuando el último proyecto de la grilla cerraría la fila solo, en vez de
-// dejarlo colgando ocupa el ancho que le sobra a esa fila y pasa a formato
-// horizontal: portada a un lado, texto al otro. Una tarjeta suelta al final se
-// lee como un error de maquetación, no como una decisión.
+// Formato horizontal — portada a un lado, texto al otro.
+//
+// Lo usa CaseGrid en las tarjetas que ocupan más de una columna al repartir el
+// sobrante de la grilla, para que una tarjeta más ancha no signifique una
+// portada desproporcionada. Qué tarjetas son y en qué breakpoint lo decide la
+// grilla, que es la que sabe cómo cierran las filas.
 //
 // Las clases van literales porque Tailwind compila a partir del código fuente y
 // no vería una clase armada por concatenación.
 const WIDE = {
+  // Horizontal de md en adelante.
   md: {
     body: 'md:flex-row md:items-stretch md:gap-5',
     cover: 'md:w-1/2 md:shrink-0',
@@ -40,22 +43,32 @@ const WIDE = {
     // hueco en medio.
     lead: 'md:flex-none',
   },
+  // Horizontal solo de xl en adelante.
   xl: {
     body: 'xl:flex-row xl:items-stretch xl:gap-5',
     cover: 'xl:w-1/2 xl:shrink-0',
     text: 'xl:justify-center xl:py-4',
     lead: 'xl:flex-none',
   },
+  // Horizontal en md y de vuelta a vertical en xl. Es el caso de la tarjeta
+  // que ocupa la fila entera a dos columnas pero vuelve a un tercio a tres.
+  mdOnly: {
+    body: 'md:flex-row md:items-stretch md:gap-5 xl:flex-col xl:gap-0',
+    cover: 'md:w-1/2 md:shrink-0 xl:w-full',
+    text: 'md:justify-center md:py-4 xl:justify-start xl:py-0',
+    lead: 'md:flex-none xl:flex-1',
+  },
 }
 
 /**
  * Tarjeta estándar — la portada manda, el texto acompaña.
  *
- * @param {{ w: object, source?: string, wide?: 'md'|'xl'|null }} props
+ * @param {{ w: object, source?: string, wide?: 'md'|'xl'|'mdOnly'|null }} props
  *   `source` es la etiqueta que se manda a analítica, para poder distinguir un
  *   clic desde la home de uno desde el hub.
- *   `wide` es el breakpoint a partir del cual la tarjeta se estira en
- *   horizontal. Lo decide la grilla, que es la que sabe si queda huérfana.
+ *   `wide` dice desde qué breakpoint la tarjeta se estira en horizontal:
+ *   'md' desde tablet, 'xl' solo en escritorio, 'mdOnly' en tablet pero no en
+ *   escritorio. Lo decide la grilla, que es la que sabe cómo cierran las filas.
  */
 export function CaseCard({ w, source = 'work_card', wide = null }) {
   const v = WIDE[wide] || { body: '', cover: '', text: '', lead: '' }
@@ -88,7 +101,9 @@ export function CaseCard({ w, source = 'work_card', wide = null }) {
           {/* Gancho corto en vez del párrafo completo. En formato ancho hay
               sitio de sobra, así que va la descripción larga. */}
           <p className={`mt-2 flex-1 text-pretty text-sm text-muted ${v.lead}`}>
-            {wide ? w.desc || w.hook : w.hook || w.desc}
+            {/* 'mdOnly' vuelve a ser una tarjeta angosta en escritorio, así que
+                conserva el gancho corto. */}
+            {wide && wide !== 'mdOnly' ? w.desc || w.hook : w.hook || w.desc}
           </p>
 
           <div className="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4">

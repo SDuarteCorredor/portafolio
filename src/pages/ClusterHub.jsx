@@ -85,11 +85,12 @@ export default function ClusterHub({ page }) {
   const children = childrenOf(page.path)
   const isWork = page.cluster === 'trabajo'
 
-  // Se recorren los hijos (que traen el orden del registro de contenido) y se
-  // busca su item en data.js por slug. Si alguno no tiene par, no aparece como
-  // tarjeta en vez de romper la página.
+  // El orden lo manda `work` en data.js, que es donde está la prioridad con la
+  // que se quiere que se lean los casos — la home usa ese mismo orden, así que
+  // el hub no puede contradecirla. Solo se muestran los que además tienen
+  // página propia en el registro de contenido.
   const cases = isWork
-    ? children.map((c) => work.find((w) => `/trabajo/${w.slug}/` === c.path)).filter(Boolean)
+    ? work.filter((w) => children.some((c) => c.path === `/trabajo/${w.slug}/`))
     : []
 
   return (
