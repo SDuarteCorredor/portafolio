@@ -55,7 +55,10 @@ const WIDE = {
   mdOnly: {
     body: 'md:flex-row md:items-stretch md:gap-5 xl:flex-col xl:gap-0',
     cover: 'md:w-1/2 md:shrink-0 xl:w-full',
-    text: 'md:justify-center md:py-4 xl:justify-start xl:py-0',
+    // Al volver a vertical hay que reponer el padding original, no anularlo:
+    // `xl:py-0` pisaba el `pt-5` de la base y la tarjeta quedaba 20 px más
+    // arriba que las de al lado en la misma fila.
+    text: 'md:justify-center md:py-4 xl:justify-start xl:pt-5 xl:pb-2',
     lead: 'md:flex-none xl:flex-1',
   },
 }

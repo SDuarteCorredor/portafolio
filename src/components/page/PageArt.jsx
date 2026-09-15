@@ -21,14 +21,21 @@ import { ServiceGlyph } from '../ServiceGlyph'
 // El recurso común, que es el que da profundidad, son las fichas flotando en
 // perspectiva sobre el panel: cada una lleva un dato real de la página.
 
-/** Ficha flotante. `tilt` y `depth` la separan del plano del panel. */
+/**
+ * Ficha flotante. `tilt` la saca del plano del panel.
+ *
+ * Sigue el tema como el resto del sitio: en claro es una ficha de papel sobre
+ * el panel, en oscuro es vidrio ahumado.
+ */
 function Chip({ children, className = '', tilt = 0, delay = '0s' }) {
   return (
     <span
       className={
         'pointer-events-none absolute z-10 inline-flex animate-floaty items-center gap-2 rounded-xl ' +
-        'border border-white/15 bg-[#0B0D17]/80 px-3.5 py-2 font-mono text-[10px] uppercase ' +
-        'tracking-[0.14em] text-white/90 shadow-[0_18px_40px_-14px_rgba(6,7,13,0.9)] backdrop-blur-md ' +
+        'px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] backdrop-blur-md ' +
+        'border border-black/10 bg-white/85 text-ink shadow-[0_14px_34px_-14px_rgba(6,7,13,0.35)] ' +
+        'dark:border-white/15 dark:bg-[#0B0D17]/80 dark:text-white/90 ' +
+        'dark:shadow-[0_18px_40px_-14px_rgba(6,7,13,0.9)] ' +
         className
       }
       style={{ transform: `rotate(${tilt}deg)`, animationDelay: delay }}
@@ -38,37 +45,59 @@ function Chip({ children, className = '', tilt = 0, delay = '0s' }) {
   )
 }
 
-/** Panel base: fondo oscuro, atmósfera de color y viñeta. */
+/**
+ * Panel base: atmósfera de color, rejilla y viñeta.
+ *
+ * Estaba fijo en casi negro (`bg-ink`) en los dos temas, así que en modo claro
+ * cada portada era un bloque oscuro incrustado en una página de papel. Ahora
+ * sigue al tema: fondo claro con el color en tinte suave, o fondo hundido con
+ * el color en foco. Las piezas que sí van sobre negro —la escena de un caso,
+ * el retrato— se siguen tratando como obra enmarcada sobre ese fondo, que es
+ * la misma decisión que ya tomaba CaseCover.
+ */
 function Panel({ accent = '#1B3CFF', children, className = '' }) {
   return (
     <div
       className={
-        'relative isolate overflow-hidden rounded-3xl border border-line bg-ink ' +
-        'shadow-[0_30px_80px_-40px_rgba(6,7,13,0.6)] ' +
+        'relative isolate overflow-hidden rounded-3xl border border-line ' +
+        'bg-surface shadow-[0_24px_60px_-34px_rgba(6,7,13,0.35)] ' +
+        'dark:bg-ink dark:shadow-[0_30px_80px_-40px_rgba(6,7,13,0.6)] ' +
         className
       }
       style={{ '--pa': accent }}
     >
       {/* Dos focos encontrados: es lo que le da cuerpo al fondo en vez de
-          dejarlo como un rectángulo negro plano. */}
+          dejarlo como un rectángulo plano. En claro el color va mucho más
+          diluido — sobre papel, la misma intensidad se vuelve una mancha. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
+        className="pointer-events-none absolute inset-0 -z-10 dark:hidden"
+        style={{
+          background:
+            'radial-gradient(70% 90% at 76% 12%, color-mix(in srgb, var(--pa) 20%, transparent), transparent 64%),' +
+            'radial-gradient(60% 80% at 14% 88%, color-mix(in srgb, var(--pa) 12%, transparent), transparent 68%)',
+        }}
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 hidden dark:block"
         style={{
           background:
             'radial-gradient(70% 90% at 76% 12%, color-mix(in srgb, var(--pa) 38%, transparent), transparent 62%),' +
             'radial-gradient(60% 80% at 14% 88%, color-mix(in srgb, var(--pa) 22%, transparent), transparent 66%)',
         }}
       />
+
       {/* Rejilla tenue: da escala y evita que el degradado se lea como una
-          mancha suelta. */}
+          mancha suelta. Se dibuja con el color del texto, así que se invierte
+          sola con el tema. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.16]"
+        className="pointer-events-none absolute inset-0 -z-10 text-fg opacity-[0.10] dark:opacity-[0.16]"
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(255,255,255,0.10) 1px, transparent 1px),' +
-            'linear-gradient(to bottom, rgba(255,255,255,0.10) 1px, transparent 1px)',
+            'linear-gradient(to right, currentColor 1px, transparent 1px),' +
+            'linear-gradient(to bottom, currentColor 1px, transparent 1px)',
           backgroundSize: '44px 44px',
           maskImage: 'radial-gradient(70% 70% at 50% 50%, #000, transparent 78%)',
           WebkitMaskImage: 'radial-gradient(70% 70% at 50% 50%, #000, transparent 78%)',
@@ -76,6 +105,30 @@ function Panel({ accent = '#1B3CFF', children, className = '' }) {
       />
       {children}
     </div>
+  )
+}
+
+/**
+ * Placa: la superficie sobre la que se apoya una marca de servicio.
+ *
+ * Tiene que existir en los dos temas. La primera versión era `bg-white/[0.07]`
+ * con borde blanco translúcido, que sobre el panel claro desaparecía: quedaba
+ * un ícono suelto sin superficie.
+ */
+function Plate({ children, className = '', style }) {
+  return (
+    <span
+      className={
+        'grid place-items-center text-santi ' +
+        'border border-black/[0.07] bg-white shadow-[0_18px_44px_-16px_rgba(27,60,255,0.45)] ' +
+        'dark:border-white/15 dark:bg-white/[0.07] dark:backdrop-blur-md ' +
+        'dark:shadow-[0_28px_70px_-18px_rgba(27,60,255,0.85)] ' +
+        className
+      }
+      style={style}
+    >
+      {children}
+    </span>
   )
 }
 
@@ -156,11 +209,11 @@ function ServiceHeroArt({ page }) {
 
   return (
     <Panel className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
-      {/* La marca, en placa de vidrio y a tamaño de portada. */}
+      {/* La marca, en placa y a tamaño de portada. */}
       <div className="absolute inset-0 grid place-items-center">
-        <span className="grid h-32 w-32 place-items-center rounded-[2rem] border border-white/15 bg-white/[0.07] text-santi shadow-[0_28px_70px_-18px_rgba(27,60,255,0.85)] backdrop-blur-md sm:h-40 sm:w-40">
+        <Plate className="h-32 w-32 rounded-[2rem] sm:h-40 sm:w-40">
           <ServiceGlyph service={{ slug, n: item?.n }} className="h-16 w-16 sm:h-20 sm:w-20" />
-        </span>
+        </Plate>
       </div>
 
       {tags[0] && <Chip className="left-4 top-5 sm:left-[9%] sm:top-[18%]" tilt={-4}>{tags[0]}</Chip>}
@@ -266,28 +319,49 @@ function WorkHubArt() {
   )
 }
 
-/** Hub de servicios — las seis marcas en placa, escalonadas. */
+/**
+ * Hub de servicios — las seis marcas en cascada.
+ *
+ * La primera versión era una grilla de 2 × 3 con una inclinación mínima. Sin
+ * profundidad real se leía como seis botones planos, no como un sistema de
+ * piezas: una rejilla regular es exactamente la forma de un icono de
+ * aplicación. Acá las placas caen en diagonal dentro de un espacio con
+ * perspectiva, cada una a su distancia, y la que está al frente es la más
+ * grande y nítida.
+ */
 function ServicesHubArt() {
   const all = Object.values(SERVICE_BY_PATH)
 
   return (
     <Panel className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
-      <div className="absolute inset-0 grid place-items-center p-8">
-        <div className="grid grid-cols-3 gap-3 sm:gap-4">
-          {all.map((s, i) => (
-            <span
-              key={s.slug}
-              className="grid aspect-square place-items-center rounded-2xl border border-white/12 bg-white/[0.06] text-santi backdrop-blur-md"
-              style={{
-                // Escalonado leve: una grilla perfecta se lee como un icono
-                // de aplicación, no como un sistema.
-                transform: `translateY(${(i % 3) * 7 - 7}px) rotate(${(i % 2 ? 1 : -1) * 2.5}deg)`,
-                boxShadow: '0 18px 44px -18px rgba(27,60,255,0.8)',
-              }}
-            >
-              <ServiceGlyph service={{ slug: s.slug }} className="h-7 w-7 sm:h-9 sm:w-9" />
-            </span>
-          ))}
+      <div className="absolute inset-0 grid place-items-center [perspective:1200px]">
+        <div className="relative h-[78%] w-[78%] [transform-style:preserve-3d]">
+          {all.map((s, i) => {
+            // De atrás (arriba a la derecha, pequeña) al frente (abajo a la
+            // izquierda, grande). `t` va de 0 a 1 a lo largo de la cascada.
+            const t = i / (all.length - 1)
+            const size = 26 + t * 16 // % del contenedor
+            return (
+              <Plate
+                key={s.slug}
+                className="absolute rounded-2xl"
+                style={{
+                  width: `${size}%`,
+                  height: `${size}%`,
+                  left: `${70 - t * 62}%`,
+                  top: `${6 + t * 54}%`,
+                  transform: `rotateX(14deg) rotateY(${-22 + t * 14}deg) rotateZ(${-8 + t * 5}deg)`,
+                  zIndex: i,
+                  opacity: 0.68 + t * 0.32,
+                }}
+              >
+                <ServiceGlyph
+                  service={{ slug: s.slug }}
+                  className="h-1/2 w-1/2"
+                />
+              </Plate>
+            )
+          })}
         </div>
       </div>
     </Panel>
