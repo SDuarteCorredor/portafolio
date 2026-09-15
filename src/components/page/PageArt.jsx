@@ -108,6 +108,42 @@ function Panel({ accent = '#1B3CFF', children, className = '' }) {
   )
 }
 
+// Arte generado que reemplaza a la escena dibujada de una ruta.
+//
+// Las escenas de este archivo son el piso: existen para que ninguna página
+// quede plana mientras no haya arte final. Cuando llegue una pieza generada,
+// se agrega acá y esa ruta la usa en lugar de la escena.
+//
+// Requisitos de la pieza, que son los que hacen que encaje sin tocar código:
+//
+//   · PNG con transparencia. El panel de abajo cambia de color con el tema, y
+//     una pieza con fondo propio vuelve a dejar un bloque incrustado — que es
+//     exactamente el problema que se acaba de arreglar.
+//   · Proporción 4:5 y el objeto centrado con aire alrededor: el mismo archivo
+//     se sirve en 4:3 (móvil), 16:10 (tablet) y 4:5 (escritorio), así que los
+//     bordes se recortan.
+//   · Sin texto ni logos dentro. El texto lo pone el sitio con tipografía real.
+//
+// Formato: { '<ruta>': { src, alt } }. Vacío a propósito: una ruta que apunte
+// a un archivo inexistente cuesta un request fallido por visita.
+const ART_IMAGE = {}
+
+/** La pieza generada de una ruta, sobre el panel, si existe. */
+function ArtImage({ path }) {
+  const art = ART_IMAGE[path]
+  if (!art) return null
+
+  return (
+    <img
+      src={art.src}
+      alt={art.alt}
+      // Es la portada de la página y entra en el primer vistazo: no se difiere.
+      decoding="async"
+      className="absolute inset-0 h-full w-full object-contain p-6 sm:p-8"
+    />
+  )
+}
+
 /**
  * Placa: la superficie sobre la que se apoya una marca de servicio.
  *
@@ -331,6 +367,16 @@ function WorkHubArt() {
  */
 function ServicesHubArt() {
   const all = Object.values(SERVICE_BY_PATH)
+
+  // Si ya hay pieza generada para esta ruta, manda ella.
+  const generated = ART_IMAGE['/servicios/']
+  if (generated) {
+    return (
+      <Panel className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
+        <ArtImage path="/servicios/" />
+      </Panel>
+    )
+  }
 
   return (
     <Panel className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
