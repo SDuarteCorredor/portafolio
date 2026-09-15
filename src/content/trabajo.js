@@ -1445,8 +1445,8 @@ export const trabajo = [
       role: 'Estrategia de campañas y funnels de performance, con optimización interna mientras se renueva el diseño.',
       scope: ['Performance', 'Funnels', 'Optimización'],
       headline: 'Proyecto en curso: campañas y funnels de performance',
-      externalUrl: null,
-      externalLabel: null,
+      externalUrl: 'https://asignar-taupe.vercel.app/',
+      externalLabel: 'Ver el sitio',
     },
 
     intent: {
@@ -1464,12 +1464,12 @@ export const trabajo = [
       'Proyecto en curso durante 2026: estrategia de campañas y funnels de performance.',
       'El trabajo se hace mientras el diseño se renueva, así que el foco está en optimización interna, no en vitrina.',
       'La decisión de fondo fue no esperar al sitio nuevo: los aprendizajes de campaña se acumulan y no conviene perderlos.',
-      'No hay enlace público ni cifras que mostrar todavía. Cuando el proyecto cierre una etapa, esta página se actualiza.',
+      'El sitio ya está publicado y se puede ver; las cifras todavía no, porque el proyecto no cerró una etapa medible. Cuando la cierre, esta página se actualiza.',
       'Lo incluyo así, abierto y sin adornos, porque un portafolio también debería mostrar lo que está en proceso.',
     ],
 
     lead:
-      'Este caso está abierto, así que lo cuento como tal: sin enlace público, sin cifras y sin conclusiones. Asignar es un proyecto de estrategia de campañas y funnels de performance que estoy trabajando en 2026, en paralelo a una renovación del diseño. Prefiero mostrarlo en este estado antes que esperar a tener una historia redonda, porque la mayor parte del trabajo de performance ocurre justamente aquí, en la etapa que nadie publica.',
+      'Este caso está abierto, así que lo cuento como tal: el sitio ya se puede visitar, pero todavía no hay cifras ni conclusiones. Asignar es un proyecto de estrategia de campañas y funnels de performance que estoy trabajando en 2026, en paralelo a una renovación del diseño. Prefiero mostrarlo en este estado antes que esperar a tener una historia redonda, porque la mayor parte del trabajo de performance ocurre justamente aquí, en la etapa que nadie publica.',
     ctaInline: { label: 'Escríbeme si estás en una situación parecida', href: 'whatsapp' },
 
     sections: [
@@ -1553,8 +1553,8 @@ export const trabajo = [
 
     faq: [
       {
-        q: '¿Por qué este caso no tiene enlace ni cifras?',
-        a: 'Porque está en curso y el diseño se está renovando. Publicar un enlace a algo que va a cambiar en semanas no le sirve a nadie, y publicar cifras de un proyecto abierto sería adelantarme a un resultado que todavía no puedo sustentar. Cuando cierre una etapa, actualizo esta página.',
+        q: '¿Por qué este caso todavía no tiene cifras?',
+        a: 'Porque está en curso y el diseño se está renovando. El sitio se puede visitar, pero publicar cifras de un proyecto abierto sería adelantarme a un resultado que todavía no puedo sustentar. Cuando cierre una etapa, actualizo esta página con lo que se pueda medir.',
       },
       {
         q: '¿Conviene pausar la pauta mientras se rediseña el sitio?',

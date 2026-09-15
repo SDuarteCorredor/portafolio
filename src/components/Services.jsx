@@ -3,6 +3,7 @@ import { services } from '../data'
 import { Reveal } from './Reveal'
 import { trackCta } from '../seo/analytics'
 import { SplitText } from './motion/SplitText'
+import { ServiceGlyph } from './ServiceGlyph'
 
 
 // Una fila de servicio. Cuando el servicio tiene página propia, toda la fila es
@@ -10,14 +11,22 @@ import { SplitText } from './motion/SplitText'
 // como bloque estático.
 function Row({ s }) {
   const inner = (
-    <div className="-mx-3 flex flex-col gap-y-4 rounded-2xl px-3 py-6 transition-colors duration-300 group-hover:bg-fg/[0.03] md:-mx-5 md:grid md:grid-cols-12 md:items-baseline md:gap-x-6 md:px-5 md:py-8">
-      <span className="font-mono text-sm text-santi md:col-span-1">{s.n}</span>
+    <div className="-mx-3 flex flex-col gap-y-4 rounded-2xl px-3 py-6 transition-colors duration-300 group-hover:bg-fg/[0.03] md:-mx-5 md:grid md:grid-cols-12 md:items-center md:gap-x-6 md:px-5 md:py-8">
+      {/* Número y marca. Seis filas de texto puro no le daban al ojo dónde
+          apoyarse; la marca dice de qué va el servicio antes del título. Va en
+          placa para que tenga peso: suelta en una columna ancha se perdía. */}
+      <div className="flex items-center gap-4 md:col-span-2">
+        <span className="font-mono text-sm text-santi">{s.n}</span>
+        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-line bg-fg/[0.03] text-muted transition-colors duration-300 group-hover:border-santi/30 group-hover:bg-santi/[0.07] group-hover:text-santi">
+          <ServiceGlyph service={s} className="h-7 w-7" />
+        </span>
+      </div>
 
       <h3 className="text-left font-grotesk text-2xl font-bold tracking-[-0.02em] transition-transform duration-300 group-hover:translate-x-1 md:col-span-4 md:text-[1.75rem]">
         {s.title}
       </h3>
 
-      <p className="text-pretty text-muted md:col-span-5">{s.desc}</p>
+      <p className="text-pretty text-muted md:col-span-4">{s.desc}</p>
 
       <div className="flex flex-wrap items-center gap-2 md:col-span-2 md:justify-end">
         {s.tags.map((t) => (

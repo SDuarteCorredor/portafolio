@@ -70,6 +70,18 @@ peleen:
 público ni cifras — vos mismo lo contás así. No hay assets que mostrar, y una
 escena abstracta ahí es honesta.
 
+## El piso: arte dibujado por caso
+
+Mientras no haya arte generado, cada caso **ya tiene** su propia escena dibujada
+en `src/components/CaseArt.jsx`: Bio Laboratorios es una tienda con su curva de
+ventas, Limonada Pink es un brand book abierto, Asignar es un embudo. No son
+manchas de relleno — dicen qué tipo de entregable fue el proyecto, que es lo que
+un visitante necesita saber en la grilla antes de leer un título.
+
+Eso cambia el rol de las imágenes generadas: dejan de ser urgentes. La grilla ya
+se entiende sin ellas. Cuando llegue el arte real, reemplaza al dibujado caso por
+caso, sin tener que subirlos todos a la vez.
+
 ## Formatos y rutas
 
 Los archivos van en `public/img/casos/` con el nombre del slug. No hace falta que
@@ -96,4 +108,9 @@ sombra, para que se lea como una pieza sobre papel y no como un agujero.
 
 1. Guardá cada imagen como `public/img/casos/<slug>.png`.
 2. Corré `npm run images` para generar `.webp` y `.avif`.
-3. Commit al branch `claude/portfolio-dynamic-animations-two1t8`.
+3. Agregá `cover: '/img/casos/<slug>.png'` al caso en `src/data.js` — con eso
+   la imagen pisa al arte dibujado.
+
+Si una ruta apunta a un archivo que todavía no existe, la tarjeta cae sola al
+arte de `CaseArt`, así que no se rompe nada; pero conviene no dejar rutas
+muertas, porque cada una cuesta un request fallido por tarjeta.

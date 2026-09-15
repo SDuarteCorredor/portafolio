@@ -101,7 +101,14 @@ function CaseMeta({ meta }) {
   )
 }
 
-export function ContentPage({ page, children }) {
+/**
+ * @param {{ page: object, children?: any, afterHeader?: any }} props
+ *   `afterHeader` entra entre la cabecera y el cuerpo editorial. Existe para el
+ *   hub de trabajo: la grilla de casos tiene que verse antes de pedirle a nadie
+ *   que lea tres pantallas de texto. `children` sigue yendo después del cuerpo,
+ *   que es donde tiene sentido un índice que se consulta al final.
+ */
+export function ContentPage({ page, children, afterHeader }) {
   return (
     <article className="container-x pb-24 pt-32 md:pt-36">
       <Breadcrumbs path={page.path} />
@@ -135,6 +142,8 @@ export function ContentPage({ page, children }) {
         {/* Puntos 12 y 14 — inmediatamente después de la intención */}
         <Tldr items={page.tldr} />
       </header>
+
+      {afterHeader}
 
       {/* Punto 16 */}
       {page.sections?.map((s, i) => <Section key={s.h2} section={s} index={i} />)}
