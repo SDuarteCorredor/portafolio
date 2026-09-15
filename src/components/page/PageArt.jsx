@@ -114,33 +114,45 @@ function Panel({ accent = '#1B3CFF', children, className = '' }) {
 // quede plana mientras no haya arte final. Cuando llegue una pieza generada,
 // se agrega acá y esa ruta la usa en lugar de la escena.
 //
-// Requisitos de la pieza, que son los que hacen que encaje sin tocar código:
+// Van DOS archivos por pieza, uno por tema, y no uno solo con transparencia.
+// La razón es la que hace que las referencias de este estilo funcionen: buena
+// parte de su fuerza está en el resplandor sangrando sobre el fondo. Recortado
+// contra transparencia, el objeto queda flotando sin atmósfera y pierde
+// justamente lo que se estaba buscando. Dos tomas de la misma escena —una
+// montada sobre negro, otra sobre campo claro— conservan el efecto en los dos
+// temas, y el sitio ya sabe intercambiar por tema.
 //
-//   · PNG con transparencia. El panel de abajo cambia de color con el tema, y
-//     una pieza con fondo propio vuelve a dejar un bloque incrustado — que es
-//     exactamente el problema que se acaba de arreglar.
+// Requisitos de cada archivo:
+//
 //   · Proporción 4:5 y el objeto centrado con aire alrededor: el mismo archivo
 //     se sirve en 4:3 (móvil), 16:10 (tablet) y 4:5 (escritorio), así que los
 //     bordes se recortan.
 //   · Sin texto ni logos dentro. El texto lo pone el sitio con tipografía real.
+//   · El fondo del archivo tiene que casar con el panel: #06070D en oscuro,
+//     #F7F6F2 en claro.
 //
-// Formato: { '<ruta>': { src, alt } }. Vacío a propósito: una ruta que apunte
-// a un archivo inexistente cuesta un request fallido por visita.
+// Formato: { '<ruta>': { dark, light, alt } }. Vacío a propósito: una ruta que
+// apunte a un archivo inexistente cuesta un request fallido por visita.
 const ART_IMAGE = {}
 
-/** La pieza generada de una ruta, sobre el panel, si existe. */
+/**
+ * La pieza generada de una ruta, a sangre del panel.
+ *
+ * Va `object-cover` y sin padding: la pieza trae su propio fondo y su propio
+ * aire, así que tiene que llenar el marco como una foto, no quedar contenida
+ * con un borde alrededor.
+ */
 function ArtImage({ path }) {
   const art = ART_IMAGE[path]
   if (!art) return null
 
+  const common = 'absolute inset-0 h-full w-full object-cover'
+
   return (
-    <img
-      src={art.src}
-      alt={art.alt}
-      // Es la portada de la página y entra en el primer vistazo: no se difiere.
-      decoding="async"
-      className="absolute inset-0 h-full w-full object-contain p-6 sm:p-8"
-    />
+    <>
+      <img src={art.light} alt={art.alt} decoding="async" className={`${common} dark:hidden`} />
+      <img src={art.dark} alt="" aria-hidden decoding="async" className={`${common} hidden dark:block`} />
+    </>
   )
 }
 
