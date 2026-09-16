@@ -211,26 +211,52 @@ function CaseHeroArt({ page }) {
 
   const meta = page.caseMeta || {}
 
+  // Mismo orden de prioridad que CaseCover: el arte generado, si existe, pisa
+  // a la escena dibujada. Este panel todavía renderizaba siempre CaseArt sin
+  // mirar `item.cover` — los ocho casos ya tienen su pieza real en la grilla,
+  // pero acá seguían mostrando el contorno SVG.
+  const coverBase = item.cover ? item.cover.replace(/\.(png|jpe?g|webp)$/i, '') : null
+
   return (
     <Panel accent={item.accent} className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
-      {/* La escena de CaseArt está compuesta en 16/10. Estirada al alto del
-          panel se recortaba por los lados y se perdía justo el objeto. Va
-          dentro de su propio marco, a su proporción, flotando sobre el fondo:
-          además de no recortar, es la lectura que se buscaba — la pieza
-          apoyada sobre la atmósfera, no pegada al fondo. */}
+      {/* La escena de CaseArt está compuesta en 16/10; el arte generado, en
+          4:5. Estirada la una a la proporción de la otra se recortaba por los
+          lados. El marco interior toma la forma de lo que efectivamente
+          muestra, así no hay pilarbox que rellenar ni costura que resolver —
+          va dentro de su propio marco, a su proporción, flotando sobre el
+          fondo: la pieza apoyada sobre la atmósfera, no pegada a ella. */}
       <div className="absolute inset-0 grid place-items-center p-6 sm:p-8">
         <div
           className="w-full overflow-hidden rounded-2xl border border-white/10 shadow-[0_40px_90px_-30px_rgba(6,7,13,0.95)]"
           style={{ transform: 'rotate(-1.5deg)' }}
         >
-          <div className="aspect-[16/10]">
-            <CaseArt
-              slug={item.slug}
-              accent={item.accent}
-              label={item.title}
-              alt={item.coverAlt || `Portada del caso ${item.title}: ${item.kind}`}
-            />
-          </div>
+          {coverBase ? (
+            // No es ArtPicture: esa arma un par oscuro/claro con `dark:hidden`,
+            // y acá la misma foto va en los dos temas — usada suelta, esa
+            // clase la escondía justo en oscuro. Picture propio, sin lógica de
+            // tema, mismo trío avif/webp/png que ya sirve CaseCover.
+            <div className="aspect-[4/5]">
+              <picture>
+                <source srcSet={`${coverBase}.avif`} type="image/avif" />
+                <source srcSet={`${coverBase}.webp`} type="image/webp" />
+                <img
+                  src={item.cover}
+                  alt={item.coverAlt || `Portada del caso ${item.title}`}
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
+              </picture>
+            </div>
+          ) : (
+            <div className="aspect-[16/10]">
+              <CaseArt
+                slug={item.slug}
+                accent={item.accent}
+                label={item.title}
+                alt={item.coverAlt || `Portada del caso ${item.title}: ${item.kind}`}
+              />
+            </div>
+          )}
         </div>
       </div>
 
