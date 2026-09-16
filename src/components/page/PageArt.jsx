@@ -414,16 +414,29 @@ function WorkHubArt() {
                 key={w.slug}
                 className="absolute left-0 top-1/2 w-full overflow-hidden rounded-xl border border-white/10 shadow-[0_30px_70px_-24px_rgba(6,7,13,0.95)]"
                 style={{
-                  // Cada portada se separa de la anterior en el eje Z y baja un
+                  // Cada portada se separa de la anterior en abanico y baja un
                   // poco: la pila se lee como profundidad, no como desorden.
-                  transform: `translateY(-50%) translate(${(i - 1) * 9}%, ${(i - 1) * 13}%) rotateY(${
+                  //
+                  // El desplazamiento horizontal tiene que ser generoso: las
+                  // fotos generadas centran su objeto sobre un vacío negro (a
+                  // diferencia de la vieja escena SVG, que llenaba todo el
+                  // cuadro), así que con poco offset la de adelante tapa
+                  // justo el objeto de las de atrás y quedan como rectángulos
+                  // negros vacíos.
+                  transform: `translateY(-50%) translate(${(i - 1) * 30}%, ${(i - 1) * 5}%) rotateY(${
                     -16 + i * 5
                   }deg) rotateZ(${-4 + i * 3.5}deg) scale(${0.86 + i * 0.07})`,
                   zIndex: i,
                 }}
               >
                 {coverBase ? (
-                  <div className="aspect-[4/5] bg-black">
+                  // Las fotos generadas centran el objeto sobre un vacío
+                  // negro generoso (a propósito, para la portada del caso
+                  // suelto). Apiladas y desplazadas apenas un tercio de su
+                  // ancho, ese vacío es lo único que queda a la vista de las
+                  // dos tarjetas de atrás. El zoom recorta el aire sobrante y
+                  // deja el objeto ocupando el cuadro entero.
+                  <div className="aspect-[4/5] overflow-hidden bg-black">
                     <picture>
                       <source srcSet={`${coverBase}.avif`} type="image/avif" />
                       <source srcSet={`${coverBase}.webp`} type="image/webp" />
@@ -431,7 +444,7 @@ function WorkHubArt() {
                         src={w.cover}
                         alt=""
                         decoding="async"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full scale-[1.7] object-cover"
                       />
                     </picture>
                   </div>
