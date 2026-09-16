@@ -6,6 +6,7 @@ import { trackWhatsapp, trackCta } from '../seo/analytics'
 import { Magnetic } from './Magnetic'
 import { HoverButton } from './HoverButton'
 import { AuroraCanvas } from './webgl/AuroraCanvas'
+import { HeroArt } from './HeroArt'
 import { SplitText } from './motion/SplitText'
 
 // Badges flotantes con prueba real. `depth` controla cuánto se mueven al hacer
@@ -92,12 +93,10 @@ export function Hero({ h1, lead, eyebrow }) {
         <AuroraCanvas />
       </div>
 
-      {/* Capa 3 — el glow que ya estaba, ahora por encima del canvas para que
-          el texto conserve contraste sobre el ruido. */}
-      <motion.div
-        style={{ y }}
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[70vh] w-[70vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-santi/12 blur-[100px]"
-      />
+      {/* Capa 3 — por encima del canvas para que el texto conserve contraste
+          sobre el ruido. Es el resplandor liso hasta que haya arte generado;
+          ver HeroArt.jsx. */}
+      <HeroArt y={y} />
 
       {badges.map((b, i) => (
         <FloatingBadge key={b.k} b={b} i={i} progress={scrollYProgress} />
