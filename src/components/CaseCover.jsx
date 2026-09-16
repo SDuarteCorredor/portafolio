@@ -72,16 +72,25 @@ export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
   }
 
   if (w.cover && !failed) {
+    // `npm run images` ya genera el .webp y el .avif junto al .png, pero acá
+    // se servía siempre el PNG: un <img src> plano no elige formato. Para
+    // Lumi eso es bajar 467 kB en vez de 43 kB. `coverBase` reconstruye el
+    // nombre sin extensión para armar el trío, igual que en PageArt.jsx.
+    const coverBase = w.cover.replace(/\.(png|jpe?g|webp)$/i, '')
     return (
       <div className={base}>
-        <img
-          src={w.cover}
-          alt={w.coverAlt || `${w.title} — ${w.kind}`}
-          loading="lazy"
-          decoding="async"
-          className={`h-full w-full ${fit} transition-transform duration-700 group-hover:scale-[1.03]`}
-          onError={() => setFailed(true)}
-        />
+        <picture>
+          <source srcSet={`${coverBase}.avif`} type="image/avif" />
+          <source srcSet={`${coverBase}.webp`} type="image/webp" />
+          <img
+            src={w.cover}
+            alt={w.coverAlt || `${w.title} — ${w.kind}`}
+            loading="lazy"
+            decoding="async"
+            className={`h-full w-full ${fit} transition-transform duration-700 group-hover:scale-[1.03]`}
+            onError={() => setFailed(true)}
+          />
+        </picture>
         {scrim}
       </div>
     )
