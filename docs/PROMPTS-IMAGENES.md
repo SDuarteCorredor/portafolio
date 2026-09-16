@@ -17,27 +17,28 @@ Dos reglas que sostienen todo:
 
 ---
 
-## Enfoque: escenificar tu trabajo, no inventarlo
+## Enfoque: objeto conceptual, no mockup literal
 
-La primera versión de este documento pedía esculturas abstractas de vidrio. Era
-un error: esas imágenes no decían nada de lo que hiciste, y peor, generar "una
-app de bienestar" desde cero significa mostrar pantallas que no son tuyas.
-Alguien abre el link de Lumi o tu Behance y no coincide nada.
+Se probaron dos caminos y los dos fallaron por razones distintas.
 
-**El modelo no genera el trabajo: solo arma la escena alrededor del tuyo.** Vos
-subís capturas reales y el prompt las bloquea explícitamente.
+El primero pedía esculturas abstractas de vidrio sin relación con el proyecto:
+no decían nada de lo que se hizo, y las ocho quedaban intercambiables entre sí
+con solo cambiarles el color.
 
-La primera línea de cada prompt es la que importa:
+El segundo — capturas reales bloqueadas dentro de un prompt ("usá este
+screenshot exacto, no lo redibujes") — falla en la práctica: el modelo
+deforma la interfaz igual, inventa texto donde no lo pedís o directamente
+alucina la pantalla. Con una UI real de por medio el resultado nunca es fiel,
+y una captura deformada es peor que no tener imagen.
 
-```
-Use the attached screenshots EXACTLY as they are. Do not redraw, regenerate,
-restyle, translate or alter anything inside them — no changing text, no inventing
-UI elements, no re-rendering icons. Treat each screenshot as a flat,
-unmodifiable texture to be placed in the scene.
-```
-
-Sin eso, nanobanana te "mejora" las capturas: reescribe el texto de la interfaz,
-inventa productos, cambia la tipografía. Termina siendo trabajo que no existe.
+**El punto medio es el que queda: un objeto o escena que representa lo que
+hace el proyecto, sin ser una maqueta de su pantalla.** Para Lumi eso es un
+pulso, una racha, una presencia que escucha — no el teléfono con el chat
+adentro. Para un caso de e-commerce puede ser el objeto que se vende, no la
+ficha de producto. La regla de fondo es la misma que ya regía para Asignar
+(el único caso que siempre fue abstracto, por no tener capturas que mostrar):
+ninguna imagen inventa una pantalla, un producto o un dato que no existe, pero
+tampoco intenta reproducir uno real al pixel.
 
 ## El resto del prompt
 
@@ -66,9 +67,10 @@ peleen:
 | GrowthBro | verde lima `#A3FF3D` |
 | Asignar | cian frío `#00D4FF` |
 
-**Asignar es la excepción y sí va abstracto.** Es un caso abierto, sin enlace
-público ni cifras — vos mismo lo contás así. No hay assets que mostrar, y una
-escena abstracta ahí es honesta.
+**Asignar sigue siendo el más abstracto de los ocho**, porque además de no
+mostrar UI es un caso abierto sin cifras — vos mismo lo contás así. Los demás
+sí pueden apoyarse en un objeto reconocible del rubro (una prenda, un plato,
+un frasco), aunque ninguno reproduzca una pantalla real.
 
 ## El piso: arte dibujado por caso
 
