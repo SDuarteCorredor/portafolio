@@ -110,7 +110,7 @@ export const work = [
     cover: '/img/casos/lumi.png',
     coverFit: 'contain',
     coverAlt: 'Anillo de vidrio esmerilado con un pulso cardíaco trazado en ámbar, representando el journey gamificado y la detección de crisis de Lumi.',
-    link: 'https://lumi-mvp-one.vercel.app',
+    link: 'https://www.lumimentalapp.com/',
     cta: 'Ver Lumi en vivo',
   },
   {

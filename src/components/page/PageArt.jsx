@@ -385,6 +385,16 @@ function PortraitHeroArt({ facts }) {
  * perspectiva dice de qué va antes de que la grilla aparezca al hacer scroll.
  */
 function WorkHubArt() {
+  // Si ya hay una pieza generada expresamente para /trabajo/, manda ella.
+  const generated = ART_IMAGE['/trabajo/']
+  if (generated) {
+    return (
+      <Panel className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
+        <ArtImage path="/trabajo/" />
+      </Panel>
+    )
+  }
+
   const picks = ['bio-laboratorios', 'limonada-pink', 'lumi']
     .map((slug) => work.find((w) => w.slug === slug))
     .filter(Boolean)
@@ -393,24 +403,46 @@ function WorkHubArt() {
     <Panel className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
       <div className="absolute inset-0 grid place-items-center [perspective:1100px]">
         <div className="relative w-[78%]">
-          {picks.map((w, i) => (
-            <div
-              key={w.slug}
-              className="absolute left-0 top-1/2 w-full overflow-hidden rounded-xl border border-white/10 shadow-[0_30px_70px_-24px_rgba(6,7,13,0.95)]"
-              style={{
-                // Cada portada se separa de la anterior en el eje Z y baja un
-                // poco: la pila se lee como profundidad, no como desorden.
-                transform: `translateY(-50%) translate(${(i - 1) * 9}%, ${(i - 1) * 13}%) rotateY(${
-                  -16 + i * 5
-                }deg) rotateZ(${-4 + i * 3.5}deg) scale(${0.86 + i * 0.07})`,
-                zIndex: i,
-              }}
-            >
-              <div className="aspect-[16/10]">
-                <CaseArt slug={w.slug} accent={w.accent} label={w.title} alt="" />
+          {picks.map((w, i) => {
+            // Mismo orden de prioridad que en la grilla y en la página de
+            // caso: si el proyecto ya tiene foto generada, esa gana sobre la
+            // escena dibujada. Los tres elegidos aquí ya la tienen.
+            const coverBase = w.cover ? w.cover.replace(/\.(png|jpe?g|webp)$/i, '') : null
+
+            return (
+              <div
+                key={w.slug}
+                className="absolute left-0 top-1/2 w-full overflow-hidden rounded-xl border border-white/10 shadow-[0_30px_70px_-24px_rgba(6,7,13,0.95)]"
+                style={{
+                  // Cada portada se separa de la anterior en el eje Z y baja un
+                  // poco: la pila se lee como profundidad, no como desorden.
+                  transform: `translateY(-50%) translate(${(i - 1) * 9}%, ${(i - 1) * 13}%) rotateY(${
+                    -16 + i * 5
+                  }deg) rotateZ(${-4 + i * 3.5}deg) scale(${0.86 + i * 0.07})`,
+                  zIndex: i,
+                }}
+              >
+                {coverBase ? (
+                  <div className="aspect-[4/5] bg-black">
+                    <picture>
+                      <source srcSet={`${coverBase}.avif`} type="image/avif" />
+                      <source srcSet={`${coverBase}.webp`} type="image/webp" />
+                      <img
+                        src={w.cover}
+                        alt=""
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                      />
+                    </picture>
+                  </div>
+                ) : (
+                  <div className="aspect-[16/10]">
+                    <CaseArt slug={w.slug} accent={w.accent} label={w.title} alt="" />
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </Panel>

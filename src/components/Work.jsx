@@ -51,9 +51,17 @@ function Featured({ w, i }) {
 
             <div className="mt-8 flex flex-wrap items-center gap-5">
               <span className="font-grotesk text-lg font-medium text-fg">{w.metric}</span>
+              {/* El destacado es el único CTA "principal" de la grilla — el
+                  resto de las tarjetas usan un enlace de texto, más discreto
+                  a propósito. Este llevaba solo un borde fino al 40% de
+                  opacidad y texto del color del tema: sobre el lavado de
+                  color de fondo (también en el accent) se perdía casi entero
+                  en oscuro. Ahora es una píldora sólida — fondo en una
+                  versión oscurecida del accent, texto blanco fijo — para que
+                  se lea como el botón que es, no como una etiqueta. */}
               <span
-                className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em] text-fg transition-colors duration-300 group-hover:text-ink"
-                style={{ borderColor: 'var(--a-40)' }}
+                className="inline-flex items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white transition-transform duration-300 group-hover:-translate-y-0.5"
+                style={{ background: 'color-mix(in srgb, var(--a) 62%, #06070D 38%)' }}
               >
                 Ver el caso
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

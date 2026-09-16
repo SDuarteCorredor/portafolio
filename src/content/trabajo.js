@@ -36,7 +36,7 @@ export const trabajo = [
       role: 'Idea, diseño de producto, desarrollo y deploy. Todo el proyecto, de punta a punta.',
       scope: ['Producto', 'IA aplicada', 'Diseño de producto', 'Desarrollo front', 'Deploy'],
       headline: 'De la idea al deploy, con el MVP en vivo',
-      externalUrl: 'https://lumi-mvp-one.vercel.app',
+      externalUrl: 'https://www.lumimentalapp.com/',
       externalLabel: 'Ver Lumi en vivo',
     },
 
