@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion, useScroll } from 'framer-motion'
+import { GithubMark } from './icons/GithubMark'
 import { profile } from '../data'
 import { Magnetic } from './Magnetic'
 import { ThemeToggle } from './ThemeToggle'
 import { childrenOf } from '../content/index.js'
-import { trackWhatsapp, trackCta } from '../seo/analytics'
+import { trackWhatsapp, trackCta, trackOutbound } from '../seo/analytics'
 
 // Navegación por rutas reales (ya no por anclas). El desplegable de servicios
 // expone el cluster completo desde cualquier página del sitio — punto 17.
@@ -91,6 +92,16 @@ export function Nav() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub de Iván Santiago Duarte"
+            onClick={() => trackOutbound(profile.github, 'GitHub nav')}
+            className="text-muted transition-colors hover:text-fg"
+          >
+            <GithubMark className="h-5 w-5" />
+          </a>
           <ThemeToggle />
           <Magnetic strength={0.4}>
             <a
@@ -146,6 +157,18 @@ export function Nav() {
               )}
             </li>
           ))}
+          <li>
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackOutbound(profile.github, 'GitHub nav_mobile')}
+              className="inline-flex items-center gap-2 font-grotesk text-lg text-muted"
+            >
+              <GithubMark className="h-4 w-4" />
+              GitHub
+            </a>
+          </li>
           <li>
             <a
               href={profile.whatsappLink}

@@ -8,6 +8,7 @@ import { Related } from './Related'
 import { ProseTable, ProseList, ProseP } from './Prose'
 import { ShareButton } from '../ShareButton'
 import { PageArt, hasPageArt } from './PageArt'
+import { DeveloperShowcase } from './DeveloperShowcase'
 import { trackOutbound } from '../../seo/analytics'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -51,6 +52,8 @@ function Section({ section, index }) {
         <ProseTable table={section.table} />
 
         {section.subsections?.map((sub) => <Subsection key={sub.h3} sub={sub} />)}
+
+        {section.custom === 'developer' && <DeveloperShowcase />}
       </section>
     </Reveal>
   )

@@ -103,6 +103,15 @@ export function About() {
               >
                 LinkedIn ↗
               </a>
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackOutbound(profile.github, 'GitHub')}
+                className="btn-ghost"
+              >
+                GitHub ↗
+              </a>
             </div>
           </Reveal>
         </div>

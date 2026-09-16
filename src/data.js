@@ -11,6 +11,7 @@ export const profile = {
   whatsappLink: 'https://wa.me/573165371483',
   linkedin: 'https://www.linkedin.com/in/santiagoduartec',
   behance: 'https://www.behance.net/santiagoduartec',
+  github: 'https://github.com/SDuarteCorredor',
 }
 
 export const stats = [
@@ -253,3 +254,22 @@ export const certifications = [
   { name: 'Primeros pasos en IA', issuer: 'Daxus Latam', year: '2026' },
   { name: 'Aplicaciones con IA', issuer: 'Daxus Latam', year: '2026' },
 ]
+
+// Lo que muestro del lado de desarrollador. `repos` empieza con uno solo a
+// propósito — es lo único que puedo sostener con un enlace real hoy. Se
+// piensa como lista para poder ir sumando sin tocar el componente.
+export const developer = {
+  stackNow: ['React', 'Supabase', 'Git & GitHub', 'n8n', 'Automatización de flujos', 'Desarrollo web'],
+  stackLearning: ['Python', 'JavaScript'],
+  repos: [
+    {
+      name: 'vertical-video-kit',
+      description:
+        'Kit de código abierto para hacer TikToks, Reels y Shorts por código: narración con IA que no suena a robot, subtítulos palabra por palabra y un render real en 1080×1920 con Remotion.',
+      url: 'https://github.com/SDuarteCorredor/vertical-video-kit',
+      tags: ['Remotion', 'Whisper', 'FFmpeg', 'Text-to-Speech'],
+      license: 'MIT',
+      meta: 'Empaquetado como skill y plugin de Claude Code',
+    },
+  ],
+}

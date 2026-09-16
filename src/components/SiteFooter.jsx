@@ -95,6 +95,17 @@ export function SiteFooter() {
                       Behance ↗
                     </a>
                   </li>
+                  <li>
+                    <a
+                      href={profile.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackOutbound(profile.github, 'GitHub')}
+                      className="text-sm text-muted transition-colors hover:text-fg"
+                    >
+                      GitHub ↗
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
