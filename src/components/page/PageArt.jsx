@@ -133,7 +133,13 @@ function Panel({ accent = '#1B3CFF', children, className = '' }) {
 //
 // Formato: { '<ruta>': { dark, light, alt } }. Vacío a propósito: una ruta que
 // apunte a un archivo inexistente cuesta un request fallido por visita.
-const ART_IMAGE = {}
+const ART_IMAGE = {
+  '/servicios/': {
+    dark: '/img/arte/servicios-dark',
+    light: '/img/arte/servicios-light',
+    alt: 'Seis piezas de vidrio esmerilado suspendidas en el vacío, iluminadas por un resplandor azul cenital.',
+  },
+}
 
 /**
  * La pieza generada de una ruta, a sangre del panel.
@@ -141,17 +147,35 @@ const ART_IMAGE = {}
  * Va `object-cover` y sin padding: la pieza trae su propio fondo y su propio
  * aire, así que tiene que llenar el marco como una foto, no quedar contenida
  * con un borde alrededor.
+ *
+ * Cada entrada del mapa da la base del archivo sin extensión; acá se arma el
+ * trío avif/webp/png, igual que el retrato en About.jsx.
  */
+function ArtPicture({ base, alt, hidden = false }) {
+  const common = 'absolute inset-0 h-full w-full object-cover'
+  return (
+    <picture className={hidden ? 'hidden dark:block' : 'dark:hidden'}>
+      <source srcSet={`${base}.avif`} type="image/avif" />
+      <source srcSet={`${base}.webp`} type="image/webp" />
+      <img
+        src={`${base}.png`}
+        alt={hidden ? '' : alt}
+        aria-hidden={hidden || undefined}
+        decoding="async"
+        className={common}
+      />
+    </picture>
+  )
+}
+
 function ArtImage({ path }) {
   const art = ART_IMAGE[path]
   if (!art) return null
 
-  const common = 'absolute inset-0 h-full w-full object-cover'
-
   return (
     <>
-      <img src={art.light} alt={art.alt} decoding="async" className={`${common} dark:hidden`} />
-      <img src={art.dark} alt="" aria-hidden decoding="async" className={`${common} hidden dark:block`} />
+      <ArtPicture base={art.light} alt={art.alt} />
+      <ArtPicture base={art.dark} alt={art.alt} hidden />
     </>
   )
 }
