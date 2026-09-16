@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { TrendingUp, Sparkles, Zap, MapPin } from 'lucide-react'
 import { profile } from '../data'
 import { trackWhatsapp, trackCta } from '../seo/analytics'
 import { Magnetic } from './Magnetic'
@@ -12,11 +13,17 @@ import { SplitText } from './motion/SplitText'
 // Badges flotantes con prueba real. `depth` controla cuánto se mueven al hacer
 // scroll: los de "adelante" recorren más distancia que los del fondo, que es
 // como se lee la profundidad en un paralaje.
+//
+// Nada de emoji: son pictogramas a todo color, con su propia tipografía y
+// peso visual, que no se alinean con el resto del sitio (trazo fino,
+// currentColor, mismo lenguaje que ServiceGlyph.jsx). Van íconos de trazo
+// —lucide-react— que heredan el color del texto como cualquier otro ícono
+// del sitio.
 const badges = [
-  { v: '+278%',  k: 'ventas',   icon: '📈', pos: 'left-[3%] top-[26%]',      d: '0s',    depth: 1.0 },
-  { v: '24+',    k: 'marcas',   icon: '✦',  pos: 'right-[5%] top-[20%]',     d: '-2.4s', depth: 0.55 },
-  { v: '+6',     k: 'años',     icon: '⚡', pos: 'left-[7%] bottom-[28%]',   d: '-4s',   depth: 0.75 },
-  { v: 'Bogotá', k: 'Colombia', icon: '📍', pos: 'right-[4%] bottom-[24%]',  d: '-1.2s', depth: 1.25 },
+  { v: '+278%',  k: 'ventas',   Icon: TrendingUp, pos: 'left-[3%] top-[26%]',      d: '0s',    depth: 1.0 },
+  { v: '24+',    k: 'marcas',   Icon: Sparkles,   pos: 'right-[5%] top-[20%]',     d: '-2.4s', depth: 0.55 },
+  { v: '+6',     k: 'años',     Icon: Zap,        pos: 'left-[7%] bottom-[28%]',   d: '-4s',   depth: 0.75 },
+  { v: 'Bogotá', k: 'Colombia', Icon: MapPin,     pos: 'right-[4%] bottom-[24%]',  d: '-1.2s', depth: 1.25 },
 ]
 
 function Badge({ b, floating = false }) {
@@ -27,7 +34,7 @@ function Badge({ b, floating = false }) {
       }`}
       style={floating ? { animationDelay: b.d } : undefined}
     >
-      <span className="text-sm">{b.icon}</span>
+      <b.Icon aria-hidden className="h-3.5 w-3.5 shrink-0 text-santi" strokeWidth={2.25} />
       <span className="font-grotesk text-sm font-semibold text-fg">{b.v}</span>
       <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">{b.k}</span>
     </div>
