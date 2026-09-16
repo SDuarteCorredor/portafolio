@@ -38,8 +38,16 @@ export function CaseCover({ w, className = '', ratio = 'aspect-[16/10]' }) {
   // claro, en vez de disimularlo, se trata como una foto enmarcada: fondo
   // oscuro deliberado, anillo y sombra para que se lea como una pieza sobre
   // papel y no como un agujero.
+  //
+  // Con `contain` el pilarbox queda expuesto —no lo tapa la imagen—, así que
+  // su color tiene que calzar con el negro real del archivo, no con el token
+  // de marca. `bg-ink` es #06070D: tiene azul de más y al lado del negro casi
+  // puro que devuelven las piezas generadas (mediciones ~rgb(0,0,2-5)) se ve
+  // la costura del rectángulo. `bg-cover` sí llena el marco entero, por lo que
+  // el token de marca ahí no se nota nunca — se deja como estaba.
+  const boxColor = w.coverFit === 'contain' ? 'bg-black' : 'bg-ink'
   const base =
-    `relative overflow-hidden rounded-xl bg-ink ${slot} ${className} ` +
+    `relative overflow-hidden rounded-xl ${boxColor} ${slot} ${className} ` +
     'border border-line ring-1 ring-black/10 shadow-[0_10px_30px_-12px_rgba(6,7,13,0.35)] ' +
     'dark:ring-0 dark:shadow-none'
 
