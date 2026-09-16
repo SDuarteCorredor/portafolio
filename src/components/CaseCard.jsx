@@ -77,7 +77,7 @@ export function CaseCard({ w, source = 'work_card', wide = null }) {
   const v = WIDE[wide] || { body: '', cover: '', text: '', lead: '' }
 
   return (
-    <Tilt max={6} className="h-full rounded-2xl">
+    <Tilt max={6} className="h-full rounded-2xl" color={w.accent}>
       <Link
         to={caseUrl(w)}
         onClick={() => trackCta(w.title, source)}

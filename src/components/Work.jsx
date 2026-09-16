@@ -11,7 +11,7 @@ import { SplitText } from './motion/SplitText'
 // Card destacada — a ancho completo, con la portada al lado.
 function Featured({ w, i }) {
   return (
-    <Tilt max={4} lift={4} scale={1.006} className="rounded-3xl">
+    <Tilt max={4} lift={4} scale={1.006} className="rounded-3xl" color={w.accent}>
       <Link
         to={caseUrl(w)}
         onClick={() => trackCta(w.title, 'work_featured')}

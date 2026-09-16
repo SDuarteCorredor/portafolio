@@ -8,6 +8,15 @@ import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } fro
 // Se apaga solo en táctil (donde no hay cursor que seguir) y con "reducir
 // movimiento".
 
+/** '#FF6B35' → '255,107,53'. Sin librería: son tres hex de dos dígitos. */
+function hexToRgbTriplet(hex) {
+  const h = hex.replace('#', '')
+  const r = parseInt(h.slice(0, 2), 16)
+  const g = parseInt(h.slice(2, 4), 16)
+  const b = parseInt(h.slice(4, 6), 16)
+  return `${r},${g},${b}`
+}
+
 export function Tilt({
   children,
   className = '',
@@ -15,6 +24,13 @@ export function Tilt({
   scale = 1.012,
   glare = true,
   lift = 6,             // px que "sube" la tarjeta hacia el lector
+  // Color del brillo que sigue al cursor. Antes estaba fijo en el azul de
+  // marca, así que una tarjeta de caso se iluminaba azul sin importar el
+  // color propio del proyecto — pasar naranja sobre Lumi y ver un brillo
+  // azul/blanco rompía la promesa de "cada caso es un color". Cualquier
+  // consumidor que quiera su propio acento pasa `color`; el resto conserva el
+  // azul de siempre.
+  color = '#1B3CFF',
 }) {
   const ref = useRef(null)
   const reduce = useReducedMotion()
@@ -38,9 +54,11 @@ export function Tilt({
   // detrás de un condicional y rompería el orden de llamada entre renders.
   const glareX = useTransform(sx, [-0.5, 0.5], ['0%', '100%'])
   const glareY = useTransform(sy, [-0.5, 0.5], ['0%', '100%'])
+  // Se recalcula solo cuando cambia `color`, no en cada frame de movimiento.
+  const rgb = hexToRgbTriplet(color)
   const glareBg = useTransform(
     [glareX, glareY],
-    ([x, y]) => `radial-gradient(340px circle at ${x} ${y}, rgba(27,60,255,0.16), transparent 70%)`,
+    ([x, y]) => `radial-gradient(340px circle at ${x} ${y}, rgba(${rgb},0.16), transparent 70%)`,
   )
 
   const onMove = (e) => {
