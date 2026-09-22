@@ -46,62 +46,84 @@ export function AuroraCanvas({ className = '' }) {
 
     let cancelled = false
     let cleanupFns = []
+    let idleHandle = null
 
-    // En pantallas chicas se baja la densidad de la nube en vez de apagarla:
-    // la mitad de puntos, misma sensación de profundidad.
-    const density = window.innerWidth < 768 ? 0.45 : 1
+    function start() {
+      if (cancelled) return
 
-    import('./auroraScene.js')
-      .then(({ createAuroraScene }) => {
-        if (cancelled || !canvasRef.current) return
+      // En pantallas chicas se baja la densidad de la nube en vez de apagarla:
+      // la mitad de puntos, misma sensación de profundidad.
+      const density = window.innerWidth < 768 ? 0.45 : 1
 
-        const isDark = () => document.documentElement.classList.contains('dark')
+      import('./auroraScene.js')
+        .then(({ createAuroraScene }) => {
+          if (cancelled || !canvasRef.current) return
 
-        const scene = createAuroraScene(canvasRef.current, {
-          theme: isDark() ? 'dark' : 'light',
-          density,
-        })
-        sceneRef.current = scene
-        setReady(true)
+          const isDark = () => document.documentElement.classList.contains('dark')
 
-        // El tema se cambia con una clase en <html>; se observa en vez de
-        // pasarlo por props para no acoplar la escena al árbol de React.
-        const mo = new MutationObserver(() => scene.setTheme(isDark() ? 'dark' : 'light'))
-        mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
-        cleanupFns.push(() => mo.disconnect())
-
-        // Progreso del scroll dentro del hero (0 arriba → 1 cuando salió).
-        // Se lee en el propio rAF de la escena vía setScroll, así que acá solo
-        // se publica el valor; no hay layout thrashing por frame.
-        let ticking = false
-        const onScroll = () => {
-          if (ticking) return
-          ticking = true
-          requestAnimationFrame(() => {
-            ticking = false
-            const h = window.innerHeight || 1
-            scene.setScroll(Math.min(1, Math.max(0, window.scrollY / h)))
+          const scene = createAuroraScene(canvasRef.current, {
+            theme: isDark() ? 'dark' : 'light',
+            density,
           })
-        }
-        window.addEventListener('scroll', onScroll, { passive: true })
-        onScroll()
-        cleanupFns.push(() => window.removeEventListener('scroll', onScroll))
+          sceneRef.current = scene
+          setReady(true)
 
-        // Fuera de vista no se dibuja nada: al leer el resto de la página la
-        // GPU queda libre.
-        const io = new IntersectionObserver(
-          ([e]) => scene.setPaused(!e.isIntersecting),
-          { threshold: 0 },
-        )
-        io.observe(canvasRef.current)
-        cleanupFns.push(() => io.disconnect())
-      })
-      .catch(() => {
-        // Si el chunk no carga, el degradado CSS de abajo sigue ahí.
-      })
+          // El tema se cambia con una clase en <html>; se observa en vez de
+          // pasarlo por props para no acoplar la escena al árbol de React.
+          const mo = new MutationObserver(() => scene.setTheme(isDark() ? 'dark' : 'light'))
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+          cleanupFns.push(() => mo.disconnect())
+
+          // Progreso del scroll dentro del hero (0 arriba → 1 cuando salió).
+          // Se lee en el propio rAF de la escena vía setScroll, así que acá solo
+          // se publica el valor; no hay layout thrashing por frame.
+          let ticking = false
+          const onScroll = () => {
+            if (ticking) return
+            ticking = true
+            requestAnimationFrame(() => {
+              ticking = false
+              const h = window.innerHeight || 1
+              scene.setScroll(Math.min(1, Math.max(0, window.scrollY / h)))
+            })
+          }
+          window.addEventListener('scroll', onScroll, { passive: true })
+          onScroll()
+          cleanupFns.push(() => window.removeEventListener('scroll', onScroll))
+
+          // Fuera de vista no se dibuja nada: al leer el resto de la página la
+          // GPU queda libre.
+          const io = new IntersectionObserver(
+            ([e]) => scene.setPaused(!e.isIntersecting),
+            { threshold: 0 },
+          )
+          io.observe(canvasRef.current)
+          cleanupFns.push(() => io.disconnect())
+        })
+        .catch(() => {
+          // Si el chunk no carga, el degradado CSS de abajo sigue ahí.
+        })
+    }
+
+    // Compilar los shaders de la escena cuesta CPU de verdad — de sobra medido
+    // en 1.5 s en un móvil de gama media bajo carga — y ese costo competía con
+    // la hidratación y el resto de recursos críticos justo después de cargar.
+    // No hace falta que la aurora esté lista en ese primer instante: el
+    // degradado CSS de abajo ya cubre el hueco. Se difiere a un momento
+    // ocioso del navegador; `requestIdleCallback` no existe en Safari, así
+    // que ahí el setTimeout corto hace de reemplazo.
+    if ('requestIdleCallback' in window) {
+      idleHandle = window.requestIdleCallback(start, { timeout: 2000 })
+    } else {
+      idleHandle = window.setTimeout(start, 300)
+    }
 
     return () => {
       cancelled = true
+      if (idleHandle != null) {
+        if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleHandle)
+        else window.clearTimeout(idleHandle)
+      }
       cleanupFns.forEach((fn) => fn())
       cleanupFns = []
       sceneRef.current?.destroy()
