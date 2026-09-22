@@ -827,6 +827,14 @@ export const core = [
 
     sections: [
       {
+        h2: 'Código abierto: lo que estoy construyendo',
+        body: [
+          'La parte de producto no se quedó en Lumi. Estoy empezando a publicar herramientas de código abierto y, en paralelo, a profundizar en programación más allá de los frameworks que ya uso en producto: Python y JavaScript están en eso, en proceso, y los muestro como lo que son, no como algo que ya domino.',
+          'Lo que sí uso hoy es automatización: n8n y flujos que conectan servicios sin que alguien tenga que revisarlos a mano. Este es el primer repositorio real que puedo mostrar con un enlace — pienso ir sumando más con el tiempo.',
+        ],
+        custom: 'developer',
+      },
+      {
         h2: 'La ruta, de 2016 a hoy',
         body: [
           'No fue un cambio de carrera, fue una acumulación. Cada etapa se montó encima de la anterior sin botar nada, y por eso hoy puedo entrar a un proyecto por la marca, por la campaña o por el producto sin cambiar de persona.',
@@ -952,14 +960,6 @@ export const core = [
             'Puedo hablar con un desarrollador en sus términos y con un dueño de negocio en los suyos.',
           ],
         },
-      },
-      {
-        h2: 'Código abierto: lo que estoy construyendo',
-        body: [
-          'La parte de producto no se quedó en Lumi. Estoy empezando a publicar herramientas de código abierto y, en paralelo, a profundizar en programación más allá de los frameworks que ya uso en producto: Python y JavaScript están en eso, en proceso, y los muestro como lo que son, no como algo que ya domino.',
-          'Lo que sí uso hoy es automatización: n8n y flujos que conectan servicios sin que alguien tenga que revisarlos a mano. Este es el primer repositorio real que puedo mostrar con un enlace — pienso ir sumando más con el tiempo.',
-        ],
-        custom: 'developer',
       },
     ],
 
