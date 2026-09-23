@@ -135,6 +135,10 @@ export const curated = {
         q: '¿Copia el carrusel de referencia?',
         a: 'No. Del referente se conserva lo que lo hace funcionar, que es el gancho, la estructura y el ritmo, y se adapta el contenido, el tono y la identidad a la marca. El criterio de qué se toma y qué se cambia está documentado en el propio repositorio.',
       },
+      {
+        q: '¿Puedo reutilizar los carruseles de ejemplo que trae?',
+        a: 'No. La licencia MIT cubre el código, las instrucciones y la plantilla de marca. El material de cada marca en la carpeta marcas/, con sus fotos, textos y carruseles producidos, pertenece a esa marca y está en el repositorio solo como ejemplo de uso.',
+      },
     ],
   },
 
