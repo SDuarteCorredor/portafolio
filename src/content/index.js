@@ -1,12 +1,13 @@
-// Registro central de páginas. Une los tres módulos de contenido y expone
+// Registro central de páginas. Une los módulos de contenido y expone
 // helpers que consumen el router, el prerender, el sitemap y los breadcrumbs.
 
 import { core } from './core.js'
 import { servicios } from './servicios.js'
 import { trabajo } from './trabajo.js'
+import { recursos } from './recursos.js'
 
 /** Todas las páginas del sitio, en orden de importancia. */
-export const pages = [...core, ...servicios, ...trabajo]
+export const pages = [...core, ...servicios, ...trabajo, ...recursos]
 
 /** Índice por ruta, para lookup O(1). */
 export const pagesByPath = new Map(pages.map((p) => [p.path, p]))

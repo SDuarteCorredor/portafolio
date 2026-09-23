@@ -5,6 +5,8 @@ import { Reveal } from '../components/Reveal'
 import { trackCta } from '../seo/analytics'
 import { work } from '../data'
 import { CaseGrid } from '../components/CaseGrid'
+import { ResourceGrid } from '../components/ResourceCard'
+import { resources } from '../content/recursos.js'
 
 // Punto 17 — los hubs son la cabeza del cluster: enlazan a TODOS sus hijos con
 // un enlace descriptivo cada uno. Es lo que convierte un montón de páginas
@@ -20,6 +22,10 @@ import { CaseGrid } from '../components/CaseGrid'
 //
 //   /servicios/ se explica mejor con texto: lo que se compara entre servicios
 //               es el alcance, no una imagen. Conserva las fichas, al final.
+//
+//   /recursos/  como /trabajo/: las tarjetas de los repos arriba del texto. La
+//               lista sale del catálogo sincronizado con GitHub, así que un
+//               repo público nuevo aparece acá sin tocar este archivo.
 
 /** Fichas de texto — el índice clásico del cluster. */
 function CardIndex({ pages }) {
@@ -81,9 +87,30 @@ function WorkGrid({ items }) {
   )
 }
 
+/** Grilla de repos — el índice del cluster de recursos. */
+function ResourcesIndex({ items }) {
+  return (
+    <section aria-labelledby="cluster-title" className="mt-14">
+      <div className="mb-5 flex items-center gap-3">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-santi">Índice</span>
+        <span className="h-px w-10 bg-line" />
+      </div>
+
+      <h2 id="cluster-title" className="font-grotesk text-big font-bold leading-[1.06] tracking-[-0.02em]">
+        {items.length === 1 ? 'El primer recurso' : `Los ${items.length} recursos`}
+      </h2>
+
+      <div className="mt-9">
+        <ResourceGrid items={items} source="cluster_hub" />
+      </div>
+    </section>
+  )
+}
+
 export default function ClusterHub({ page }) {
   const children = childrenOf(page.path)
   const isWork = page.cluster === 'trabajo'
+  const isResources = page.cluster === 'recursos'
 
   // El orden lo manda `work` en data.js, que es donde está la prioridad con la
   // que se quiere que se lean los casos — la home usa ese mismo orden, así que
@@ -93,12 +120,13 @@ export default function ClusterHub({ page }) {
     ? work.filter((w) => children.some((c) => c.path === `/trabajo/${w.slug}/`))
     : []
 
+  let afterHeader = null
+  if (isWork && cases.length > 0) afterHeader = <Reveal><WorkGrid items={cases} /></Reveal>
+  if (isResources && resources.length > 0) afterHeader = <Reveal><ResourcesIndex items={resources} /></Reveal>
+
   return (
-    <ContentPage
-      page={page}
-      afterHeader={isWork && cases.length > 0 ? <Reveal><WorkGrid items={cases} /></Reveal> : null}
-    >
-      {!isWork && children.length > 0 && (
+    <ContentPage page={page} afterHeader={afterHeader}>
+      {!isWork && !isResources && children.length > 0 && (
         <Reveal>
           <section aria-labelledby="cluster-title" className="mt-16 border-t border-line pt-12">
             <div className="mb-5 flex items-center gap-3">

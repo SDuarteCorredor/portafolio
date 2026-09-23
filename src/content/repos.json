@@ -1,0 +1,57 @@
+{
+  "owner": "SDuarteCorredor",
+  "repos": [
+    {
+      "name": "generacion-carruseles",
+      "description": "Espacio de trabajo para Claude Code que produce carruseles y posts estáticos de Instagram, Facebook y LinkedIn listos para publicar, para una o varias marcas.",
+      "url": "https://github.com/SDuarteCorredor/generacion-carruseles",
+      "homepage": null,
+      "language": "TypeScript",
+      "topics": [],
+      "license": null,
+      "stars": 0,
+      "forks": 0,
+      "createdAt": "2026-09-23",
+      "updatedAt": "2026-09-23",
+      "defaultBranch": "main",
+      "readme": {
+        "summary": "Espacio de trabajo para Claude Code que produce carruseles y posts estáticos de Instagram, Facebook y LinkedIn, listos para publicar, para una o varias marcas.",
+        "headings": [
+          "Instalar en un computador nuevo",
+          "Usarlo",
+          "Qué hay aquí",
+          "Qué no está en el repo"
+        ],
+        "image": null
+      }
+    },
+    {
+      "name": "vertical-video-kit",
+      "description": "Make TikToks, Reels and Shorts in code — narration that doesn't sound like a robot, word-by-word captions, and a real 1080×1920 render.",
+      "url": "https://github.com/SDuarteCorredor/vertical-video-kit",
+      "homepage": null,
+      "language": "Python",
+      "topics": [],
+      "license": "MIT",
+      "stars": 0,
+      "forks": 0,
+      "createdAt": "2026-09-14",
+      "updatedAt": "2026-09-23",
+      "defaultBranch": "main",
+      "readme": {
+        "summary": "Haz TikToks, Reels y Shorts con código — locución que no suena a robot, subtítulos palabra por palabra y un render real de 1080×1920.",
+        "headings": [
+          "Por qué",
+          "Instalación",
+          "Para empezar",
+          "¿Hay que pagar una IA?",
+          "Qué trae",
+          "Motores de voz",
+          "Requisitos",
+          "Construido sobre"
+        ],
+        "image": "https://raw.githubusercontent.com/SDuarteCorredor/vertical-video-kit/main/docs/preview-hook.jpg"
+      }
+    }
+  ]
+}

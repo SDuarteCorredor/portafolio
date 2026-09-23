@@ -255,21 +255,11 @@ export const certifications = [
   { name: 'Aplicaciones con IA', issuer: 'Daxus Latam', year: '2026' },
 ]
 
-// Lo que muestro del lado de desarrollador. `repos` empieza con uno solo a
-// propósito — es lo único que puedo sostener con un enlace real hoy. Se
-// piensa como lista para poder ir sumando sin tocar el componente.
+// Lo que muestro del lado de desarrollador. Los repositorios NO van acá: salen
+// solos de GitHub (scripts/sync-repos.mjs → src/content/repos.json) y se ven en
+// /recursos/, en la home y en /perfil/. Para textos a mano de un repo concreto,
+// src/content/recursos-curado.js.
 export const developer = {
   stackNow: ['React', 'Supabase', 'Git & GitHub', 'n8n', 'Automatización de flujos', 'Desarrollo web'],
   stackLearning: ['Python', 'JavaScript'],
-  repos: [
-    {
-      name: 'vertical-video-kit',
-      description:
-        'Kit de código abierto para hacer TikToks, Reels y Shorts por código: narración con IA que no suena a robot, subtítulos palabra por palabra y un render real en 1080×1920 con Remotion.',
-      url: 'https://github.com/SDuarteCorredor/vertical-video-kit',
-      tags: ['Remotion', 'Whisper', 'FFmpeg', 'Text-to-Speech'],
-      license: 'MIT',
-      meta: 'Empaquetado como skill y plugin de Claude Code',
-    },
-  ],
 }

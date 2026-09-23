@@ -71,6 +71,7 @@ export function SiteFooter() {
                 <h2 className="font-mono text-[10px] uppercase tracking-[0.25em] text-santi">Sitio</h2>
                 <ul className="mt-5 space-y-2.5">
                   <li><Link to="/" className="text-sm text-muted transition-colors hover:text-fg">Inicio</Link></li>
+                  <li><Link to="/recursos/" className="text-sm text-muted transition-colors hover:text-fg">Recursos</Link></li>
                   <li><Link to="/perfil/" className="text-sm text-muted transition-colors hover:text-fg">Perfil</Link></li>
                   <li><Link to="/contacto/" className="text-sm text-muted transition-colors hover:text-fg">Contacto</Link></li>
                   <li>

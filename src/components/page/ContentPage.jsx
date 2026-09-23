@@ -9,6 +9,7 @@ import { ProseTable, ProseList, ProseP } from './Prose'
 import { ShareButton } from '../ShareButton'
 import { PageArt, hasPageArt } from './PageArt'
 import { DeveloperShowcase } from './DeveloperShowcase'
+import { RepoMeta } from './RepoMeta'
 import { trackOutbound } from '../../seo/analytics'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -131,7 +132,7 @@ function CaseLink({ meta, variant = 'inline' }) {
         <div className="min-w-0">
           <p className="eyebrow">El proyecto, fuera de esta página</p>
           <p className="mt-3 max-w-xl text-pretty font-grotesk text-xl font-bold tracking-[-0.01em] text-fg md:text-2xl">
-            Ya leíste cómo se hizo. Acá está el resultado, sin intermediarios.
+            {meta.outroTitle || 'Ya leíste cómo se hizo. Acá está el resultado, sin intermediarios.'}
           </p>
         </div>
         <a
@@ -201,8 +202,9 @@ export function ContentPage({ page, children, afterHeader }) {
           {/* Punto 15 */}
           <InlineCta cta={page.ctaInline} />
 
-          {/* El enlace al trabajo real. Ver CaseLink. */}
-          <CaseLink meta={page.caseMeta} />
+          {/* El enlace al trabajo real. Ver CaseLink. En un recurso es el
+              repositorio en GitHub. */}
+          <CaseLink meta={page.caseMeta || page.repoMeta} />
         </div>
 
         {hasArt && (
@@ -214,6 +216,7 @@ export function ContentPage({ page, children, afterHeader }) {
 
       <div>
         <CaseMeta meta={page.caseMeta} />
+        <RepoMeta meta={page.repoMeta} />
 
         {/* Punto 10 */}
         <SearchIntent intent={page.intent} />
@@ -232,7 +235,7 @@ export function ContentPage({ page, children, afterHeader }) {
       {children}
 
       {/* Quien terminó de leer el caso es justo quien quiere ir a verlo. */}
-      <CaseLink meta={page.caseMeta} variant="outro" />
+      <CaseLink meta={page.caseMeta || page.repoMeta} variant="outro" />
 
       {/* Punto 19 */}
       <Reveal><Faq items={page.faq} path={page.path} /></Reveal>

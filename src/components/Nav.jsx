@@ -13,6 +13,7 @@ import { trackWhatsapp, trackCta, trackOutbound } from '../seo/analytics'
 const links = [
   { to: '/servicios/', label: 'Servicios', cluster: true },
   { to: '/trabajo/', label: 'Trabajo' },
+  { to: '/recursos/', label: 'Recursos' },
   { to: '/perfil/', label: 'Perfil' },
   { to: '/contacto/', label: 'Contacto' },
 ]

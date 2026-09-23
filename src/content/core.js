@@ -818,7 +818,7 @@ export const core = [
       '12 certificaciones entre Google Skillshop, Coderhouse, Santander y Daxus Latam, con emisor y año.',
       'Idiomas: español nativo, inglés C1, italiano básico. Base en Bogotá y trabajo remoto.',
       '24+ marcas posicionadas, nacionales e internacionales.',
-      'Empezando a publicar código abierto: vertical-video-kit, mientras profundizo en Python y JavaScript.',
+      'Publicando código abierto para marketing y contenido con IA, reunido en /recursos/, mientras profundizo en Python y JavaScript.',
     ],
 
     lead:
@@ -830,7 +830,7 @@ export const core = [
         h2: 'Código abierto: lo que estoy construyendo',
         body: [
           'La parte de producto no se quedó en Lumi. Estoy empezando a publicar herramientas de código abierto y, en paralelo, a profundizar en programación más allá de los frameworks que ya uso en producto: Python y JavaScript están en eso, en proceso, y los muestro como lo que son, no como algo que ya domino.',
-          'Lo que sí uso hoy es automatización: n8n y flujos que conectan servicios sin que alguien tenga que revisarlos a mano. Este es el primer repositorio real que puedo mostrar con un enlace — pienso ir sumando más con el tiempo.',
+          'Lo que sí uso hoy es automatización: n8n y flujos que conectan servicios sin que alguien tenga que revisarlos a mano. Los repositorios que voy publicando se reúnen en /recursos/, cada uno con su ficha, y esa sección se actualiza sola cada vez que subo uno nuevo a GitHub.',
         ],
         custom: 'developer',
       },
@@ -998,9 +998,9 @@ export const core = [
         note: 'La etapa más reciente del perfil, convertida en un servicio contratable.',
       },
       {
-        path: '/servicios/branding/',
-        label: 'Branding y diseño',
-        note: 'De donde vengo: los años de diseño gráfico aplicados a marcas que se recuerdan.',
+        path: '/recursos/',
+        label: 'Recursos abiertos',
+        note: 'Las herramientas de código abierto que publico, con qué hace cada una y cómo usarla.',
       },
       {
         path: '/contacto/',

@@ -12,7 +12,8 @@
     "audit": "node scripts/audit-seo.mjs",
     "preview": "vite preview",
     "og": "npm run build:ssr && node scripts/generate-og.mjs",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "sync:repos": "node scripts/sync-repos.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.18.2",

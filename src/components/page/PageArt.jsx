@@ -1,6 +1,8 @@
 import { work, services } from '../../data'
 import { CaseArt } from '../CaseArt'
 import { ServiceGlyph } from '../ServiceGlyph'
+import { ResourceCover } from '../ResourceCard'
+import { resources, resourcesByPath } from '../../content/recursos.js'
 
 // Portada de las páginas internas.
 //
@@ -557,11 +559,55 @@ function GenericHeroArt({ page, facts }) {
   )
 }
 
+
+/**
+ * Portada de la ficha de un recurso: la misma pieza que en su tarjeta, en su
+ * marco y apoyada sobre la atmósfera del color del recurso, con los datos que
+ * se leen de GitHub flotando alrededor.
+ */
+function RepoHeroArt({ page }) {
+  const r = resourcesByPath.get(page.path)
+  if (!r) return null
+
+  return (
+    <Panel accent={r.accent} className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
+      <div className="absolute inset-0 grid place-items-center p-6 sm:p-8">
+        <div className="w-full" style={{ transform: 'rotate(-1.5deg)' }}>
+          <ResourceCover r={r} className="shadow-[0_40px_90px_-30px_rgba(6,7,13,0.95)]" />
+        </div>
+      </div>
+
+      <Chip className="left-4 top-4 sm:left-7 sm:top-7" tilt={-2}>
+        <span className="h-1.5 w-1.5 rounded-full" style={{ background: r.accent }} />
+        {r.license || 'Código abierto'}
+      </Chip>
+
+      {r.language && (
+        <Chip className="right-4 top-4 sm:right-7 sm:top-7" tilt={2} delay="-2.2s">
+          {r.language}
+        </Chip>
+      )}
+
+      {r.tags[0] && (
+        <Chip className="bottom-4 left-4 hidden sm:inline-flex sm:bottom-7 sm:left-7" tilt={1.5} delay="-4s">
+          {r.tags.slice(0, 2).join(' · ')}
+        </Chip>
+      )}
+    </Panel>
+  )
+}
+
 const GENERIC_FACTS = {
   '/perfil/': ['+6 años', '24+ marcas', 'Bogotá, CO'],
   '/contacto/': ['Mismo día hábil', 'WhatsApp · Correo', 'Remote-ready'],
   '/trabajo/': ['8 casos', '+278% en ventas', '2019 — 2026'],
   '/servicios/': ['6 servicios', 'Estrategia a deploy', 'Medible'],
+  // Sale del catálogo sincronizado con GitHub: se actualiza con cada repo nuevo.
+  '/recursos/': [
+    `${resources.length} ${resources.length === 1 ? 'recurso' : 'recursos'}`,
+    'Código abierto',
+    'Se actualiza solo',
+  ],
 }
 
 /**
@@ -576,6 +622,7 @@ export function PageArt({ page }) {
 
   let art = null
   if (page.caseMeta) art = <CaseHeroArt page={page} />
+  else if (page.repoMeta) art = <RepoHeroArt page={page} />
   else if (SERVICE_BY_PATH[page.path]) art = <ServiceHeroArt page={page} />
   else if (page.path === '/perfil/') art = <PortraitHeroArt facts={GENERIC_FACTS[page.path]} />
   else if (page.path === '/trabajo/') art = <WorkHubArt />
@@ -593,5 +640,5 @@ export function PageArt({ page }) {
  */
 export function hasPageArt(page) {
   if (!page) return false
-  return Boolean(page.caseMeta || SERVICE_BY_PATH[page.path] || GENERIC_FACTS[page.path])
+  return Boolean(page.caseMeta || page.repoMeta || SERVICE_BY_PATH[page.path] || GENERIC_FACTS[page.path])
 }

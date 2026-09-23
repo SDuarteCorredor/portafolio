@@ -7,7 +7,7 @@ Marketing que se vuelve resultado: estrategia, Google & Meta Ads, SEO, e-commerc
 ## Stack
 
 - **React 18 + Vite** — frontend
-- **React Router + prerender estático** — 19 URLs, cada una servida como HTML completo
+- **React Router + prerender estático** — cada URL servida como HTML completo
 - **Tailwind CSS** — estilos
 - **Framer Motion** — animaciones
 - **Lenis** — scroll suave
@@ -19,9 +19,10 @@ Marketing que se vuelve resultado: estrategia, Google & Meta Ads, SEO, e-commerc
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # build + prerender de las 19 rutas + auditoría SEO
+npm run build    # build + prerender de todas las rutas + auditoría SEO
 npm run audit    # solo la auditoría sobre el dist/ actual
 npm run preview  # sirve el dist/ para revisarlo
+npm run sync:repos  # trae los repos públicos de GitHub a src/content/repos.json
 ```
 
 ## SEO
@@ -75,3 +76,23 @@ Las tarjetas de trabajo aceptan arte propio sin tocar componentes: agregá `cove
 documentados ahí mismo). Mientras no haya archivo, `CaseCover` genera una escena
 SVG determinista a partir del slug, así que ninguna tarjeta queda vacía y las que
 todavía no tienen foto no desentonan con las que sí.
+
+## Recursos: conectado a GitHub
+
+`/recursos/` muestra los repositorios públicos de
+[github.com/SDuarteCorredor](https://github.com/SDuarteCorredor), y cada uno
+tiene su propia página en `/recursos/<repo>/`. También aparecen en la home y en
+`/perfil/`. No hay que tocar código para sumar uno: **basta con publicar el repo**.
+
+| Pieza | Qué hace |
+|---|---|
+| `.github/workflows/sync-repos.yml` | Cada 6 horas lee los repos públicos. Si algo cambió, compila el sitio con la auditoría y commitea el catálogo en `main`, y Vercel despliega. Se puede lanzar a mano desde **Actions → Sincronizar recursos de GitHub → Run workflow**. |
+| `scripts/sync-repos.mjs` | Lee la API de GitHub (descripción, lenguaje, temas, licencia, estrellas y el README) y escribe `src/content/repos.json`. |
+| `src/content/recursos.js` | Arma el hub y la página de cada repo. Sin textos a mano, la página sale de la descripción y el README y cumple sola el contrato SEO. |
+| `src/content/recursos-curado.js` | Opcional: título bien escrito, gancho, portada, textos en español, destacado o esconder un repo. |
+
+Para que un repo nuevo se vea bien sin escribir nada acá: ponle en GitHub una
+**descripción en español** (es el texto principal de su ficha), **temas** (salen
+como etiquetas), una **licencia** y, si puedes, una imagen al principio del
+README (se usa como portada). Para que un repo público **no** aparezca, agrégale
+el tema `no-portafolio`. Los forks, los archivados y este mismo repo nunca salen.

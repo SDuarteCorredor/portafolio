@@ -3,7 +3,8 @@
 // serializa dentro de <script type="application/ld+json">.
 //
 // Punto 19 → FAQPage · Punto 22 → LocalBusiness (+ ProfessionalService)
-// Soporte → Person, WebSite, BreadcrumbList, Service, CreativeWork, WebPage
+// Soporte → Person, WebSite, BreadcrumbList, Service, CreativeWork, WebPage,
+//           SoftwareSourceCode (fichas de /recursos/)
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { SITE_URL, SITE_NAME, BUSINESS, absUrl, DEFAULT_OG } from './site.js'
@@ -188,6 +189,29 @@ function creativeWorkSchema(page) {
   })
 }
 
+/** Ficha de un recurso: el repo de GitHub como código fuente publicado. */
+function softwareSourceCodeSchema(page) {
+  const m = page.repoMeta || {}
+  return prune({
+    '@type': 'SoftwareSourceCode',
+    '@id': `${absUrl(page.path)}#code`,
+    name: m.title || page.navLabel,
+    description: page.metaDescription,
+    url: absUrl(page.path),
+    codeRepository: m.url,
+    programmingLanguage: m.language || undefined,
+    license: m.license ? `https://spdx.org/licenses/${m.license}.html` : undefined,
+    dateModified: m.updatedAt || undefined,
+    keywords: (m.tags || []).join(', ') || undefined,
+    author: { '@id': ID.person },
+    creator: { '@id': ID.person },
+    isAccessibleForFree: true,
+    inLanguage: 'es',
+    sameAs: m.url ? [m.url] : undefined,
+    image: page.image?.src ? absUrl(page.image.src).replace(/\/$/, '') : undefined,
+  })
+}
+
 function webPageSchema(page) {
   const url = absUrl(page.path)
   const typeByPage = {
@@ -234,6 +258,7 @@ export function graphFor(page, allPages = []) {
 
   if (page.schemaType === 'Service') nodes.push(serviceSchema(page))
   if (page.schemaType === 'CreativeWork') nodes.push(creativeWorkSchema(page))
+  if (page.schemaType === 'SoftwareSourceCode') nodes.push(softwareSourceCodeSchema(page))
 
   // El hub de trabajo lista sus casos como ItemList — ayuda a que Google
   // entienda el cluster (punto 17).
