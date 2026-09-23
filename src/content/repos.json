@@ -3,13 +3,13 @@
   "repos": [
     {
       "name": "generacion-carruseles",
-      "description": "Espacio de trabajo para Claude Code que produce carruseles y posts estáticos de Instagram, Facebook y LinkedIn listos para publicar, para una o varias marcas.",
+      "description": "Carruseles de Instagram, Facebook y LinkedIn con Claude Code: de un referente a PNG listos para publicar, para varias marcas.",
       "url": "https://github.com/SDuarteCorredor/generacion-carruseles",
       "homepage": null,
       "language": "TypeScript",
       "topics": [],
       "license": "MIT",
-      "stars": 0,
+      "stars": 1,
       "forks": 0,
       "createdAt": "2026-09-23",
       "updatedAt": "2026-09-23",
@@ -20,21 +20,31 @@
           "Instalar en un computador nuevo",
           "Usarlo",
           "Qué hay aquí",
-          "Qué no está en el repo",
-          "Licencia"
+          "Qué no está en el repo"
         ],
         "image": null
       }
     },
     {
       "name": "vertical-video-kit",
-      "description": "Make TikToks, Reels and Shorts in code — narration that doesn't sound like a robot, word-by-word captions, and a real 1080×1920 render.",
+      "description": "Make TikToks, Reels and Shorts in code: natural AI narration, word-by-word captions, and real 1080x1920 Remotion renders.",
       "url": "https://github.com/SDuarteCorredor/vertical-video-kit",
       "homepage": null,
       "language": "Python",
-      "topics": [],
+      "topics": [
+        "captions",
+        "claude-skills",
+        "ffmpeg",
+        "instagram-reels",
+        "remotion",
+        "text-to-speech",
+        "tiktok",
+        "video-editing",
+        "whisper",
+        "youtube-shorts"
+      ],
       "license": "MIT",
-      "stars": 0,
+      "stars": 1,
       "forks": 0,
       "createdAt": "2026-09-14",
       "updatedAt": "2026-09-23",
@@ -52,6 +62,34 @@
           "Construido sobre"
         ],
         "image": "https://raw.githubusercontent.com/SDuarteCorredor/vertical-video-kit/main/docs/preview-hook.jpg"
+      }
+    },
+    {
+      "name": "webpage-asignar",
+      "description": null,
+      "url": "https://github.com/SDuarteCorredor/webpage-asignar",
+      "homepage": "https://asignar-taupe.vercel.app",
+      "language": "JavaScript",
+      "topics": [],
+      "license": null,
+      "stars": 1,
+      "forks": 0,
+      "createdAt": "2026-06-22",
+      "updatedAt": "2026-09-09",
+      "defaultBranch": "main",
+      "readme": {
+        "summary": "Sitio institucional y portal de empleo de Asignar SAS, empresa de servicios temporales (Ley 50 de 1990) con más de 20 años en Colombia y presencia en 9 ciudades.",
+        "headings": [
+          "Stack",
+          "Puesta en marcha",
+          "Estructura",
+          "Rutas",
+          "Design system",
+          "Formularios e integraciones",
+          "Vacantes desde Google Sheets",
+          "Automatizaciones (n8n)"
+        ],
+        "image": null
       }
     }
   ]
