@@ -177,6 +177,7 @@ function buildLlms() {
 
   const servicios = byCluster('servicios', '/servicios/')
   const casos = byCluster('trabajo', '/trabajo/')
+  const recursos = byCluster('recursos', '/recursos/')
 
   return `# ${SITE_NAME}
 
@@ -207,6 +208,10 @@ ${servicios.map(line).join('\n')}
 ## Casos de estudio
 
 ${casos.map(line).join('\n')}
+
+## Recursos de código abierto
+
+${recursos.length ? recursos.map(line).join('\n') : '- Todavía no hay recursos publicados.'}
 
 ## Notas de uso
 

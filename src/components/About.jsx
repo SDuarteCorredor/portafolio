@@ -23,7 +23,7 @@ export function About() {
     <section id="sobre" className="container-x py-16 md:py-24">
       <Reveal>
         <div className="mb-8 flex items-center gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(05)</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(06)</span>
           <p className="eyebrow">Sobre mí</p>
         </div>
       </Reveal>

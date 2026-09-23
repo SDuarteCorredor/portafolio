@@ -63,6 +63,7 @@ const CLUSTER_LABEL = {
   home: 'Marketing digital · Bogotá',
   servicios: 'Servicio',
   trabajo: 'Caso de estudio',
+  recursos: 'Recurso abierto',
   perfil: 'Perfil',
   contacto: 'Contacto',
 }
@@ -130,6 +131,10 @@ function svgFor(page) {
 
 mkdirSync(OUT, { recursive: true })
 
+// --missing: solo las que no existen todavía. Lo usa la Action de sync-repos
+// para generar la tarjeta de un repo nuevo sin reescribir las 19 anteriores.
+const onlyMissing = process.argv.includes('--missing')
+
 const seen = new Set()
 let count = 0
 
@@ -139,6 +144,7 @@ for (const page of pages) {
   if (seen.has(src)) continue
   seen.add(src)
 
+  if (onlyMissing && existsSync(join(OUT, basename(src)))) continue
   writeFileSync(join(OUT, basename(src)), await toPng(svgFor(page)))
   count++
 }
@@ -147,7 +153,7 @@ for (const page of pages) {
 // schema de LocalBusiness.
 const fallback = pages.find((p) => p.path === '/') || pages[0]
 const defaultName = 'ivan-santiago-duarte-marketing-digital-bogota.png'
-if (!seen.has(`/og/${defaultName}`)) {
+if (!seen.has(`/og/${defaultName}`) && !(onlyMissing && existsSync(join(OUT, defaultName)))) {
   writeFileSync(join(OUT, defaultName), await toPng(svgFor(fallback)))
   count++
 }

@@ -1,0 +1,60 @@
+# Mantiene /recursos/ al día con los repositorios públicos de GitHub.
+#
+# Cada 6 horas (y cuando se lance a mano desde la pestaña Actions) lee los repos
+# públicos de la cuenta con scripts/sync-repos.mjs. Si algo cambió —un repo
+# nuevo, otra descripción, otra licencia— genera la imagen social que falte,
+# compila el sitio completo con la auditoría SEO y, solo si todo pasa, commitea
+# el catálogo en main. Ese commit es el que dispara el deploy en Vercel.
+#
+# Si la auditoría falla, no se commitea nada y el sitio publicado no cambia.
+
+name: Sincronizar recursos de GitHub
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-repos
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Leer los repos públicos
+        id: sync
+        run: node scripts/sync-repos.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Imágenes sociales de los repos nuevos
+        if: steps.sync.outputs.changed == 'true'
+        run: npm run build:ssr && node scripts/generate-og.mjs --missing
+
+      - name: Compilar y auditar
+        if: steps.sync.outputs.changed == 'true'
+        run: npm run build
+
+      - name: Publicar el catálogo
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/repos.json public/og
+          git diff --cached --quiet && exit 0
+          git commit -m "Sincronizar recursos con los repos públicos de GitHub"
+          git push

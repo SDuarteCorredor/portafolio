@@ -49,7 +49,7 @@ export function buildHead(page, allPages = []) {
 
     // Open Graph
     { property: 'og:site_name', content: SITE_NAME },
-    { property: 'og:type', content: page.cluster === 'trabajo' && page.parent ? 'article' : 'website' },
+    { property: 'og:type', content: (page.cluster === 'trabajo' && page.parent) || page.parent === '/recursos/' ? 'article' : 'website' },
     { property: 'og:locale', content: LOCALE },
     { property: 'og:url', content: url },
     { property: 'og:title', content: page.metaTitle },

@@ -26,7 +26,7 @@ export function Contact() {
       <div className="container-x text-center">
         <Reveal>
           <div className="mb-10 flex flex-wrap items-center justify-center gap-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(06)</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(07)</span>
             <p className="eyebrow">¿Tienes una marca que hacer crecer?</p>
           </div>
         </Reveal>

@@ -2,6 +2,7 @@ import { Hero } from '../components/Hero'
 import { Marquee } from '../components/Marquee'
 import { Stats } from '../components/Stats'
 import { Services } from '../components/Services'
+import { Resources } from '../components/Resources'
 import { Work } from '../components/Work'
 import { About } from '../components/About'
 import { Contact } from '../components/Contact'
@@ -89,6 +90,8 @@ export default function Home({ page }) {
       <Work />
       <Stats />
       <Services />
+      {/* Recursos de código abierto: se alimenta solo del catálogo de GitHub. */}
+      <Resources />
 
       {/* Punto 10 y, pegado debajo, puntos 12 y 14. Ahora debajo del trabajo:
           quien llegó hasta acá ya vio los casos y sí quiere leer. */}

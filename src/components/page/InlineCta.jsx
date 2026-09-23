@@ -11,6 +11,7 @@ const DESTINATIONS = {
   email: { href: `mailto:${profile.email}`, external: true, track: () => trackEmail('inline_cta') },
   linkedin: { href: profile.linkedin, external: true, track: () => trackCta('LinkedIn', 'inline_cta') },
   behance: { href: profile.behance, external: true, track: () => trackCta('Behance', 'inline_cta') },
+  github: { href: profile.github, external: true, track: () => trackCta('GitHub', 'inline_cta') },
 }
 
 export function InlineCta({ cta, note = 'Respondo el mismo día hábil.' }) {

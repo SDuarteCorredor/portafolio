@@ -12,7 +12,7 @@ import { pagesByPath } from '../../content/index.js'
 // google-ads/"), se toma la etiqueta anterior como texto del enlace y se elimina
 // la ruta cruda, que en pantalla no aporta nada.
 
-const ROUTE_RE = /(\/(?:servicios|trabajo|perfil|contacto)\/(?:[a-z-]+\/)?)/g
+const ROUTE_RE = /(\/(?:servicios|trabajo|recursos|perfil|contacto)\/(?:[a-z-]+\/)?)/g
 
 function labelFor(path) {
   return pagesByPath.get(path)?.navLabel || path
