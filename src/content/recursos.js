@@ -333,7 +333,7 @@ function hubPage() {
 
     metaTitle: 'Recursos gratis de marketing con IA y código abierto',
     metaDescription:
-      'Herramientas gratis y de código abierto para hacer contenido y marketing con IA: carruseles, video vertical y más. Se actualiza con cada repositorio nuevo.',
+      'Herramientas gratis y de código abierto para hacer contenido y marketing con IA, listas para clonar y adaptar. Se actualiza con cada repositorio nuevo.',
     h1: 'Herramientas abiertas para hacer marketing con código e IA',
     keywords: [
       'recursos gratis marketing digital',
@@ -380,7 +380,7 @@ function hubPage() {
         h2: 'Por qué publico esto en abierto',
         body: [
           'Porque es la forma más honesta de mostrar cómo trabajo. Un caso de estudio cuenta lo que hice; un repositorio deja ver cómo lo hice, y cualquiera puede comprobarlo, usarlo o mejorarlo.',
-          'Casi todo nace igual: una tarea que repito con varias marcas, como armar carruseles o producir video corto, y que termino convirtiendo en un flujo que se puede correr una y otra vez. Cuando ese flujo ya aguantó trabajo real, lo limpio, lo documento y lo publico.',
+          'Casi todo nace igual: una tarea que repito con varias marcas y que termino convirtiendo en un flujo que se puede correr una y otra vez. Cuando ese flujo ya aguantó trabajo real, lo limpio, lo documento y lo publico.',
         ],
       },
       {
@@ -407,7 +407,7 @@ function hubPage() {
       },
       {
         q: '¿Necesito saber programar para usarlos?',
-        a: 'Ayuda, pero no siempre es necesario. Varios están pensados para correr con un agente de IA como Claude Code, que se encarga de la terminal, y algunos traen un asistente que hace unas pocas preguntas y entrega el resultado. Cada ficha dice qué requisitos tiene.',
+        a: 'Depende del recurso. Algunos están pensados para correr con un agente de IA como Claude Code, que se encarga de la terminal, y otros piden algo más de manejo técnico. Cada ficha dice qué requisitos tiene y cómo empezar.',
       },
       {
         q: '¿Cada cuánto se suman recursos nuevos?',

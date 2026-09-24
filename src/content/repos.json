@@ -63,34 +63,6 @@
         ],
         "image": "https://raw.githubusercontent.com/SDuarteCorredor/vertical-video-kit/main/docs/preview-hook.jpg"
       }
-    },
-    {
-      "name": "webpage-asignar",
-      "description": null,
-      "url": "https://github.com/SDuarteCorredor/webpage-asignar",
-      "homepage": "https://asignar-taupe.vercel.app",
-      "language": "JavaScript",
-      "topics": [],
-      "license": null,
-      "stars": 1,
-      "forks": 0,
-      "createdAt": "2026-06-22",
-      "updatedAt": "2026-09-09",
-      "defaultBranch": "main",
-      "readme": {
-        "summary": "Sitio institucional y portal de empleo de Asignar SAS, empresa de servicios temporales (Ley 50 de 1990) con más de 20 años en Colombia y presencia en 9 ciudades.",
-        "headings": [
-          "Stack",
-          "Puesta en marcha",
-          "Estructura",
-          "Rutas",
-          "Design system",
-          "Formularios e integraciones",
-          "Vacantes desde Google Sheets",
-          "Automatizaciones (n8n)"
-        ],
-        "image": null
-      }
     }
   ]
 }
