@@ -27,7 +27,7 @@ export function Resources() {
         <div className="mb-12 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div>
             <div className="mb-6 flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(05)</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">(06)</span>
               <p className="eyebrow">Recursos abiertos</p>
             </div>
             <SplitText

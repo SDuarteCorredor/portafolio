@@ -5,9 +5,10 @@ import { core } from './core.js'
 import { servicios } from './servicios.js'
 import { trabajo } from './trabajo.js'
 import { recursos } from './recursos.js'
+import { aprende } from './aula.js'
 
 /** Todas las páginas del sitio, en orden de importancia. */
-export const pages = [...core, ...servicios, ...trabajo, ...recursos]
+export const pages = [...core, ...servicios, ...trabajo, ...aprende, ...recursos]
 
 /** Índice por ruta, para lookup O(1). */
 export const pagesByPath = new Map(pages.map((p) => [p.path, p]))

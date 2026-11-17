@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { profile } from '../data'
 import { childrenOf } from '../content/index.js'
+import { aulaUrl } from '../content/aula.js'
 import { trackWhatsapp, trackEmail, trackOutbound } from '../seo/analytics'
 
 // Punto 17 — el pie es el mapa del sitio en cada página: expone los dos
@@ -38,8 +39,8 @@ export function SiteFooter() {
               santiago<span className="-ml-2.5 text-santi">.</span>
             </Link>
             <p className="mt-5 max-w-xs text-pretty text-sm leading-relaxed text-muted">
-              Marketing digital, diseño y producto con IA. Estrategia que se traduce en ventas,
-              desde Bogotá para toda Latinoamérica.
+              Marketing digital, diseño y producto con IA. Trabajo con marcas, enseño en mi aula
+              y publico recursos abiertos, desde Bogotá para toda Latinoamérica.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
@@ -71,6 +72,18 @@ export function SiteFooter() {
                 <h2 className="font-mono text-[10px] uppercase tracking-[0.25em] text-santi">Sitio</h2>
                 <ul className="mt-5 space-y-2.5">
                   <li><Link to="/" className="text-sm text-muted transition-colors hover:text-fg">Inicio</Link></li>
+                  <li><Link to="/aprende/" className="text-sm text-muted transition-colors hover:text-fg">Aprende</Link></li>
+                  <li>
+                    <a
+                      href={aulaUrl('/', 'footer')}
+                      target="_blank"
+                      rel="noopener"
+                      onClick={() => trackOutbound(aulaUrl('/', 'footer'), 'Aula footer')}
+                      className="text-sm text-muted transition-colors hover:text-fg"
+                    >
+                      Mi aula ↗
+                    </a>
+                  </li>
                   <li><Link to="/recursos/" className="text-sm text-muted transition-colors hover:text-fg">Recursos</Link></li>
                   <li><Link to="/perfil/" className="text-sm text-muted transition-colors hover:text-fg">Perfil</Link></li>
                   <li><Link to="/contacto/" className="text-sm text-muted transition-colors hover:text-fg">Contacto</Link></li>

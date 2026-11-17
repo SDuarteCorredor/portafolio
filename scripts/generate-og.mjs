@@ -63,6 +63,7 @@ const CLUSTER_LABEL = {
   home: 'Marketing digital · Bogotá',
   servicios: 'Servicio',
   trabajo: 'Caso de estudio',
+  aprende: 'Aula · Aprende conmigo',
   recursos: 'Recurso abierto',
   perfil: 'Perfil',
   contacto: 'Contacto',
