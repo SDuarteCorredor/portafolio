@@ -9,6 +9,7 @@
 
 import { SITE_URL, SITE_NAME, BUSINESS, absUrl, DEFAULT_OG } from './site.js'
 import { breadcrumbFor } from '../content/index.js'
+import { courses, AULA_ORIGIN } from '../content/aula.js'
 
 const ID = {
   business: `${SITE_URL}/#business`,
@@ -259,6 +260,32 @@ export function graphFor(page, allPages = []) {
   if (page.schemaType === 'Service') nodes.push(serviceSchema(page))
   if (page.schemaType === 'CreativeWork') nodes.push(creativeWorkSchema(page))
   if (page.schemaType === 'SoftwareSourceCode') nodes.push(softwareSourceCodeSchema(page))
+
+  // /aprende/ lista los cursos del aula como Course. El aviso de educación
+  // informal viaja en la descripción de cada curso para que no se pierda en
+  // ningún resultado enriquecido.
+  if (page.schemaType === 'CourseList') {
+    nodes.push(
+      prune({
+        '@type': 'ItemList',
+        '@id': `${url}#cursos`,
+        numberOfItems: courses.length,
+        itemListElement: courses.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'Course',
+            name: c.title,
+            description: `${c.summary} Educación informal: no conduce a título.`,
+            url: `${AULA_ORIGIN}/cursos/${c.slug}`,
+            educationalLevel: c.level,
+            inLanguage: 'es',
+            provider: { '@id': ID.person },
+          },
+        })),
+      }),
+    )
+  }
 
   // El hub de trabajo lista sus casos como ItemList — ayuda a que Google
   // entienda el cluster (punto 17).

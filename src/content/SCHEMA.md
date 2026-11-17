@@ -8,7 +8,7 @@ así que **los nombres de campo no se cambian**.
 {
   // ── Identidad y URL ───────────────────────────────────────────────────────
   path: '/servicios/google-ads/',   // SIN números ni conectores (de, y, con, para, en, el, la)
-  cluster: 'servicios',             // 'home' | 'servicios' | 'trabajo' | 'recursos' | 'perfil' | 'contacto'
+  cluster: 'servicios',             // 'home' | 'servicios' | 'trabajo' | 'aprende' | 'recursos' | 'perfil' | 'contacto'
   parent: '/servicios/',            // null en la home. Alimenta breadcrumbs.
   navLabel: 'Google Ads',           // texto corto para breadcrumb y enlaces internos
 
@@ -35,6 +35,8 @@ así que **los nombres de campo no se cambian**.
   lead: 'Primer párrafo, 2–4 frases…',
   ctaInline: { label: 'Hablemos por WhatsApp', href: 'whatsapp' },
   // href acepta: 'whatsapp' | 'email' | 'linkedin' | 'behance' | 'github' | una ruta interna '/contacto/'
+  //              | una URL completa 'https://…' (se abre como enlace externo)
+  ctaNote: 'Primer módulo gratis.',  // opcional: reemplaza la nota «Respondo el mismo día hábil.»
 
   // ── Cuerpo (punto 16: H1 → H2 → H3, sin saltos) ───────────────────────────
   sections: [
@@ -73,7 +75,7 @@ así que **los nombres de campo no se cambian**.
   },
 
   // ── Metadatos de schema opcionales ────────────────────────────────────────
-  schemaType: 'Service',   // 'Service' | 'CreativeWork' | 'SoftwareSourceCode' | 'AboutPage' | 'ContactPage' | 'CollectionPage' | 'ProfilePage'
+  schemaType: 'Service',   // 'Service' | 'CreativeWork' | 'SoftwareSourceCode' | 'AboutPage' | 'ContactPage' | 'CollectionPage' | 'ProfilePage' | 'CourseList'
   updated: '2026-08-24',   // ISO. Alimenta <lastmod> del sitemap.
   priority: 0.8,           // prioridad en el sitemap
 }
@@ -106,3 +108,17 @@ Las páginas de recursos no se escriben en este formato a mano: las genera
 `src/content/recursos.js` a partir de `repos.json` (sincronizado desde GitHub)
 y de los textos opcionales de `recursos-curado.js`. Cumplen el mismo contrato,
 así que un repo nuevo pasa la auditoría sin intervención.
+
+## Página /aprende/ y el aula
+
+`src/content/aula.js` concentra todo lo que el portafolio sabe del aula
+(`aula.ivansantiagoduarte.com`): cursos, método, formas de aprender, textos de
+la home (`doors`, `homeAula`) y la página `/aprende/` (`schemaType: 'CourseList'`,
+que emite un `ItemList` de `Course`). Una sección puede pedir un bloque visual
+con `custom: 'aula-cursos'` o `custom: 'aula-formas'`.
+
+- Todo enlace al aula se arma con `aulaUrl(ruta, campaña)`, que agrega
+  `utm_source=portafolio&utm_medium=web&utm_campaign=<campaña>`.
+- Toda promoción de los cursos muestra `AULA_LEGAL` (educación informal,
+  Decreto 1075 de 2015). Nunca se promete título, «técnico» ni «tecnólogo».
+- No se publican precios de membresía hasta que el cobro del aula abra.

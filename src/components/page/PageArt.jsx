@@ -3,6 +3,7 @@ import { CaseArt } from '../CaseArt'
 import { ServiceGlyph } from '../ServiceGlyph'
 import { ResourceCover } from '../ResourceCard'
 import { resources, resourcesByPath } from '../../content/recursos.js'
+import { courses } from '../../content/aula.js'
 
 // Portada de las páginas internas.
 //
@@ -602,6 +603,7 @@ const GENERIC_FACTS = {
   '/contacto/': ['Mismo día hábil', 'WhatsApp · Correo', 'Remote-ready'],
   '/trabajo/': ['8 casos', '+278% en ventas', '2019 — 2026'],
   '/servicios/': ['6 servicios', 'Estrategia a deploy', 'Medible'],
+  '/aprende/': [`${courses.length} cursos`, 'Módulo 1 gratis', 'Certificado verificable'],
   // Sale del catálogo sincronizado con GitHub: se actualiza con cada repo nuevo.
   '/recursos/': [
     `${resources.length} ${resources.length === 1 ? 'recurso' : 'recursos'}`,

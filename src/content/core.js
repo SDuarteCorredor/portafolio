@@ -189,6 +189,11 @@ export const core = [
         note: 'Los ocho proyectos con tipo, año y resultado, para ver el método aplicado y no solo descrito.',
       },
       {
+        path: '/aprende/',
+        label: 'Aprende conmigo',
+        note: 'Mi aula: cursos de marketing, IA, diseño y datos con práctica que se corrige sola. El primer módulo es gratis.',
+      },
+      {
         path: '/perfil/',
         label: 'Sobre mí',
         note: 'La ruta de diseñador gráfico a producto con IA, con formación y las 12 certificaciones.',

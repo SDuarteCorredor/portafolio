@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { profile } from '../../data'
-import { trackCta, trackWhatsapp, trackEmail } from '../../seo/analytics'
+import { trackCta, trackWhatsapp, trackEmail, trackOutbound } from '../../seo/analytics'
 
 // Punto 15 — CTA justo después del primer párrafo.
 // El lector que ya se convenció con la apertura no debería tener que bajar
@@ -17,8 +17,12 @@ const DESTINATIONS = {
 export function InlineCta({ cta, note = 'Respondo el mismo día hábil.' }) {
   if (!cta) return null
 
-  const dest = DESTINATIONS[cta.href]
   const label = cta.label
+  // Una URL completa (p. ej. el aula, con sus UTM) se abre como enlace externo.
+  const dest = DESTINATIONS[cta.href] ||
+    (/^https?:\/\//.test(cta.href)
+      ? { href: cta.href, external: true, track: () => trackOutbound(cta.href, label) }
+      : null)
 
   const shell =
     'group inline-flex items-center gap-2.5 rounded-full bg-santi px-7 py-3.5 font-grotesk text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5'

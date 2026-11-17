@@ -10,6 +10,7 @@ import { ShareButton } from '../ShareButton'
 import { PageArt, hasPageArt } from './PageArt'
 import { DeveloperShowcase } from './DeveloperShowcase'
 import { RepoMeta } from './RepoMeta'
+import { AulaCourses, AulaModes, AulaLegal } from '../aula/AulaBlocks'
 import { trackOutbound } from '../../seo/analytics'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -55,6 +56,8 @@ function Section({ section, index }) {
         {section.subsections?.map((sub) => <Subsection key={sub.h3} sub={sub} />)}
 
         {section.custom === 'developer' && <DeveloperShowcase />}
+        {section.custom === 'aula-cursos' && <AulaCourses campaign="pagina-aprende" />}
+        {section.custom === 'aula-formas' && <AulaModes campaign="pagina-aprende" />}
       </section>
     </Reveal>
   )
@@ -200,11 +203,14 @@ export function ContentPage({ page, children, afterHeader }) {
           <ProseP>{page.lead}</ProseP>
 
           {/* Punto 15 */}
-          <InlineCta cta={page.ctaInline} />
+          <InlineCta cta={page.ctaInline} {...(page.ctaNote ? { note: page.ctaNote } : {})} />
 
           {/* El enlace al trabajo real. Ver CaseLink. En un recurso es el
               repositorio en GitHub. */}
           <CaseLink meta={page.caseMeta || page.repoMeta} />
+
+          {/* Aviso obligatorio en toda promoción de los cursos del aula. */}
+          {page.cluster === 'aprende' && <AulaLegal className="mt-6" />}
         </div>
 
         {hasArt && (

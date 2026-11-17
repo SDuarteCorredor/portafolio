@@ -3,6 +3,8 @@ import { Marquee } from '../components/Marquee'
 import { Stats } from '../components/Stats'
 import { Services } from '../components/Services'
 import { Resources } from '../components/Resources'
+import { ThreeDoors } from '../components/ThreeDoors'
+import { LearnWithMe } from '../components/LearnWithMe'
 import { Work } from '../components/Work'
 import { About } from '../components/About'
 import { Contact } from '../components/Contact'
@@ -84,13 +86,19 @@ export default function Home({ page }) {
       <Hero h1={page.h1} lead={heroLead} eyebrow={page.navLabel} />
       <Marquee />
 
-      {/* El trabajo va primero: es un portafolio, lo que convence son los casos,
+      {/* Página maestra de la marca: tres puertas — trabajar conmigo, aprender
+          conmigo y recursos abiertos. Las secciones de abajo siguen ese orden. */}
+      <ThreeDoors />
+
+      {/* Puerta 1 — Trabajemos juntos. El trabajo va primero: es un portafolio, lo que convence son los casos,
           no la explicación previa. Antes venían dos bloques de texto (intención
           de búsqueda y TL;DR) entre la portada y la primera imagen. */}
       <Work />
       <Stats />
       <Services />
-      {/* Recursos de código abierto: se alimenta solo del catálogo de GitHub. */}
+      {/* Puerta 2 — Aprende conmigo: el aula. */}
+      <LearnWithMe />
+      {/* Puerta 3 — Recursos de código abierto: se alimenta solo del catálogo de GitHub. */}
       <Resources />
 
       {/* Punto 10 y, pegado debajo, puntos 12 y 14. Ahora debajo del trabajo:
