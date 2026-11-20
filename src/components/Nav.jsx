@@ -1,3 +1,4 @@
+import { NombreSantiago, SelloS } from './MarcaSantiago.jsx'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion, useScroll } from 'framer-motion'
@@ -60,8 +61,8 @@ export function Nav() {
           className="group flex items-center gap-2.5 font-grotesk text-lg font-bold tracking-tight text-fg transition-colors"
           aria-label="Iván Santiago Duarte — inicio"
         >
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-santi text-white transition-transform group-hover:rotate-12">S</span>
-          <span className="hidden sm:inline">santiago<span className="text-santi">.</span></span>
+          <SelloS className="h-8 w-8 shrink-0 transition-transform group-hover:rotate-12" />
+          <NombreSantiago className="hidden h-[19px] w-auto sm:block" />
         </Link>
 
         <ul className="hidden items-center gap-9 md:flex">

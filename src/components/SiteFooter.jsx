@@ -1,3 +1,4 @@
+import { NombreSantiago, SelloS } from './MarcaSantiago.jsx'
 import { Link } from 'react-router-dom'
 import { profile } from '../data'
 import { childrenOf } from '../content/index.js'
@@ -35,8 +36,9 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-4">
             <Link to="/" className="flex items-center gap-2.5 font-grotesk text-lg font-bold tracking-tight text-fg">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-santi text-white">S</span>
-              santiago<span className="-ml-2.5 text-santi">.</span>
+              <SelloS className="h-8 w-8 shrink-0" />
+              <NombreSantiago className="h-[19px] w-auto" />
+              <span className="sr-only">Iván Santiago Duarte, inicio</span>
             </Link>
             <p className="mt-5 max-w-xs text-pretty text-sm leading-relaxed text-muted">
               Marketing digital, diseño y producto con IA. Trabajo con marcas, enseño en mi aula
