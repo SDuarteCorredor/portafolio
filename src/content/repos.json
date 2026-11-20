@@ -2,6 +2,21 @@
   "owner": "SDuarteCorredor",
   "repos": [
     {
+      "name": "effata-gel-conductor",
+      "description": null,
+      "url": "https://github.com/SDuarteCorredor/effata-gel-conductor",
+      "homepage": null,
+      "language": "HTML",
+      "topics": [],
+      "license": null,
+      "stars": 0,
+      "forks": 0,
+      "createdAt": "2026-11-20",
+      "updatedAt": "2026-11-20",
+      "defaultBranch": "main",
+      "readme": null
+    },
+    {
       "name": "generacion-carruseles",
       "description": "Carruseles de Instagram, Facebook y LinkedIn con Claude Code: de un referente a PNG listos para publicar, para varias marcas.",
       "url": "https://github.com/SDuarteCorredor/generacion-carruseles",
