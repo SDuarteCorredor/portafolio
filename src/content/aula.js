@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // AULA — la segunda puerta de la marca: «Aprende conmigo».
 //
-// El aula vive en otro sitio (aula.ivansantiagoduarte.com, repo
-// SDuarteCorredor/aula-marketing). Este archivo es lo único que el portafolio
+// El aula vive en otro sitio (compasacademy.ivansantiagoduarte.com, repo
+// SDuarteCorredor/compas-academy). Este archivo es lo único que el portafolio
 // sabe de ella: los cursos publicados, las formas de aprender y el aviso legal.
 // Los resúmenes de los cursos salen del catálogo del aula
-// (aula-marketing/src/content/catalogo.js); si cambian allá, se copian acá.
+// (compas-academy/src/content/catalogo.js); si cambian allá, se copian acá.
 //
 // Reglas que no se negocian:
 //   · Todo enlace al aula pasa por aulaUrl(), que le pega los UTM. El aula ya
@@ -18,7 +18,7 @@
 
 import { profile } from '../data.js'
 
-export const AULA_ORIGIN = 'https://aula.ivansantiagoduarte.com'
+export const AULA_ORIGIN = 'https://compasacademy.ivansantiagoduarte.com'
 
 /** Aviso obligatorio en cualquier pieza que promocione los cursos. */
 export const AULA_LEGAL =
@@ -252,7 +252,7 @@ export const aprende = [
     ],
 
     lead:
-      'Además de trabajar con marcas, enseño. Mi aula está en aula.ivansantiagoduarte.com y la armé con lo que me habría gustado tener cuando empecé: menos video, más práctica, y casos de negocios reales en lugar de ejemplos de manual. Cada curso empieza con un módulo gratis, sin tarjeta, para que veas cómo se aprende antes de decidir nada.',
+      'Además de trabajar con marcas, enseño. Mi academia, Compás Academy, está en compasacademy.ivansantiagoduarte.com y la armé con lo que me habría gustado tener cuando empecé: menos video, más práctica, y casos de negocios reales en lugar de ejemplos de manual. Cada curso empieza con un módulo gratis, sin tarjeta, para que veas cómo se aprende antes de decidir nada.',
     ctaInline: { label: 'Entrar al aula', href: aulaUrl('/', 'pagina-aprende-lead') },
     ctaNote: 'Primer módulo gratis, sin tarjeta.',
 

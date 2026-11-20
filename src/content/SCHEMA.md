@@ -112,7 +112,7 @@ así que un repo nuevo pasa la auditoría sin intervención.
 ## Página /aprende/ y el aula
 
 `src/content/aula.js` concentra todo lo que el portafolio sabe del aula
-(`aula.ivansantiagoduarte.com`): cursos, método, formas de aprender, textos de
+(`compasacademy.ivansantiagoduarte.com`): cursos, método, formas de aprender, textos de
 la home (`doors`, `homeAula`) y la página `/aprende/` (`schemaType: 'CourseList'`,
 que emite un `ItemList` de `Course`). Una sección puede pedir un bloque visual
 con `custom: 'aula-cursos'` o `custom: 'aula-formas'`.
